@@ -14,8 +14,16 @@ const io = socketio(server,{
     maxHttpBufferSize: 10000,
     cookie: false
 });
-
-app.use(cors());
+const whitelist = ['http://localhost:3000'];
+const corsOptions = {
+    credentials: true, // This is important.
+    origin: (origin, callback) => {
+        if(whitelist.includes(origin))
+            return callback(null, true)
+        callback(new Error('Not allowed by CORS'));
+    }
+}
+app.use(cors(corsOptions));
 app.use(router);
 
 io.on('connect', (socket) => {
