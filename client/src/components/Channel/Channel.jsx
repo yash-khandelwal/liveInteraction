@@ -11,50 +11,49 @@ let socket;
 
 const Channel = ({location}) => {
     const [interaction, setInteraction] = useState('Chat');
-    const [userName, setUserName] = useState('');
-    const [displayName, setDisplayName] = useState('');
-    const [channel_, setChannel] = useState('');
     const ENDPOINT = 'http://localhost:5001';
+    const [chatMessages, setChatMessages] = useState([]);
+    const [chatMessage, setChatMessage] = useState('');
+    const [users, setUsers] = useState([]);
 
     useEffect(()=>{
         const {username, displayname, channel} = queryString.parse(location.search);
         console.log(username, displayname, channel);
         socket = io(ENDPOINT);
+        socket.on("connection", (error)=>{
+            if(error){
+                console.log(error);
+            } else{
+                console.log("connected to backend");
+            }
+        })
         console.log(socket);
-        setUserName(username)
-        setDisplayName(displayname)
-        setChannel(channel)
-        socket.emit('join', {userName, displayName, channel: channel_}, (err) => {
+        socket.emit('join', {userName: username, displayName: displayname, channel: channel}, (err) => {
             if(err){
                 alert(err);
             }
         });
-        console.log(location.search);
     }, [ENDPOINT, location.search]);
-
     useEffect(() => {
-        socket.on('message', message => {
-            // setMessages(msgs => [ ...msgs, message ]);
-            console.log("message");
-        });
-        
-        socket.on("roomData", ({ users }) => {
-            // setUsers(users);
-            console.log("roomData");
+        socket.on('message', (message) => {
+            setChatMessages((prevChatMessages) => {
+                return [...prevChatMessages, message];
+            })
+        })
+        socket.on('channelData', (data) => {
+            setUsers(data.users);
         });
     }, []);
 
-    const sendMessage = (event) => {
-        event.preventDefault();
-
-        // if(message) {
-        //     socket.emit('sendMessage', message, () => setMessage(''));
-        // }
+    const sendChatMessageToChannel = () => {
+        socket.emit('sendChatMessageToChannel', chatMessage, () => {setChatMessage('')});
     }
 
     return (
         <div>
-            <StatSection />
+            <StatSection 
+                users={users}
+            />
             <div>
                 <button onClick={(e)=>{
                     setInteraction('Chat')
@@ -66,7 +65,12 @@ const Channel = ({location}) => {
                     setInteraction('QnA')
                 }}>QnA</button>
             </div>
-            {interaction === 'Chat' && <ChatApp />}
+            {interaction === 'Chat' && <ChatApp 
+                messages={chatMessages}
+                message={chatMessage}
+                setMessage={setChatMessage}
+                sendMessageToChannel={sendChatMessageToChannel}
+            />}
             {interaction === 'Polls' && <PollsApp />}
             {interaction === 'QnA' && <QnAApp />}
         </div>

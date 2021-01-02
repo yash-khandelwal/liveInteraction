@@ -4,11 +4,12 @@ class Users{
     }
     addUser = ({id, userName, displayName, channel}) => {
         // if user already exists
+        console.log(id, userName, displayName, channel);
         const userExist = this.users.find((user) => {
             return user.userName === userName && user.channel === channel
         });
         if(userExist){
-            return { errors: [ { msg: "User already Exists!"} ] };
+            return { errors: [ { msg: "User already Exists!"} ], user: null };
         }
         const newUser = {
             id,
@@ -17,7 +18,7 @@ class Users{
             channel
         }
         this.users.push(newUser);
-        return newUser;
+        return {errors: null, user: newUser};
     }
     removeUser = (id) => {
         this.users = this.users.filter((user) => {
@@ -31,7 +32,7 @@ class Users{
         })
     }
     getUsersInChannel = (channel) => {
-        return this.users.filter((user) => user.channel === room);
+        return this.users.filter((user) => user.channel === channel);
     }
 }
 module.exports = Users;

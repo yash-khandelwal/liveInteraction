@@ -1,9 +1,9 @@
 import React from 'react'
 
-const StatSection = () => {
+const StatSection = ({users}) => {
     return (
         <div>
-            <h1>StatSection</h1>
+            <h1>{users.length} are online</h1>
         </div>
     )
 }
