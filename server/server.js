@@ -31,10 +31,10 @@ io.on('connect', (socket) => {
     console.log("connected");
     // when new user enters in to the channel
     socket.on('join', ({userName, displayName, channel}, callback) => {
-        const {error, user} = users.addUser({id: socket.id, userName, displayName, channel});
-        if(error){
-            return callback(error);
-        }
+        const user = users.addUser({id: socket.id, userName, displayName, channel});
+        // if(error){
+        //     return callback(error);
+        // }
         socket.join(user.channel);
         socket.emit('message', {
             user: 'admin', 
@@ -73,6 +73,6 @@ io.on('connect', (socket) => {
 
 const PORT = process.env.PORT || 5001;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`server is running on port: ${PORT}`);
 })

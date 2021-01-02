@@ -31,7 +31,7 @@ class Users{
         })
     }
     getUsersInChannel = (channel) => {
-        return this.users.filter((user) => user.channel === room);
+        return this.users.filter((user) => user.channel === channel);
     }
 }
 module.exports = Users;
