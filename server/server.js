@@ -36,38 +36,49 @@ io.on('connect', (socket) => {
         }
         console.log(user);
         socket.join(user.channel);
-        socket.to(user.channel).emit('message', {
-            user: 'info', 
-            text: `${user.displayName} joined!`
+        socket.to(user.channel).emit('infoMessage', {
+            info: `${user.displayName} joined!`
         });
-        io.to(user.channel).emit('channelData', { 
+        io.to(user.channel).emit('newConnect', { 
+            user: user 
+        });
+        io.to(socket.id).emit('channelData', {
             channel: user.channel, 
-            users: users.getUsersInChannel(user.channel) 
-        });
+            users: users.getUsersInChannel(user.channel)
+        })
         console.log("joined");
         callback();
     });
     
     // when user send message to the channel
-    socket.on('sendChatMessageToChannel', (message, callback) => {
-        const user = users.getUser(socket.id);
-        io.to(user.channel).emit('message', {user: user.displayName, text: message});
+    socket.on('sendChatMessageToChannel', (data, callback) => {
+        io.to(data.to).emit('channelMessage', {user: data.fromDisplayName, text: data.message});
         callback();
     });
+
+    // when user send private message to another user
+    socket.on('sendChatMessageToUser', (data, callback) => {
+        console.log(data);
+        try{
+            io.to(data.toSocket).emit('privateMessage', data);
+        }catch(err){
+            console.log(err);
+        }
+        callback();
+    })
     
     // when user go offline from the channel
     socket.on('disconnect', () => {
         const user = users.getUser(socket.id);
         if(user){
+            console.log(users.users);
             console.log('disconnected');
-            io.to(user.channel).emit('message', {
-                user: 'info', 
-                text: `${user.displayName} has left`
+            users.removeUser(socket.id);
+            io.to(user.channel).emit('infoMessage', {
+                info: `${user.displayName} has left`
             });
-            io.to(user.channel).emit('channelData', {
-                channel: user.channel,
-                users: users.getUsersInChannel(user.channel)
-            });
+            io.to(user.channel).emit('userDisconnect', socket.id);
+            console.log(users.users);
         }
     });
 })

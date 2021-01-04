@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import ChatAll from './ChatAll/ChatAll.jsx';
 import ChatPrivate from './ChatPrivate/ChatPrivate.jsx'
 
-const ChatApp = ({messages, message, setMessage, sendMessageToChannel}) => {
+const ChatApp = ({users, messages, message, setMessage, sendMessageToChannel, sendMessageToUser, privateMessages}) => {
     const [convType, setConvType] = useState('Channel');
     return (
         <div>
@@ -22,7 +22,11 @@ const ChatApp = ({messages, message, setMessage, sendMessageToChannel}) => {
                     setMessage={setMessage}
                     sendMessage={sendMessageToChannel}
                 />}
-                {convType==='Private' && <ChatPrivate />}
+                {convType==='Private' && <ChatPrivate 
+                    users={users}
+                    sendMessage={sendMessageToUser}
+                    privateMessages={privateMessages}
+                />}
             </div>
         </div>
     )
