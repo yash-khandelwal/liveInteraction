@@ -16,6 +16,7 @@ const ChatAll = ({messages, message, setMessage, sendMessage}) => {
                     setMessage(e.target.value);
                     }}
                     value={message}
+                    autoFocus
                 />
                 <button type="submit" onClick={(event) => {
                     event.preventDefault();

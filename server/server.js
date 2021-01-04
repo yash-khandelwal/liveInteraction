@@ -10,16 +10,6 @@ const router = require('./utils/router');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-// const whitelist = ['http://localhost:3000'];
-// const corsOptions = {
-//     credentials: true, // This is important.
-//     origin: (origin, callback) => {
-//         if(whitelist.includes(origin))
-//             return callback(null, true)
-
-//         callback(new Error('Not allowed by CORS'));
-//     }
-// }
 app.use(cors());
 app.use(router);
 
@@ -68,7 +58,12 @@ io.on('connect', (socket) => {
     })
     
     // when user go offline from the channel
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (reason) => {
+        if (reason === 'io server disconnect') {
+            // the disconnection was initiated by the server, you need to reconnect manually
+            socket.connect();
+            return;
+        }
         const user = users.getUser(socket.id);
         if(user){
             console.log(users.users);

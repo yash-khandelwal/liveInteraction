@@ -51,12 +51,8 @@ const Channel = ({location}) => {
         socket.on('newConnect', (data) => {
             mp.set(data.user.id, data.user.userName);
             setUsers(prevUsers=>[...prevUsers, data.user]);
-            setPrivateMessages((prevPrivateMessages) => {
-                prevPrivateMessages.set(data.userName, {active: true, messages: []});
-                return prevPrivateMessages;
-            });
-            console.log("privateMessages: ", privateMessages);
-            console.log(mp);
+            setPrivateMessages(prev => new Map([...prev, [data.user.userName,  {active: true, messages: []}]]))
+            // console.log(mp);
         })
         socket.on('userDisconnect', (userId) => {
             mp.delete(userId);
@@ -67,8 +63,7 @@ const Channel = ({location}) => {
                 prevPrivateMessages.set(mp.get(userId), {active: true, messages: []});
                 return prevPrivateMessages;
             });
-            console.log("privateMessages: ", privateMessages);
-            console.log(mp);
+            // console.log(mp);
         })
         socket.on('channelMessage', (data) => {
             setChannelChatMessages((prevChatMessages) => {
@@ -80,15 +75,14 @@ const Channel = ({location}) => {
             var privatemsg = new Map();
             data.users.map((user) => {
                 mp.set(user.id, user.userName);
-                console.log(user.userName);
-                privatemsg.set(user.userName, {active: true, massages: []});
+                privatemsg.set(user.userName, {active: true, messages: []});
                 return true;
             });
             // console.log(privatemsg);
             setPrivateMessages(privatemsg);
-            console.log("privateMessages: ", privateMessages);
+            // console.log("privateMessages: ", privateMessages);
             setUsers(data.users);
-            console.log(mp);
+            // console.log(mp);
         });
         socket.on('infoMessage', (data) => {
             setChannelChatMessages((prevChatMessages) => {
@@ -114,8 +108,8 @@ const Channel = ({location}) => {
                     text: data.message
                 })
                 prevPrivateMessages.set(data.from, {active: true, messages: messageArr});
-                console.log(prevPrivateMessages);
-                return prevPrivateMessages;
+                // console.log(prevPrivateMessages);
+                return (new Map(prevPrivateMessages));
             });
             // console.log(privateMessages);
         })
@@ -141,6 +135,21 @@ const Channel = ({location}) => {
             message: message
         }
         socket.emit('sendChatMessageToUser', data, () => {
+            setPrivateMessages((prevPrivateMessages) => {
+                console.log(prevPrivateMessages);
+                let messageArr = prevPrivateMessages.get(data.to).messages;
+                // messageArr = messageArr.messages;
+                if(!messageArr){
+                    messageArr = [];
+                }
+                messageArr.push({
+                    user: data.from,
+                    text: data.message
+                })
+                prevPrivateMessages.set(data.to, {active: true, messages: messageArr});
+                console.log(prevPrivateMessages);
+                return (new Map(prevPrivateMessages));
+            });
             console.log('nothing');
         })
     }
