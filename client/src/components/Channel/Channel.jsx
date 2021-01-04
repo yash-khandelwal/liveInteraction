@@ -44,18 +44,15 @@ const Channel = ({location}) => {
     }, [ENDPOINT, location.search]);
 
     useEffect(() => {
-        console.log(privateMessages);
+
     }, [privateMessages])
     
     useEffect(() => {
         socket.on('newConnect', (data) => {
             mp.set(data.user.id, data.user.userName);
             setUsers(prevUsers=>[...prevUsers, data.user]);
-            setPrivateMessages((prevPrivateMessages) => {
-                prevPrivateMessages.set(data.userName, {active: true, messages: []});
-                return prevPrivateMessages;
-            });
-            console.log(mp);
+            setPrivateMessages(prev => new Map([...prev, [data.user.userName,  {active: true, messages: []}]]))
+            // console.log(mp);
         })
         socket.on('userDisconnect', (userId) => {
             mp.delete(userId);
@@ -66,7 +63,7 @@ const Channel = ({location}) => {
                 prevPrivateMessages.set(mp.get(userId), {active: true, messages: []});
                 return prevPrivateMessages;
             });
-            console.log(mp);
+            // console.log(mp);
         })
         socket.on('channelMessage', (data) => {
             setChannelChatMessages((prevChatMessages) => {
@@ -78,13 +75,13 @@ const Channel = ({location}) => {
             var privatemsg = new Map();
             data.users.map((user) => {
                 mp.set(user.id, user.userName);
-                privatemsg.set(user.userName, {active: true, massages: []});
+                privatemsg.set(user.userName, {active: true, messages: []});
                 return true;
             });
             // console.log(privatemsg);
             setPrivateMessages(privatemsg);
             setUsers(data.users);
-            console.log(mp);
+            // console.log(mp);
         });
         socket.on('infoMessage', (data) => {
             setChannelChatMessages((prevChatMessages) => {
@@ -111,7 +108,7 @@ const Channel = ({location}) => {
                 })
                 prevPrivateMessages.set(data.from, {active: true, messages: messageArr});
                 console.log(prevPrivateMessages);
-                return prevPrivateMessages;
+                return (new Map(prevPrivateMessages));
             });
             // console.log(privateMessages);
         })
