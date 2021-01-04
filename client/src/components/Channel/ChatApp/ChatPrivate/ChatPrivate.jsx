@@ -13,22 +13,21 @@ const ChatPrivate = ({users, sendMessage, privateMessages}) => {
                             setChating(user.displayName);
                         }}
                     >Chat</button>
-                    <p>{privateMessages}</p>
-                    {chating===user.displayName && (
                         <div>
-                            <p>{privateMessages.has(user.userName)} {user.userName}</p>
-                            {privateMessages.get(user.userName).messages.map((message, itsindex) => {
+                            <p>{user.userName}</p>
+                            {privateMessages.get(user.userName)}
+                            {/* {privateMessages.get(user.userName).messages.map((message, itsindex) => {
+                                {console.log(message.text)}
                                 return <div key={itsindex}>
                                     <p>{message.user}: {message.text}</p>
                                 </div>
-                            })}
+                            })} */}
                             {/* {.map((message) => {
                                 return <div>
                                     <p>{message.user}: {message.text}</p>
                                 </div>
                             }} */}
-                        </div>)
-                    }
+                        </div>
                     <button 
                         onClick={() => {
                             sendMessage({

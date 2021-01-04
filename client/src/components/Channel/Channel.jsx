@@ -55,6 +55,7 @@ const Channel = ({location}) => {
                 prevPrivateMessages.set(data.userName, {active: true, messages: []});
                 return prevPrivateMessages;
             });
+            console.log("privateMessages: ", privateMessages);
             console.log(mp);
         })
         socket.on('userDisconnect', (userId) => {
@@ -66,6 +67,7 @@ const Channel = ({location}) => {
                 prevPrivateMessages.set(mp.get(userId), {active: true, messages: []});
                 return prevPrivateMessages;
             });
+            console.log("privateMessages: ", privateMessages);
             console.log(mp);
         })
         socket.on('channelMessage', (data) => {
@@ -78,11 +80,13 @@ const Channel = ({location}) => {
             var privatemsg = new Map();
             data.users.map((user) => {
                 mp.set(user.id, user.userName);
+                console.log(user.userName);
                 privatemsg.set(user.userName, {active: true, massages: []});
                 return true;
             });
             // console.log(privatemsg);
             setPrivateMessages(privatemsg);
+            console.log("privateMessages: ", privateMessages);
             setUsers(data.users);
             console.log(mp);
         });
