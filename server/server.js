@@ -4,7 +4,10 @@ const socketio = require('socket.io');
 const cors = require("cors");
 
 const Users = require('./utils/users');
+const Questions = require('./utils/questions');
 let users = new Users();
+let questions = new Questions();
+
 const router = require('./utils/router');
 
 const app = express();
@@ -13,9 +16,11 @@ const io = socketio(server);
 app.use(cors());
 app.use(router);
 
-const chatNamespace = io.of('/chat')
+// const chatNamespace = io.of('/chat')
+// const questionsNamespace = io.of('/question')
 
-chatNamespace.on('connect', (socket) => {
+
+io.on('connect', (socket) => {
     
     console.log("connected");
     // when new user enters in to the channel
@@ -31,10 +36,10 @@ chatNamespace.on('connect', (socket) => {
         socket.to(user.channel).emit('infoMessage', {
             info: `${user.displayName} joined!`
         });
-        chatNamespace.to(user.channel).emit('newConnect', { 
+        io.to(user.channel).emit('newConnect', { 
             user: user 
         });
-        chatNamespace.to(socket.id).emit('channelData', {
+        io.to(socket.id).emit('channelData', {
             channel: user.channel, 
             users: users.getUsersInChannel(user.channel)
         })
@@ -44,7 +49,18 @@ chatNamespace.on('connect', (socket) => {
     
     // when user send message to the channel
     socket.on('sendChatMessageToChannel', (data, callback) => {
-        chatNamespace.to(data.to).emit('channelMessage', {user: data.fromDisplayName, text: data.message});
+        io.to(data.to).emit('channelMessage', {user: data.fromDisplayName, text: data.message});
+        callback();
+    });
+
+    // when user send question to the channel
+    socket.on('sendQuestionToChannel', (data, callback) => {
+            io.to(data.to).emit('channelQuestion', data);
+            callback();
+    });
+    socket.on('sendAnswerToChannel', (data, callback) => {
+        io.to(data.to).emit('channelAnswer', data);
+        console.log("fired")
         callback();
     });
 
@@ -52,7 +68,7 @@ chatNamespace.on('connect', (socket) => {
     socket.on('sendChatMessageToUser', (data, callback) => {
         console.log(data);
         try{
-            chatNamespace.to(data.toSocket).emit('privateMessage', data);
+            io.to(data.toSocket).emit('privateMessage', data);
         }catch(err){
             console.log(err);
         }
@@ -61,8 +77,8 @@ chatNamespace.on('connect', (socket) => {
     
     // when user go offline from the channel
     socket.on('disconnect', (reason) => {
-        if (reason === 'chatNamespace server disconnect') {
-            // the disconnectchatNamespacen was initiated by the server, you need to reconnect manually
+        if (reason === 'io server disconnect') {
+            // the disconnection was initiated by the server, you need to reconnect manually
             socket.connect();
             return;
         }
@@ -71,14 +87,16 @@ chatNamespace.on('connect', (socket) => {
             console.log(users.users);
             console.log('disconnected');
             users.removeUser(socket.id);
-            chatNamespace.to(user.channel).emit('infoMessage', {
+            io.to(user.channel).emit('infoMessage', {
                 info: `${user.displayName} has left`
             });
-            chatNamespace.to(user.channel).emit('userDisconnect', socket.id);
+            io.to(user.channel).emit('userDisconnect', socket.id);
             console.log(users.users);
         }
     });
 })
+
+
 
 const PORT = process.env.PORT || 5001;
 

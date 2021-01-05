@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import queryString from 'query-string';
 import io from "socket.io-client";
+import { v4 as uuidv4 } from 'uuid';
+
 
 import ChatApp from './ChatApp/ChatApp.jsx';
 import PollsApp from './PollsApp/PollsApp.jsx';
@@ -12,7 +14,7 @@ let mp = new Map();
 
 const Channel = ({location}) => {
     const [interaction, setInteraction] = useState('Chat');
-    const ENDPOINT = 'http://localhost:5001/chat';
+    const ENDPOINT = 'http://localhost:5001';
     const [channelChatMessages, setChannelChatMessages] = useState([]);
     const [channelChatMessage, setChannelChatMessage] = useState('');
     const [users, setUsers] = useState([]);
@@ -20,7 +22,7 @@ const Channel = ({location}) => {
     const [displayName, setDisplayName] = useState('anonymous');
     const [channelId, setChannelId] = useState('anonymous');
     const [privateMessages, setPrivateMessages] = useState(new Map());
-
+    const [question, setQuestion] = useState([])
     useEffect(()=>{
         const {username, displayname, channel} = queryString.parse(location.search);
         console.log(username, displayname, channel);
@@ -115,7 +117,6 @@ const Channel = ({location}) => {
         })
     }, []);
 
-
     const sendChatMessageToChannel = () => {
         const data = {
             from: userName,
@@ -154,6 +155,43 @@ const Channel = ({location}) => {
         })
     }
 
+
+    useEffect(() => {
+        socket.on('channelQuestion', (data) => {
+            // console.log(question)
+            setQuestion((prevChatMessages) => {
+                return [...prevChatMessages, data];
+            })
+        });
+
+        socket.on('channelAnswer', (data) => {
+            setQuestion((prevQues) => {
+                prevQues[data.index].answer = data.answer
+                return [...prevQues];
+            })
+        });
+    }, [ ]);
+
+
+    const sendQuestionToChannel = (formData) => {
+        const data = {
+            id: uuidv4(),
+            from:userName ,
+            fromDisplayName: displayName,
+            to: channelId,
+            question: formData,
+            answer:''
+        }
+        socket.emit('sendQuestionToChannel', data, () => {});
+    }
+    const sendAnswer = (index , answer) => {
+        const data ={index , answer , to:channelId}
+        console.log(index, answer)
+        socket.emit('sendAnswerToChannel', data, () => {});
+    }
+
+    
+
     return (
         <div>
             <StatSection 
@@ -179,8 +217,18 @@ const Channel = ({location}) => {
                 users={users}
                 privateMessages={privateMessages}
             />}
-            {interaction === 'Polls' && <PollsApp />}
-            {interaction === 'QnA' && <QnAApp />}
+            {interaction === 'Polls' && <PollsApp
+            socket={socket}
+            users={users}
+            channelId={channelId}
+            userName={userName}
+            displayName= {displayName}
+             />}
+            {interaction === 'QnA' && <QnAApp
+            question={question}
+            sendQuestionToChannel={sendQuestionToChannel}
+            sendAnswer={sendAnswer}
+             />}
         </div>
     )
 }
