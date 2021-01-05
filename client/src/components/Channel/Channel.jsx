@@ -7,6 +7,8 @@ import PollsApp from './PollsApp/PollsApp.jsx';
 import QnAApp from './QnAApp/QnAApp.jsx';
 import StatSection from './StatSection/StatSection.jsx';
 
+import './Channel.css';
+
 let socket;
 let mp = new Map();
 

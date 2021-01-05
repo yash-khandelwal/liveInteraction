@@ -1,11 +1,12 @@
 import React from 'react'
 
+import './ChatAll.css';
 const ChatAll = ({messages, message, setMessage, sendMessage}) => {
     return (
-        <div>
-            <p>ChatAll</p>
+        <div className="channel-chat">
+            {/* <p>ChatAll</p> */}
             {messages.map((msg, index) => {
-                return <p key={index}>{msg.user}: {msg.text}</p>
+                return <p key={index}><span className='username'>{msg.user}</span> {msg.text}</p>
             })}
             <form>
                 <input 
