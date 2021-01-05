@@ -18,17 +18,17 @@ const Channel = ({location}) => {
     const [channelChatMessages, setChannelChatMessages] = useState([]);
     const [channelChatMessage, setChannelChatMessage] = useState('');
     const [users, setUsers] = useState([]);
-    const [userName, setUserName] = useState('anonymous');
-    const [displayName, setDisplayName] = useState('anonymous');
-    const [channelId, setChannelId] = useState('anonymous');
+    const [userData, setuserData] = useState({
+        userName:'',
+        displayName:'',
+        channelId:''
+    })
     const [privateMessages, setPrivateMessages] = useState(new Map());
     const [question, setQuestion] = useState([])
     useEffect(()=>{
         const {username, displayname, channel} = queryString.parse(location.search);
         console.log(username, displayname, channel);
-        setUserName(username);
-        setDisplayName(displayname);
-        setChannelId(channel)
+        setuserData({userName:username , displayName:displayname , channelId:channel })
         socket = io(ENDPOINT);
         socket.on("connection", (error)=>{
             if(error){
@@ -119,9 +119,9 @@ const Channel = ({location}) => {
 
     const sendChatMessageToChannel = () => {
         const data = {
-            from: userName,
-            fromDisplayName: displayName,
-            to: channelId,
+            from: userData.userName ,
+            fromDisplayName: userData.displayName,
+            to: userData.channelId,
             message: channelChatMessage
         }
         socket.emit('sendChatMessageToChannel', data, () => {setChannelChatMessage('')});
@@ -129,8 +129,8 @@ const Channel = ({location}) => {
 
     const sendChatMessageToUser = ({toSocket, to, message}) => {
         const data = {
-            from: userName,
-            fromDisplayName: displayName,
+            from: userData.userName ,
+            fromDisplayName: userData.displayName,
             toSocket: toSocket,
             to: to,
             message: message
@@ -176,16 +176,16 @@ const Channel = ({location}) => {
     const sendQuestionToChannel = (formData) => {
         const data = {
             id: uuidv4(),
-            from:userName ,
-            fromDisplayName: displayName,
-            to: channelId,
+            from: userData.userName ,
+            fromDisplayName: userData.displayName,
+            to: userData.channelId,
             question: formData,
             answer:''
         }
         socket.emit('sendQuestionToChannel', data, () => {});
     }
     const sendAnswer = (index , answer) => {
-        const data ={index , answer , to:channelId}
+        const data ={index , answer , to:userData.channelId}
         console.log(index, answer)
         socket.emit('sendAnswerToChannel', data, () => {});
     }
@@ -218,11 +218,6 @@ const Channel = ({location}) => {
                 privateMessages={privateMessages}
             />}
             {interaction === 'Polls' && <PollsApp
-            socket={socket}
-            users={users}
-            channelId={channelId}
-            userName={userName}
-            displayName= {displayName}
              />}
             {interaction === 'QnA' && <QnAApp
             question={question}
