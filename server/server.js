@@ -13,7 +13,9 @@ const io = socketio(server);
 app.use(cors());
 app.use(router);
 
-io.on('connect', (socket) => {
+const chatNamespace = io.of('/chat')
+
+chatNamespace.on('connect', (socket) => {
     
     console.log("connected");
     // when new user enters in to the channel
@@ -29,10 +31,10 @@ io.on('connect', (socket) => {
         socket.to(user.channel).emit('infoMessage', {
             info: `${user.displayName} joined!`
         });
-        io.to(user.channel).emit('newConnect', { 
+        chatNamespace.to(user.channel).emit('newConnect', { 
             user: user 
         });
-        io.to(socket.id).emit('channelData', {
+        chatNamespace.to(socket.id).emit('channelData', {
             channel: user.channel, 
             users: users.getUsersInChannel(user.channel)
         })
@@ -42,7 +44,7 @@ io.on('connect', (socket) => {
     
     // when user send message to the channel
     socket.on('sendChatMessageToChannel', (data, callback) => {
-        io.to(data.to).emit('channelMessage', {user: data.fromDisplayName, text: data.message});
+        chatNamespace.to(data.to).emit('channelMessage', {user: data.fromDisplayName, text: data.message});
         callback();
     });
 
@@ -50,7 +52,7 @@ io.on('connect', (socket) => {
     socket.on('sendChatMessageToUser', (data, callback) => {
         console.log(data);
         try{
-            io.to(data.toSocket).emit('privateMessage', data);
+            chatNamespace.to(data.toSocket).emit('privateMessage', data);
         }catch(err){
             console.log(err);
         }
@@ -59,8 +61,8 @@ io.on('connect', (socket) => {
     
     // when user go offline from the channel
     socket.on('disconnect', (reason) => {
-        if (reason === 'io server disconnect') {
-            // the disconnection was initiated by the server, you need to reconnect manually
+        if (reason === 'chatNamespace server disconnect') {
+            // the disconnectchatNamespacen was initiated by the server, you need to reconnect manually
             socket.connect();
             return;
         }
@@ -69,10 +71,10 @@ io.on('connect', (socket) => {
             console.log(users.users);
             console.log('disconnected');
             users.removeUser(socket.id);
-            io.to(user.channel).emit('infoMessage', {
+            chatNamespace.to(user.channel).emit('infoMessage', {
                 info: `${user.displayName} has left`
             });
-            io.to(user.channel).emit('userDisconnect', socket.id);
+            chatNamespace.to(user.channel).emit('userDisconnect', socket.id);
             console.log(users.users);
         }
     });

@@ -12,7 +12,7 @@ let mp = new Map();
 
 const Channel = ({location}) => {
     const [interaction, setInteraction] = useState('Chat');
-    const ENDPOINT = 'http://localhost:5001';
+    const ENDPOINT = 'http://localhost:5001/chat';
     const [channelChatMessages, setChannelChatMessages] = useState([]);
     const [channelChatMessage, setChannelChatMessage] = useState('');
     const [users, setUsers] = useState([]);
