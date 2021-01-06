@@ -29,9 +29,10 @@ const QnAApp = ({question  , sendQuestionToChannel, sendAnswer}) => {
             </form>
 
             {
-                question.map((ques , index) =>{
+                [...question.keys()].map((key ) =>{
+                    let ques= question.get(key) ;
                     return (
-                        <div key={index}>
+                        <div key={key}>
                         <p>{ques.from}: {ques.question}</p>
                         {
                             ques.answer ?
@@ -52,7 +53,7 @@ const QnAApp = ({question  , sendQuestionToChannel, sendAnswer}) => {
                             <button type="submit" onClick={(event) => {
                                 event.preventDefault();
                                 if(answer){
-                                    sendAnswer(index , answer);
+                                    sendAnswer(key , answer);
                                     setAnswer('');
                                 }
                             }}>Send</button>

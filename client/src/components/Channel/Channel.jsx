@@ -15,10 +15,9 @@ let socket;
 let mp = new Map();
 
 const Channel = ({location}) => {
+    //global states
     const [interaction, setInteraction] = useState('Chat');
     const ENDPOINT = 'http://localhost:5001';
-    const [channelChatMessages, setChannelChatMessages] = useState([]);
-    const [channelChatMessage, setChannelChatMessage] = useState('');
     const [users, setUsers] = useState([]);
     const [userData, setuserData] = useState({
         userName:'',
@@ -26,14 +25,23 @@ const Channel = ({location}) => {
         channelId:'',
         role: ''
     })
+
+    //chat states
+    const [channelChatMessages, setChannelChatMessages] = useState([]);
+    const [channelChatMessage, setChannelChatMessage] = useState('');
     const [privateMessages, setPrivateMessages] = useState(new Map());
-    const [question, setQuestion] = useState([])
+
+
+    //question states
+    const [question, setQuestion] = useState(new Map())
     // poll states
     const [polls, setPolls] = useState(new Map());
     const [pollIds, setPollIds] = useState([]);
     const [createPoll, setCreatePoll] = useState(false);
     const [pollQuestion, setPollQuestion] = useState('');
     const [optionList, setOptionList] = useState([]);
+
+
     useEffect(()=>{
         const {username, displayname, channel, role} = queryString.parse(location.search);
         console.log(username, displayname, channel, role);
@@ -54,10 +62,6 @@ const Channel = ({location}) => {
         });
     }, [ENDPOINT, location.search]);
 
-    useEffect(() => {
-        console.log(privateMessages);
-    }, [privateMessages])
-    
     useEffect(() => {
         socket.on('newConnect', (data) => {
             mp.set(data.user.id, data.user.userName);
@@ -136,14 +140,17 @@ const Channel = ({location}) => {
         socket.on('channelQuestion', (data) => {
             // console.log(question)
             setQuestion((prevChatMessages) => {
-                return [...prevChatMessages, data];
+                prevChatMessages.set(data.id , data);
+                return new Map(prevChatMessages);
             })
         });
 
         socket.on('channelAnswer', (data) => {
             setQuestion((prevQues) => {
-                prevQues[data.index].answer = data.answer
-                return [...prevQues];
+                let ques = prevQues.get(data.index);
+                ques.answer = data.answer
+                prevQues.set(data.index , ques);
+                return new Map(prevQues) ;
             })
         });
     }, []);
