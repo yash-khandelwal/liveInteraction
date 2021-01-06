@@ -6,12 +6,14 @@ const cors = require("cors");
 const Users = require('./utils/users');
 let users = new Users();
 const router = require('./utils/router');
+// const { default: PollsApp } = require("../client/src/components/Channel/PollsApp/PollsApp");
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 app.use(cors());
 app.use(router);
+
 
 io.on('connect', (socket) => {
     
@@ -76,6 +78,12 @@ io.on('connect', (socket) => {
             console.log(users.users);
         }
     });
+
+    // tesing event
+    socket.on('test', (message) => {
+        console.log(message);
+        io.to(socket.id).emit('testAck', true);
+    })
 })
 
 const PORT = process.env.PORT || 5001;

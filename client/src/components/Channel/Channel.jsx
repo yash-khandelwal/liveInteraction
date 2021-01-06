@@ -14,21 +14,25 @@ let mp = new Map();
 
 const Channel = ({location}) => {
     const [interaction, setInteraction] = useState('Chat');
-    const ENDPOINT = 'http://localhost:5001';
+    const ENDPOINT = 'http://localhost:5001/';
     const [channelChatMessages, setChannelChatMessages] = useState([]);
     const [channelChatMessage, setChannelChatMessage] = useState('');
     const [users, setUsers] = useState([]);
     const [userName, setUserName] = useState('anonymous');
     const [displayName, setDisplayName] = useState('anonymous');
+    const [privilege, setPrivilege] = useState('audience');
     const [channelId, setChannelId] = useState('anonymous');
     const [privateMessages, setPrivateMessages] = useState(new Map());
 
     useEffect(()=>{
-        const {username, displayname, channel} = queryString.parse(location.search);
+        const {username, displayname, channel, role} = queryString.parse(location.search);
         console.log(username, displayname, channel);
         setUserName(username);
         setDisplayName(displayname);
         setChannelId(channel)
+        if(role){
+            setPrivilege(role);
+        }
         socket = io(ENDPOINT);
         socket.on("connection", (error)=>{
             if(error){
@@ -161,6 +165,8 @@ const Channel = ({location}) => {
             <StatSection 
                 users={users}
             />
+            <h3>Channel: {channelId}</h3>
+            <h3>userName: {userName}</h3>
             <div>
                 <button onClick={(e)=>{
                     setInteraction('Chat')
@@ -181,7 +187,10 @@ const Channel = ({location}) => {
                 users={users}
                 privateMessages={privateMessages}
             />}
-            {interaction === 'Polls' && <PollsApp />}
+            {interaction === 'Polls' && <PollsApp 
+                role={privilege}
+                socket={socket}
+            />}
             {interaction === 'QnA' && <QnAApp />}
         </div>
     )

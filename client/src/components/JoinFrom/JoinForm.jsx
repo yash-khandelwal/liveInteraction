@@ -37,6 +37,10 @@ const JoinForm = () => {
                 }}
                 placeholder="channel"
             />
+            {/* <input type="radio" id="presenter" name="role" value="presenter"/>
+            <label for="presenter">presenter</label>
+            <input type="radio" id="audience" name="role" value="audience"/>
+            <label for="audience">audience</label> */}
             <Link
                 onClick={(e) => {
                     if(!userName || !displayName || !channel){
