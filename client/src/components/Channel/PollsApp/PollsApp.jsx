@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import './PollsApp.css';
 
 
-const PollsApp = ({socket, role, publishPoll, polls, createPoll, setCreatePoll, pollQuestion, setPollQuestion, optionList, setOptionList, pollIds, sendVote}) => {
+const PollsApp = ({socket, role, publishPoll, polls, createPoll, setCreatePoll, pollQuestion, setPollQuestion, optionList, setOptionList, pollIds, sendVote, sendVoteUpdate}) => {
     const handleChange = (event, index) => {
         console.log("handle change triggered!");
         let newList = [...optionList];
@@ -46,7 +46,7 @@ const PollsApp = ({socket, role, publishPoll, polls, createPoll, setCreatePoll, 
                                     if(!polls.get(id).voted)
                                         sendVote(id, index);
                                     else
-                                        console.log('already voted!');
+                                        sendVoteUpdate(id, polls.get(id).voted, index);
                                 }}
                                 className='selected'
                                 >{option.option}</li>
@@ -57,7 +57,7 @@ const PollsApp = ({socket, role, publishPoll, polls, createPoll, setCreatePoll, 
                                     if(!polls.get(id).voted)
                                         sendVote(id, index);
                                     else
-                                        console.log('already voted!');
+                                        sendVoteUpdate(id, polls.get(id).voted, index);
                                 }}
                                 >{option.option}</li>
                     })}

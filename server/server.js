@@ -80,6 +80,13 @@ io.on('connect', (socket) => {
         console.log(polls.getPollResults({id}));
         callback();
     })
+    socket.on('voteUpdate', ({id, prevOptionNum, newOptionNum}, callback) => {
+        console.log(id, prevOptionNum, newOptionNum);
+        polls.updateVote({id, prevOptionNum, newOptionNum});
+        console.log(polls.getPollResults({id}));
+        callback();
+    })
+
     // when user send question to the channel
     socket.on('sendQuestionToChannel', (data, callback) => {
             const ques = questions.addQuestion(data)

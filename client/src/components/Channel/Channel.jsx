@@ -43,9 +43,9 @@ const Channel = ({location}) => {
 
 
     useEffect(()=>{
-        const {username, displayname, channel, role} = queryString.parse(location.search);
-        console.log(username, displayname, channel, role);
-        setuserData({userName:username , displayName:displayname , channelId:channel, role})
+        const {username, displayname, channel, presenter} = queryString.parse(location.search);
+        console.log(username, displayname, channel, presenter);
+        setuserData({userName:username , displayName:displayname , channelId:channel, role: presenter==='host'})
         socket = io(ENDPOINT);
         socket.on("connection", (error)=>{
             if(error){
@@ -55,7 +55,7 @@ const Channel = ({location}) => {
             }
         })
         console.log(socket);
-        socket.emit('join', {userName: username, displayName: displayname, channel: channel, role: role}, (err) => {
+        socket.emit('join', {userName: username, displayName: displayname, channel: channel, role: presenter==='host'}, (err) => {
             if(err){
                 alert(err);
             }
@@ -214,6 +214,17 @@ const Channel = ({location}) => {
         });
     }
 
+    const sendVoteUpdate = (id, prevOptionNum, newOptionNum) => {
+        console.log("sendVoteUpdate triggered");
+        socket.emit('voteUpdate', {id, prevOptionNum, newOptionNum}, () => {
+            setPolls(prev => {
+                prev.get(id).voted = newOptionNum;
+                console.log(prev.get(id));
+                return new Map(prev);
+            });
+        });
+    }
+
     const sendQuestionToChannel = (formData) => {
         const data = {
             id: uuidv4(),
@@ -273,6 +284,7 @@ const Channel = ({location}) => {
                 setOptionList={setOptionList}
                 pollIds={pollIds}
                 sendVote={sendVote}
+                sendVoteUpdate={sendVoteUpdate}
             />}
             {interaction === 'QnA' && <QnAApp
                 role={userData.role}
