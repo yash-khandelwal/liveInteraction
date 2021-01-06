@@ -275,6 +275,7 @@ const Channel = ({location}) => {
                 sendVote={sendVote}
             />}
             {interaction === 'QnA' && <QnAApp
+                role={userData.role}
                 question={question}
                 sendQuestionToChannel={sendQuestionToChannel}
                 sendAnswer={sendAnswer}

@@ -1,7 +1,7 @@
 import React , {useState} from 'react'
 
 
-const QnAApp = ({question  , sendQuestionToChannel, sendAnswer}) => {
+const QnAApp = ({ role ,question  , sendQuestionToChannel, sendAnswer}) => {
     const [formData, setformData] = useState('')
     const [answer, setAnswer] = useState('')
 
@@ -29,7 +29,7 @@ const QnAApp = ({question  , sendQuestionToChannel, sendAnswer}) => {
             </form>
 
             {
-                [...question.keys()].map((key ) =>{
+                [...question.keys()].map((key , index ) =>{
                     let ques= question.get(key) ;
                     return (
                         <div key={key}>
@@ -39,7 +39,8 @@ const QnAApp = ({question  , sendQuestionToChannel, sendAnswer}) => {
                             <p>answer: {ques.answer}</p>
                             :
                             (
-                            <form>
+                                role ==='host'?
+                            (<form>
                             <input 
                                 type="text" 
                                 name="currentMessage" 
@@ -57,9 +58,13 @@ const QnAApp = ({question  , sendQuestionToChannel, sendAnswer}) => {
                                     setAnswer('');
                                 }
                             }}>Send</button>
-                        </form>
+                        </form>)
+                        :
+                        (<p>answer: Not Answered yet</p>)
                             )
                         }
+                                                    <hr/>
+
                         </div>
                     )
                 })

@@ -57,7 +57,7 @@ io.on('connect', (socket) => {
     socket.on('sendPoll', (data, callback) => {
         const {user, question, options} = data;
         const id = new Date().getTime().toString();
-        newPoll = polls.addPoll({
+        let newPoll = polls.addPoll({
             id,
             pollQuestion: {
                 id, 
@@ -82,10 +82,12 @@ io.on('connect', (socket) => {
     })
     // when user send question to the channel
     socket.on('sendQuestionToChannel', (data, callback) => {
-            io.to(data.to).emit('channelQuestion', data);
+            const ques = questions.addQuestion(data)
+            io.to(data.to).emit('channelQuestion', ques);
             callback();
     });
     socket.on('sendAnswerToChannel', (data, callback) => {
+        questions.answerQuestion(data.index , data.answer)
         io.to(data.to).emit('channelAnswer', data);
         console.log("fired")
         callback();
