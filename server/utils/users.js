@@ -2,7 +2,7 @@ class Users{
     constructor(){
         this.users = [];
     }
-    addUser = ({id, userName, displayName, channel}) => {
+    addUser = ({id, userName, displayName, channel, role}) => {
         // if user already exists
         console.log(id, userName, displayName, channel);
         const userExist = this.users.find((user) => {
@@ -15,7 +15,8 @@ class Users{
             id,
             userName,
             displayName,
-            channel
+            channel,
+            role
         }
         this.users.push(newUser);
         return {errors: null, user: newUser};

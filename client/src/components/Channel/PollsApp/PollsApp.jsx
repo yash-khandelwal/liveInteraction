@@ -1,15 +1,28 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react';
+import './PollsApp.css';
 
-const PollsApp = ({socket, role}) => {
-    const [polls, setPolls] = useState(new Map());
-    setPolls(prevPolls => {
-        prevPolls.set('0', {question: 'this is a question?', options: ['option1', 'option2', 'option3'], votes: [0, 0, 0]});
-    })
+
+const PollsApp = ({socket, role, publishPoll, polls, createPoll, setCreatePoll, pollQuestion, setPollQuestion, optionList, setOptionList, pollIds, sendVote}) => {
+    const handleChange = (event, index) => {
+        console.log("handle change triggered!");
+        let newList = [...optionList];
+        newList[index] = event.target.value;
+        setOptionList(newList);
+    }
+    const addOption = () => {
+        setOptionList(prevList => [...prevList, '']);
+        console.log(optionList);
+    }
+    const removeOption = (index) => {
+        setOptionList(prevList => prevList.filter((option, i) => {
+            return i !== index;
+        }));
+    }
     useEffect(() => {
         socket.on('testAck', res => {
             console.log("got Response ", res);
         })
-    }, []);
+    }, [socket]);
     const sendTestMessage = () => {
         socket.emit('test', "message from polls app!");
     }
@@ -17,14 +30,97 @@ const PollsApp = ({socket, role}) => {
     return (
         <div>
             <h1>PollsApp</h1>
-            {/* <button
+            <button
                 onClick={() => {
                     sendTestMessage();
                 }}
-            >hello</button> */}
-            {polls}
+            >hello</button>
+            {pollIds.map(id => {
+                return <div key={id}>
+                    <p>Question: {polls.get(id).question}</p>
+                    {polls.get(id).options.map((option, index) => {
+                        if(polls.get(id).voted === index){
+                            return <li 
+                                key={index}
+                                onClick={() => {
+                                    if(!polls.get(id).voted)
+                                        sendVote(id, index);
+                                    else
+                                        console.log('already voted!');
+                                }}
+                                className='selected'
+                                >{option.option}</li>
+                        }
+                        return <li 
+                                key={index}
+                                onClick={() => {
+                                    if(!polls.get(id).voted)
+                                        sendVote(id, index);
+                                    else
+                                        console.log('already voted!');
+                                }}
+                                >{option.option}</li>
+                    })}
+                </div>
+            })}
+            {role && (
+                <div>
+                    <button
+                        onClick={() => {
+                            setCreatePoll(prev => !prev);
+                        }}
+                    >create new poll</button>
+                    <div>
+                        {createPoll&&
+                        <div>
+                            <textarea
+                                value={pollQuestion}
+                                onChange={(e) => {
+                                    setPollQuestion(e.target.value);
+                                }}
+                                autoFocus
+                            ></textarea>
+                            <hr/>
+                            {optionList.map((option, index) => {
+                                return <div key={index}>
+                                    <input type="text" name="option" value={option} onChange={(event)=>{
+                                        handleChange(event, index);
+                                    }}
+                                        autoFocus
+                                    />
+                                    <button 
+                                        onClick={(event)=>{
+                                            event.preventDefault();
+                                            removeOption(index);
+                                        }}
+                                    >
+                                        remove option
+                                    </button>
+                                    <hr/>
+                                </div>
+                            })}
+                            <button
+                                onClick={(event)=>{
+                                    event.preventDefault();
+                                    addOption();
+                                }}
+                            >add option</button>
+                            <hr/>
+                            <button
+                                onClick={() => {
+                                    publishPoll({pollQuestion, optionList});
+                                    setPollQuestion('');
+                                    setOptionList([]);
+                                    setCreatePoll(false);
+                                }}
+                            >publish</button>
+                        </div>
+                        }
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
 
-export default PollsApp
+export default PollsApp;

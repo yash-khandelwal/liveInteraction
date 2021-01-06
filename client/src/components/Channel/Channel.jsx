@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import queryString from 'query-string';
 import io from "socket.io-client";
+import { v4 as uuidv4 } from 'uuid';
+
 
 import ChatApp from './ChatApp/ChatApp.jsx';
 import PollsApp from './PollsApp/PollsApp.jsx';
@@ -14,25 +16,28 @@ let mp = new Map();
 
 const Channel = ({location}) => {
     const [interaction, setInteraction] = useState('Chat');
-    const ENDPOINT = 'http://localhost:5001/';
+    const ENDPOINT = 'http://localhost:5001';
     const [channelChatMessages, setChannelChatMessages] = useState([]);
     const [channelChatMessage, setChannelChatMessage] = useState('');
     const [users, setUsers] = useState([]);
-    const [userName, setUserName] = useState('anonymous');
-    const [displayName, setDisplayName] = useState('anonymous');
-    const [privilege, setPrivilege] = useState('audience');
-    const [channelId, setChannelId] = useState('anonymous');
+    const [userData, setuserData] = useState({
+        userName:'',
+        displayName:'',
+        channelId:'',
+        role: ''
+    })
     const [privateMessages, setPrivateMessages] = useState(new Map());
-
+    const [question, setQuestion] = useState([])
+    // poll states
+    const [polls, setPolls] = useState(new Map());
+    const [pollIds, setPollIds] = useState([]);
+    const [createPoll, setCreatePoll] = useState(false);
+    const [pollQuestion, setPollQuestion] = useState('');
+    const [optionList, setOptionList] = useState([]);
     useEffect(()=>{
         const {username, displayname, channel, role} = queryString.parse(location.search);
-        console.log(username, displayname, channel);
-        setUserName(username);
-        setDisplayName(displayname);
-        setChannelId(channel)
-        if(role){
-            setPrivilege(role);
-        }
+        console.log(username, displayname, channel, role);
+        setuserData({userName:username , displayName:displayname , channelId:channel, role})
         socket = io(ENDPOINT);
         socket.on("connection", (error)=>{
             if(error){
@@ -42,7 +47,7 @@ const Channel = ({location}) => {
             }
         })
         console.log(socket);
-        socket.emit('join', {userName: username, displayName: displayname, channel: channel}, (err) => {
+        socket.emit('join', {userName: username, displayName: displayname, channel: channel, role: role}, (err) => {
             if(err){
                 alert(err);
             }
@@ -119,14 +124,35 @@ const Channel = ({location}) => {
             });
             // console.log(privateMessages);
         })
-    }, []);
+        socket.on('newPoll', (data) => {
+            console.log('poll aya aya aya aya');
+            setPolls(prevPolls => {
+                prevPolls.set(data.id, {...data, voted: false});
+                console.log(prevPolls.get(data.id));
+                return new Map(prevPolls);
+            })
+            setPollIds(prev => [...prev, data.id]);
+        })
+        socket.on('channelQuestion', (data) => {
+            // console.log(question)
+            setQuestion((prevChatMessages) => {
+                return [...prevChatMessages, data];
+            })
+        });
 
+        socket.on('channelAnswer', (data) => {
+            setQuestion((prevQues) => {
+                prevQues[data.index].answer = data.answer
+                return [...prevQues];
+            })
+        });
+    }, []);
 
     const sendChatMessageToChannel = () => {
         const data = {
-            from: userName,
-            fromDisplayName: displayName,
-            to: channelId,
+            from: userData.userName ,
+            fromDisplayName: userData.displayName,
+            to: userData.channelId,
             message: channelChatMessage
         }
         socket.emit('sendChatMessageToChannel', data, () => {setChannelChatMessage('')});
@@ -134,8 +160,8 @@ const Channel = ({location}) => {
 
     const sendChatMessageToUser = ({toSocket, to, message}) => {
         const data = {
-            from: userName,
-            fromDisplayName: displayName,
+            from: userData.userName ,
+            fromDisplayName: userData.displayName,
             toSocket: toSocket,
             to: to,
             message: message
@@ -158,15 +184,55 @@ const Channel = ({location}) => {
             });
             console.log('nothing');
         })
+        
     }
+
+    const sendPoll = (pollData) => {
+        // console.log(pollData);
+        socket.emit('sendPoll', {
+            user: userData,
+            question: pollData.pollQuestion,
+            options: pollData.optionList
+        }, () => {
+            console.log('poll publish success');
+        })
+    }
+    const sendVote = (id, optionNum) => {
+        socket.emit('vote', {id, optionNum}, () => {
+            setPolls(prev => {
+                prev.get(id).voted = optionNum;
+                console.log(prev.get(id));
+                return new Map(prev);
+            });
+        });
+    }
+
+    const sendQuestionToChannel = (formData) => {
+        const data = {
+            id: uuidv4(),
+            from: userData.userName ,
+            fromDisplayName: userData.displayName,
+            to: userData.channelId,
+            question: formData,
+            answer:''
+        }
+        socket.emit('sendQuestionToChannel', data, () => {});
+    }
+    const sendAnswer = (index , answer) => {
+        const data ={index , answer , to:userData.channelId}
+        console.log(index, answer)
+        socket.emit('sendAnswerToChannel', data, () => {});
+    }
+
+    
 
     return (
         <div>
             <StatSection 
                 users={users}
             />
-            <h3>Channel: {channelId}</h3>
-            <h3>userName: {userName}</h3>
+            <h3>Channel: {userData.channelId}</h3>
+            <h3>userName: {userData.userName}</h3>
             <div>
                 <button onClick={(e)=>{
                     setInteraction('Chat')
@@ -187,11 +253,25 @@ const Channel = ({location}) => {
                 users={users}
                 privateMessages={privateMessages}
             />}
-            {interaction === 'Polls' && <PollsApp 
-                role={privilege}
+            {interaction === 'Polls' && <PollsApp
                 socket={socket}
+                role={true}
+                polls={polls}
+                publishPoll={sendPoll}
+                createPoll={createPoll}
+                setCreatePoll={setCreatePoll}
+                pollQuestion={pollQuestion}
+                setPollQuestion={setPollQuestion}
+                optionList={optionList}
+                setOptionList={setOptionList}
+                pollIds={pollIds}
+                sendVote={sendVote}
             />}
-            {interaction === 'QnA' && <QnAApp />}
+            {interaction === 'QnA' && <QnAApp
+                question={question}
+                sendQuestionToChannel={sendQuestionToChannel}
+                sendAnswer={sendAnswer}
+            />}
         </div>
     )
 }

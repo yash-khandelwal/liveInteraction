@@ -4,9 +4,13 @@ const socketio = require('socket.io');
 const cors = require("cors");
 
 const Users = require('./utils/users');
+const Questions = require('./utils/questions');
+const Polls = require('./utils/polls');
 let users = new Users();
+let questions = new Questions();
+let polls = new Polls();
+
 const router = require('./utils/router');
-// const { default: PollsApp } = require("../client/src/components/Channel/PollsApp/PollsApp");
 
 const app = express();
 const server = http.createServer(app);
@@ -14,6 +18,8 @@ const io = socketio(server);
 app.use(cors());
 app.use(router);
 
+// const chatNamespace = io.of('/chat')
+// const questionsNamespace = io.of('/question')
 
 io.on('connect', (socket) => {
     
@@ -45,6 +51,43 @@ io.on('connect', (socket) => {
     // when user send message to the channel
     socket.on('sendChatMessageToChannel', (data, callback) => {
         io.to(data.to).emit('channelMessage', {user: data.fromDisplayName, text: data.message});
+        callback();
+    });
+    // when presenter publishes a poll to the channel
+    socket.on('sendPoll', (data, callback) => {
+        const {user, question, options} = data;
+        const id = new Date().getTime().toString();
+        newPoll = polls.addPoll({
+            id,
+            pollQuestion: {
+                id, 
+                user,
+                question,
+                options: options.map((option) => {
+                    return {
+                        option: option,
+                        votes: 0
+                    }
+                })
+            }
+        });
+        console.log(newPoll);
+        io.to(user.channelId).emit('newPoll', newPoll);
+    })
+    socket.on('vote', ({id, optionNum}, callback) => {
+        console.log(id, optionNum);
+        polls.addVote({id, optionNum});
+        console.log(polls.getPollResults({id}));
+        callback();
+    })
+    // when user send question to the channel
+    socket.on('sendQuestionToChannel', (data, callback) => {
+            io.to(data.to).emit('channelQuestion', data);
+            callback();
+    });
+    socket.on('sendAnswerToChannel', (data, callback) => {
+        io.to(data.to).emit('channelAnswer', data);
+        console.log("fired")
         callback();
     });
 
@@ -85,6 +128,8 @@ io.on('connect', (socket) => {
         io.to(socket.id).emit('testAck', true);
     })
 })
+
+
 
 const PORT = process.env.PORT || 5001;
 
