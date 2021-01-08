@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import ChatAll from './ChatAll/ChatAll.jsx';
 import ChatPrivate from './ChatPrivate/ChatPrivate.jsx'
 
-const ChatApp = ({users, messages, message, setMessage, sendMessageToChannel, sendMessageToUser, privateMessages}) => {
+const ChatApp = ({users, messages, message, setMessage, sendMessageToChannel, sendMessageToUser, privateMessages, userData, setPrivateMessages}) => {
     const [convType, setConvType] = useState('Channel');
     return (
         <div>
@@ -26,6 +26,8 @@ const ChatApp = ({users, messages, message, setMessage, sendMessageToChannel, se
                     users={users}
                     sendMessage={sendMessageToUser}
                     privateMessages={privateMessages}
+                    userData={userData}
+                    setPrivateMessages={setPrivateMessages}
                 />}
             </div>
         </div>

@@ -2,25 +2,31 @@ import React, {useState} from 'react'
 
 import './ChatPrivate.css';
 
-const ChatPrivate = ({users, sendMessage, privateMessages}) => {
+const ChatPrivate = ({users, sendMessage, privateMessages, userData, setPrivateMessages}) => {
     const [message, setMessage] = useState('');
     const [chating, setChating] = useState(null);
     return (
         <div className='private-chat'>
             <hr/>
             {users.map((user, index) => {
+                if(user.userName !== userData.userName)
                 return <div key = {index}>
                     <h3
                         onClick={() => {
-                            setChating(prev=>prev===user.displayName?null:user.displayName);
+                            setChating(prev=>prev===user.userName?null:user.userName);
+                            setPrivateMessages((prevPrivateMessages) => {
+                                prevPrivateMessages.set(user.userName, {...privateMessages.get(user.userName), unread: 0});
+                                console.log(prevPrivateMessages);
+                                return (new Map(prevPrivateMessages));
+                            });
                             setMessage('');
                         }}
                         style={{
                             cursor: 'pointer',
                         }}
-                    >{user.displayName}</h3>
+                    >{user.displayName} {privateMessages.get(user.userName).unread > 0 &&<span>[{privateMessages.get(user.userName).unread}]</span>}</h3>
                     {
-                        (chating===user.displayName) &&
+                        (chating===user.userName) &&
                         (<div>
                             {privateMessages.get(user.userName).messages && privateMessages.get(user.userName).messages.map((message, index) =>{
                                 return (
@@ -56,6 +62,9 @@ const ChatPrivate = ({users, sendMessage, privateMessages}) => {
                     }
                     <hr/>
                 </div>
+                else{
+                    return '';
+                }
             })}
         </div>
     )
