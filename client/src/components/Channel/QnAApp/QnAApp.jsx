@@ -33,13 +33,27 @@ const QnAApp = ({ role ,question  , sendQuestionToChannel, sendAnswer}) => {
                     let ques= question.get(key) ;
                     return (
                         <div key={key}>
-                        <p>{ques.from}: {ques.question}</p>
+                        
+                        <p>Q. {ques.from}: {ques.question}</p>
+                        <p>Answers:</p>
                         {
-                            ques.answer ?
-                            <p>answer: {ques.answer}</p>
+                            ques.answer.length > 0 ?
+                            ques.answer.map(ans=>{
+                                return (
+                                    <div>
+                                    <p>{ans.from}: {ans.answer}</p>
+                                    </div>
+                                )
+                            })
+                            
                             :
-                            (
-                                role ==='host'?
+                            (<p>No Answeres yet</p>)
+                            
+                        }
+
+
+                            
+                    {role  &&
                             (<form>
                             <input 
                                 type="text" 
@@ -59,10 +73,8 @@ const QnAApp = ({ role ,question  , sendQuestionToChannel, sendAnswer}) => {
                                 }
                             }}>Send</button>
                         </form>)
-                        :
-                        (<p>answer: Not Answered yet</p>)
-                            )
                         }
+                        
                                                     <hr/>
 
                         </div>

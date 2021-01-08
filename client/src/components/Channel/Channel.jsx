@@ -162,7 +162,7 @@ const Channel = ({location}) => {
         socket.on('channelAnswer', (data) => {
             setQuestion((prevQues) => {
                 let ques = prevQues.get(data.index);
-                ques.answer = data.answer
+                ques.answer.push(data.answer)
                 prevQues.set(data.index , ques);
                 return new Map(prevQues) ;
             })
@@ -260,12 +260,13 @@ const Channel = ({location}) => {
             fromDisplayName: userData.displayName,
             to: userData.channelId,
             question: formData,
-            answer:''
+            answer:[]
         }
         socket.emit('sendQuestionToChannel', data, () => {});
     }
     const sendAnswer = (index , answer) => {
-        const data ={index , answer , to:userData.channelId}
+        const ansobj= {answer , from: userData.userName , display: userData.displayName }
+        const data ={index , answer: ansobj , to:userData.channelId}
         console.log(index, answer)
         socket.emit('sendAnswerToChannel', data, () => {});
     }
@@ -284,12 +285,12 @@ const Channel = ({location}) => {
                     setInteraction('Chat')
                 }}>Chat</button>
                 <button 
-                disabled
+                
                 onClick={(e)=>{
                     setInteraction('Polls')
                 }}>Polls</button>
                 <button 
-                disabled
+                
                 onClick={(e)=>{
                     setInteraction('QnA')
                 }}>QnA</button>

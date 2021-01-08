@@ -8,7 +8,7 @@ class Questions{
         return data ;
     }
     answerQuestion =(index , answer) =>{
-        this.questions.get(index).answer = answer;
+        this.questions.get(index).answer.push(answer)  ;
     }
     removeQuestion = (index) => {
         this.questions.delete(index);
