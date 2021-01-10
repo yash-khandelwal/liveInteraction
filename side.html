@@ -47,6 +47,9 @@
         color: #f1f1f1;
       }
 
+      .nav-link.active {
+        background-color: #1c1c1c !important ;
+      }
       /* .sidepanel .closebtn {
   position: absolute;
   top: 0;
@@ -88,8 +91,6 @@
   </head>
   <body>
     <div id="mySidepanel" class="sidepanel">
-      <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a> -->
-
       <ul
         class="nav nav-pills mb-3 text-center px-1 justify-content-around"
         id="pills-tab"
@@ -418,6 +419,7 @@
     </div>
 
     <button class="openbtn" onclick="openNav()">☰ Toggle Sidepanel</button>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <h2>Collapsed Sidepanel</h2>
     <p>Click on the hamburger menu/bar icon to open the sidepanel.</p>
 
