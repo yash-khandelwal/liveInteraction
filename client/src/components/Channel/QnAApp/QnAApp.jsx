@@ -1,88 +1,92 @@
-import React , {useState} from 'react'
+import React, { useState } from "react";
 
+const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
+  const [formData, setformData] = useState("");
+  const [answer, setAnswer] = useState("");
 
-const QnAApp = ({ role ,question  , sendQuestionToChannel, sendAnswer}) => {
-    const [formData, setformData] = useState('')
-    const [answer, setAnswer] = useState('')
-
-    return (
-        <div>
-            <h1>QnAApp</h1>
-            <form>
-                <input 
-                    type="text" 
-                    name="currentMessage" 
-                    id="currentMessage" 
-                    onChange={(e) => {
-                    setformData(e.target.value);
-                    }}
-                    value={formData}
-                    autoFocus
-                />
-                <button type="submit" onClick={(event) => {
-                    event.preventDefault();
-                    if(formData){
-                        sendQuestionToChannel(formData);
-                        setformData('');
-                    }
-                }}>Send</button>
-            </form>
-
-            {
-                [...question.keys()].map((key , index ) =>{
-                    let ques= question.get(key) ;
-                    return (
-                        <div key={key}>
-                        
-                        <p>Q. {ques.from}: {ques.question}</p>
-                        <p>Answers:</p>
-                        {
-                            ques.answer.length > 0 ?
-                            ques.answer.map(ans=>{
-                                return (
-                                    <div>
-                                    <p>{ans.from}: {ans.answer}</p>
-                                    </div>
-                                )
-                            })
-                            
-                            :
-                            (<p>No Answeres yet</p>)
-                            
-                        }
-
-
-                            
-                    {role  &&
-                            (<form>
-                            <input 
-                                type="text" 
-                                name="currentMessage" 
-                                id="currentMessage" 
-                                onChange={(e) => {
-                                setAnswer(e.target.value);
-                                }}
-                                // value={answer}
-                                autoFocus
-                            />
-                            <button type="submit" onClick={(event) => {
-                                event.preventDefault();
-                                if(answer){
-                                    sendAnswer(key , answer);
-                                    setAnswer('');
-                                }
-                            }}>Send</button>
-                        </form>)
-                        }
-                        
-                                                    <hr/>
-
-                        </div>
-                    )
-                })
+  return (
+    <div>
+      <h1>QnAApp</h1>
+      <form>
+        <input
+          type="text"
+          name="currentMessage"
+          id="currentMessage"
+          onChange={(e) => {
+            setformData(e.target.value);
+          }}
+          value={formData}
+          autoFocus
+        />
+        <button
+          type="submit"
+          onClick={(event) => {
+            event.preventDefault();
+            if (formData) {
+              sendQuestionToChannel(formData);
+              setformData("");
             }
-        </div>
-    )
-}
+          }}
+        >
+          Send
+        </button>
+      </form>
 
-export default QnAApp
+      {[...question.keys()].map((key, index) => {
+        let ques = question.get(key);
+        return (
+          <div key={key}>
+            <p>
+              Q. {ques.from}: {ques.question}
+            </p>
+            <p>Answers:</p>
+            {ques.answer.length > 0 ? (
+              ques.answer.map((ans) => {
+                return (
+                  <div>
+                    <p>
+                      {ans.from}: {ans.answer}
+                    </p>
+                  </div>
+                );
+              })
+            ) : (
+              <p>No Answeres yet</p>
+            )}
+
+            {role && (
+              <form>
+                <input
+                  type="text"
+                  name="currentMessage"
+                  id="currentMessage"
+                  onChange={(e) => {
+                    setAnswer(e.target.value);
+                  }}
+                  // value={answer}
+                  autoFocus
+                />
+                <button
+                  type="submit"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    if (answer) {
+                      sendAnswer(key, answer);
+                      setAnswer("");
+                    }
+                  }}
+                >
+                  Send
+                </button>
+              </form>
+            )}
+
+            <hr />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default QnAApp;

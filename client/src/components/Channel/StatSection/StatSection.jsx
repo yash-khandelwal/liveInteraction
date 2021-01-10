@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
-const StatSection = ({users}) => {
-    return (
-        <div>
-            <h1>{users.length} are online</h1>
-        </div>
-    )
-}
+const StatSection = ({ users }) => {
+  return (
+    <div>
+      <h1>{users.length} are online</h1>
+    </div>
+  );
+};
 
-export default StatSection
+export default StatSection;
