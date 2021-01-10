@@ -81,6 +81,9 @@
         top: 0;
         color: #aaa;
       }
+      input[type="text"]:focus {
+        border: 1px solid #ffffff;
+      }
     </style>
   </head>
   <body>
@@ -307,12 +310,109 @@
           role="tabpanel"
           aria-labelledby="pills-contact-tab"
         >
-          Click on the hamburger menu/bar icon to open the sidepanel.Click on
-          the hamburger menu/bar icon to open the sidepanel.Click on the
-          hamburger menu/bar icon to open the sidepanel.Click on the hamburger
-          menu/bar icon to open the sidepanel.Click on the hamburger menu/bar
-          icon to open the sidepanel.Click on the hamburger menu/bar icon to
-          open the sidepanel.
+          <ul
+            class="nav nav-pills mb-3 justify-content-center"
+            id="pills-tab text-center"
+            role="tablist"
+          >
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link active text-center"
+                id="pills-public-tab"
+                data-toggle="pill"
+                href="#pills-answered"
+                role="tab"
+                aria-controls="pills-answered"
+                aria-selected="true"
+                style="width: 13rem"
+                >Answered</a
+              >
+            </li>
+            <li class="nav-item" role="presentation">
+              <a
+                class="nav-link text-center"
+                id="pills-private-tab"
+                data-toggle="pill"
+                href="#not-asnwered"
+                role="tab"
+                aria-controls="not-asnwered"
+                aria-selected="false"
+                style="width: 13rem"
+                >Unanswered</a
+              >
+            </li>
+          </ul>
+          <div class="tab-content" id="pills-tabContent">
+            <div
+              class="tab-pane fade show active px-2"
+              id="pills-answered"
+              role="tabpanel"
+              aria-labelledby="pills-answered-tab"
+            >
+              <div class="chat-container px-2 mb-2">
+                <div class="justify-content-between pt-2 mt-2">
+                  <span>Why is cryptocurrency expensive today ?</span>
+                  <p class="text-muted pl-1">By ujjwal at 2:00PM</p>
+                </div>
+                <div class="justify-content-between py-2">
+                  <span>25 Answers</span>
+                  <span style="float: right">
+                    <em
+                      class="fas fa-thumbs-up"
+                      style="font-size: small; width: 1rem"
+                    ></em
+                    >25</span
+                  >
+                </div>
+                <br />
+                <form class="input-group mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-label="Sizing example input"
+                    placeholder="Type the answer here ..."
+                    aria-describedby="inputGroup-sizing-sm"
+                    style="background-color: transparent; color: white"
+                  />
+                </form>
+              </div>
+              <div class="chat-container px-2 mb-2">
+                <div class="justify-content-between pt-2 mt-2">
+                  <span>Why is cryptocurrency expensive today ?</span>
+                  <p class="text-muted pl-1">By ujjwal at 2:00PM</p>
+                </div>
+                <div class="justify-content-between py-2">
+                  <span>25 Answers</span>
+                  <span style="float: right">
+                    <i
+                      class="fas fa-thumbs-up"
+                      style="font-size: small; width: 1rem"
+                    ></i
+                    >25</span
+                  >
+                </div>
+                <br />
+                <form class="input-group mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-sm"
+                    placeholder="Type the answer here ..."
+                    style="background-color: transparent; color: white"
+                  />
+                </form>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="not-asnwered"
+              role="tabpanel"
+              aria-labelledby="not-asnwered-tab"
+            >
+              Hello123
+            </div>
+          </div>
         </div>
       </div>
     </div>
