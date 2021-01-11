@@ -379,14 +379,7 @@ const Channel = ({ location }) => {
           sendVoteUpdate={sendVoteUpdate}
         />
       )}
-      {interaction === "QnA" && (
-        <QnAApp
-          role={userData.role}
-          question={question}
-          sendQuestionToChannel={sendQuestionToChannel}
-          sendAnswer={sendAnswer}
-        />
-      )}
+      {interaction === "QnA" && <p>Check sidepannel</p>}
 
       <div>
         <div

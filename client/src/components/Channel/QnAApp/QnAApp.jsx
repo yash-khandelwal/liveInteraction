@@ -6,8 +6,6 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
 
   return (
     <div>
-      {/* <h1>QnAApp</h1> */}
-
       <ul
         className="nav nav-pills mb-3 justify-content-center"
         id="pills-tab text-center"
@@ -49,69 +47,101 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
           role="tabpanel"
           aria-labelledby="pills-answered-tab"
         >
-          {[...question.keys()].map((key, index) => {
-            let ques = question.get(key);
-            return (
-              <div key={key}>
-                <div className="chat-container px-2 mb-2">
-                  <div className="justify-content-between pt-2 mt-2">
-                    <span>{ques.question} ?</span>
-                    <p className="text-muted pl-1">By {ques.from} at 2:00PM</p>
-                  </div>
-                  <div className="justify-content-between py-2">
-                    <span>{ques.answer.length} Answers</span>
-                    <span style={{ float: "right" }}>
-                      <em
-                        className="fas fa-thumbs-up"
-                        style={{ fontSize: "small", width: "1rem" }}
+          <div className=" chat-display ">
+            {[...question.keys()].map((key, index) => {
+              let ques = question.get(key);
+              return (
+                <div key={key}>
+                  <div className="chat-container px-2 mb-2">
+                    <div className="justify-content-between pt-2 mt-2">
+                      <span>{ques.question} ?</span>
+                      <p className="text-muted pl-1">
+                        By {ques.from} at 2:00PM
+                      </p>
+                    </div>
+                    <div className="justify-content-between py-2">
+                      <span>{ques.answer.length} Answers</span>
+                      <span style={{ float: "right" }}>
+                        <em
+                          className="fas fa-thumbs-up"
+                          style={{ fontSize: "small", width: "1rem" }}
+                        />
+                        25
+                      </span>
+                      {ques.answer.length > 0 ? (
+                        ques.answer.map((ans) => {
+                          return (
+                            <div>
+                              <p>
+                                {ans.from}: {ans.answer}
+                              </p>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <p>No Answeres yet</p>
+                      )}
+                    </div>
+                    <br />
+                    <form
+                      className="input-group mb-3"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        if (answer) {
+                          sendAnswer(key, answer);
+                          setAnswer("");
+                        }
+                      }}
+                    >
+                      <input
+                        type="text"
+                        className="form-control"
+                        aria-label="Sizing example input"
+                        placeholder="Type the answer here ..."
+                        aria-describedby="inputGroup-sizing-sm"
+                        style={{
+                          backgroundColor: "transparent",
+                          color: "white",
+                        }}
+                        onChange={(e) => {
+                          setAnswer(e.target.value);
+                        }}
                       />
-                      25
-                    </span>
-                    {ques.answer.length > 0 ? (
-                      ques.answer.map((ans) => {
-                        return (
-                          <div>
-                            <p>
-                              {ans.from}: {ans.answer}
-                            </p>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <p>No Answeres yet</p>
-                    )}
+                    </form>
                   </div>
-                  <br />
-                  <form
-                    className="input-group mb-3"
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      if (answer) {
-                        sendAnswer(key, answer);
-                        setAnswer("");
-                      }
-                    }}
-                  >
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Sizing example input"
-                      placeholder="Type the answer here ..."
-                      aria-describedby="inputGroup-sizing-sm"
-                      style={{
-                        backgroundColor: "transparent",
-                        color: "white",
-                      }}
-                      onChange={(e) => {
-                        setAnswer(e.target.value);
-                      }}
-                    />
-                  </form>
+                  <hr />
                 </div>
-                <hr />
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          <div className="chatform">
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (formData) {
+                  sendQuestionToChannel(formData);
+                  setformData("");
+                }
+              }}
+            >
+              <input
+                type="text"
+                className="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Type the answer here ..."
+                style={{
+                  backgroundColor: "transparent",
+                  color: "white",
+                }}
+                onChange={(e) => {
+                  setformData(e.target.value);
+                }}
+                value={formData}
+              />
+            </form>
+          </div>
         </div>
         <div
           className="tab-pane fade"
@@ -122,31 +152,6 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
           Hello123
         </div>
       </div>
-
-      <form>
-        <input
-          type="text"
-          name="currentMessage"
-          id="currentMessage"
-          onChange={(e) => {
-            setformData(e.target.value);
-          }}
-          value={formData}
-          autoFocus
-        />
-        <button
-          type="submit"
-          onClick={(event) => {
-            event.preventDefault();
-            if (formData) {
-              sendQuestionToChannel(formData);
-              setformData("");
-            }
-          }}
-        >
-          Send
-        </button>
-      </form>
     </div>
   );
 };
