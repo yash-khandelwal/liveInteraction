@@ -34,14 +34,7 @@ const ChatApp = ({
         </button>
       </div>
       <div>
-        {convType === "Channel" && (
-          <ChatAll
-            messages={messages}
-            message={message}
-            setMessage={setMessage}
-            sendMessage={sendMessageToChannel}
-          />
-        )}
+        {convType === "Channel" && <p>check sidenav</p>}
         {convType === "Private" && (
           <ChatPrivate
             users={users}
