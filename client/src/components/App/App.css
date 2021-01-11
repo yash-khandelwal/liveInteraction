@@ -12,6 +12,10 @@
   border-radius: 1%;
 }
 
+.sidepanel-open {
+  width: 30rem;
+}
+
 .sidepanel a {
   font-size: 1.5rem;
   color: #818181;
