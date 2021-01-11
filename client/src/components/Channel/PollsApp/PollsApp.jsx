@@ -35,13 +35,16 @@ const PollsApp = ({socket, role, publishPoll, polls, createPoll, setCreatePoll, 
                     sendTestMessage();
                 }}
             >hello</button>
-            {pollIds.map(id => {
+            {[...polls.keys()].map(id => {
                 return <div key={id}>
                     <p>Question: {polls.get(id).question}</p>
                     {polls.get(id).options.map((option, index) => {
                         if(polls.get(id).voted === index){
                             return <li 
                                 key={index}
+                                style={{
+                                    cursor: 'pointer',
+                                }}
                                 onClick={() => {
                                     if(!polls.get(id).voted)
                                         sendVote(id, index);
@@ -53,6 +56,9 @@ const PollsApp = ({socket, role, publishPoll, polls, createPoll, setCreatePoll, 
                         }
                         return <li 
                                 key={index}
+                                style={{
+                                    cursor: 'pointer',
+                                }}
                                 onClick={() => {
                                     if(!polls.get(id).voted)
                                         sendVote(id, index);

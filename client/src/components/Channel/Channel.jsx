@@ -289,7 +289,6 @@ const Channel = ({location}) => {
                     setInteraction('Polls')
                 }}>Polls</button>
                 <button 
-                disabled
                 onClick={(e)=>{
                     setInteraction('QnA')
                 }}>QnA</button>
@@ -321,7 +320,7 @@ const Channel = ({location}) => {
                 sendVoteUpdate={sendVoteUpdate}
             />}
             {interaction === 'QnA' && <QnAApp
-                role={userData.role}
+                role='host'
                 question={question}
                 sendQuestionToChannel={sendQuestionToChannel}
                 sendAnswer={sendAnswer}
