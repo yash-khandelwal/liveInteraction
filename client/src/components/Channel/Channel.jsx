@@ -8,8 +8,6 @@ import PollsApp from "./PollsApp/PollsApp.jsx";
 import QnAApp from "./QnAApp/QnAApp.jsx";
 import StatSection from "./StatSection/StatSection.jsx";
 
-import "./Channel.css";
-
 let socket;
 let mp = new Map();
 
@@ -27,6 +25,7 @@ const Channel = ({ location }) => {
 
   //chat states
   const [channelChatMessages, setChannelChatMessages] = useState([]);
+  const [sidepannel, setSidepannel] = useState(false);
   const [channelChatMessage, setChannelChatMessage] = useState("");
   const [privateMessages, setPrivateMessages] = useState(new Map());
 
@@ -387,6 +386,419 @@ const Channel = ({ location }) => {
           sendAnswer={sendAnswer}
         />
       )}
+
+      <div>
+        <div
+          id="mySidepanel"
+          className={`sidepanel ${
+            sidepannel ? "sidepanel-open" : "sidepanel-closed"
+          }`}
+        >
+          <div>
+            <ul
+              className="nav nav-pills mb-3 text-center px-1 justify-content-around"
+              id="pills-tab"
+              role="tablist"
+            >
+              <li className="nav-item" role="presentation">
+                <a
+                  className="nav-link active"
+                  id="pills-home-tab"
+                  data-toggle="pill"
+                  href="#pills-home"
+                  role="tab"
+                  aria-controls="pills-home"
+                  aria-selected="true"
+                >
+                  <i className="far fa-comments" />
+                  Chat
+                </a>
+              </li>
+              <li className="nav-item" role="presentation">
+                <a
+                  className="nav-link"
+                  id="pills-profile-tab"
+                  data-toggle="pill"
+                  href="#pills-profile"
+                  role="tab"
+                  aria-controls="pills-profile"
+                  aria-selected="false"
+                >
+                  <i className="fas fa-poll" />
+                  Polls
+                </a>
+              </li>
+              <li className="nav-item" role="presentation">
+                <a
+                  className="nav-link"
+                  id="pills-contact-tab"
+                  data-toggle="pill"
+                  href="#pills-contact"
+                  role="tab"
+                  aria-controls="pills-contact"
+                  aria-selected="false"
+                >
+                  <i className="far fa-comment-alt" />
+                  Q&amp;A
+                </a>
+              </li>
+            </ul>
+            <div className="tab-content text-white" id="pills-tabContent">
+              <div
+                className="tab-pane fade show active"
+                id="pills-home"
+                role="tabpanel"
+                aria-labelledby="pills-home-tab"
+              >
+                <ul
+                  className="nav nav-pills mb-3 justify-content-center"
+                  id="pills-tab text-center"
+                  role="tablist"
+                >
+                  <li className="nav-item" role="presentation">
+                    <a
+                      className="nav-link active text-center"
+                      id="pills-public-tab"
+                      data-toggle="pill"
+                      href="#pills-public"
+                      role="tab"
+                      aria-controls="pills-public"
+                      aria-selected="true"
+                      style={{ width: "13rem" }}
+                    >
+                      Home
+                    </a>
+                  </li>
+                  <li className="nav-item" role="presentation">
+                    <a
+                      className="nav-link text-center"
+                      id="pills-private-tab"
+                      data-toggle="pill"
+                      href="#pills-private"
+                      role="tab"
+                      aria-controls="pills-private"
+                      aria-selected="false"
+                      style={{ width: "13rem" }}
+                    >
+                      Profile
+                    </a>
+                  </li>
+                </ul>
+                <div className="tab-content" id="pills-tabContent">
+                  <div
+                    className="tab-pane fade show active px-2"
+                    id="pills-public"
+                    role="tabpanel"
+                    aria-labelledby="pills-public-tab"
+                  >
+                    <div className=" chat-display ">
+                      <div className="public-chat px-2 mb-2  ">
+                        <div className="justify-content-between py-2">
+                          <span>Ujjwal</span>
+                          <span style={{ float: "right" }}>11:00</span>
+                        </div>
+                        <p>Hello. How are you today?</p>
+                      </div>
+                      <div className="public-chat px-2 mb-2">
+                        <div className="justify-content-between py-2">
+                          <span>Ujjwal</span>
+                          <span style={{ float: "right" }}>11:00</span>
+                        </div>
+                        <p>Hello. How are you today?</p>
+                      </div>
+                    </div>
+                    <div className="chatform">
+                      <form action>
+                        <input
+                          type="text"
+                          className="form-control "
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          placeholder="Type the answer here ..."
+                          style={{
+                            backgroundColor: "transparent",
+                            color: "white",
+                          }}
+                        />
+                      </form>
+                    </div>
+                  </div>
+                  <div
+                    className="tab-pane fade"
+                    id="pills-private"
+                    role="tabpanel"
+                    aria-labelledby="pills-private-tab"
+                  >
+                    Hello123
+                  </div>
+                </div>
+              </div>
+              <div
+                className="tab-pane fade px-2"
+                id="pills-profile"
+                role="tabpanel"
+                aria-labelledby="pills-profile-tab"
+              >
+                <br />
+                <br />
+                <div className="chat-container px-2 mb-2">
+                  <div className="justify-content-between py-2 mt-2">
+                    <span>Why is cryptocurrency expensive today ?</span>
+                  </div>
+                  <br />
+                  <div className="pl-3">
+                    <div className="form-check py-2">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="exampleRadios"
+                        id="exampleRadios1"
+                        defaultValue="option1"
+                        defaultChecked
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="exampleRadios1"
+                      >
+                        Default radio
+                        <span className="mr-4 votenumber"> 240 votes</span>
+                      </label>
+                    </div>
+                    <div className="form-check py-2">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="exampleRadios"
+                        id="exampleRadios2"
+                        defaultValue="option2"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="exampleRadios2"
+                      >
+                        Second default radio
+                        <span className="mr-4 votenumber"> 240 votes</span>
+                      </label>
+                    </div>
+                    <div className="form-check py-2">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="exampleRadios"
+                        id="exampleRadios3"
+                        defaultValue="option3"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="exampleRadios3"
+                      >
+                        Disabled radio
+                        <span className="mr-4 votenumber"> 240 votes</span>
+                      </label>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="justify-content-center">
+                    <p className="text-center">Show result</p>
+                  </div>
+                </div>
+                <div className="chat-container px-2 mb-2">
+                  <div className="justify-content-between py-2 mt-2">
+                    <span>Why is cryptocurrency expensive today ?</span>
+                  </div>
+                  <br />
+                  <div className="pl-3">
+                    <div className="form-check py-2">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="radio1"
+                        id="exampleRadios1"
+                        defaultValue="option1"
+                        defaultChecked
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="exampleRadios1"
+                      >
+                        Default radio
+                        <span className="mr-4 votenumber"> 240 votes</span>
+                      </label>
+                    </div>
+                    <div className="form-check py-2">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="radio1"
+                        id="exampleRadios2"
+                        defaultValue="option2"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="exampleRadios2"
+                      >
+                        Second default radio
+                        <span className="mr-4 votenumber"> 240 votes</span>
+                      </label>
+                    </div>
+                    <div className="form-check py-2">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="radio1"
+                        id="exampleRadios3"
+                        defaultValue="option3"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="exampleRadios3"
+                      >
+                        Disabled radio
+                        <span className="mr-4 votenumber"> 240 votes</span>
+                      </label>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="justify-content-center">
+                    <p className="text-center">Show result</p>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="tab-pane fade px-2"
+                id="pills-contact"
+                role="tabpanel"
+                aria-labelledby="pills-contact-tab"
+              >
+                <ul
+                  className="nav nav-pills mb-3 justify-content-center"
+                  id="pills-tab text-center"
+                  role="tablist"
+                >
+                  <li className="nav-item" role="presentation">
+                    <a
+                      className="nav-link active text-center"
+                      id="pills-public-tab"
+                      data-toggle="pill"
+                      href="#pills-answered"
+                      role="tab"
+                      aria-controls="pills-answered"
+                      aria-selected="true"
+                      style={{ width: "13rem" }}
+                    >
+                      Answered
+                    </a>
+                  </li>
+                  <li className="nav-item" role="presentation">
+                    <a
+                      className="nav-link text-center"
+                      id="pills-private-tab"
+                      data-toggle="pill"
+                      href="#not-asnwered"
+                      role="tab"
+                      aria-controls="not-asnwered"
+                      aria-selected="false"
+                      style={{ width: "13rem" }}
+                    >
+                      Unanswered
+                    </a>
+                  </li>
+                </ul>
+                <div className="tab-content" id="pills-tabContent">
+                  <div
+                    className="tab-pane fade show active px-2"
+                    id="pills-answered"
+                    role="tabpanel"
+                    aria-labelledby="pills-answered-tab"
+                  >
+                    <div className="chat-container px-2 mb-2">
+                      <div className="justify-content-between pt-2 mt-2">
+                        <span>Why is cryptocurrency expensive today ?</span>
+                        <p className="text-muted pl-1">By ujjwal at 2:00PM</p>
+                      </div>
+                      <div className="justify-content-between py-2">
+                        <span>25 Answers</span>
+                        <span style={{ float: "right" }}>
+                          <em
+                            className="fas fa-thumbs-up"
+                            style={{ fontSize: "small", width: "1rem" }}
+                          />
+                          25
+                        </span>
+                      </div>
+                      <br />
+                      <form className="input-group mb-3">
+                        <input
+                          type="text"
+                          className="form-control"
+                          aria-label="Sizing example input"
+                          placeholder="Type the answer here ..."
+                          aria-describedby="inputGroup-sizing-sm"
+                          style={{
+                            backgroundColor: "transparent",
+                            color: "white",
+                          }}
+                        />
+                      </form>
+                    </div>
+                    <div className="chat-container px-2 mb-2">
+                      <div className="justify-content-between pt-2 mt-2">
+                        <span>Why is cryptocurrency expensive today ?</span>
+                        <p className="text-muted pl-1">By ujjwal at 2:00PM</p>
+                      </div>
+                      <div className="justify-content-between py-2">
+                        <span>25 Answers</span>
+                        <span style={{ float: "right" }}>
+                          <em
+                            className="fas fa-thumbs-up"
+                            style={{ fontSize: "small", width: "1rem" }}
+                          />
+                          25
+                        </span>
+                      </div>
+                      <br />
+                      <form className="input-group mb-3">
+                        <input
+                          type="text"
+                          className="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          placeholder="Type the answer here ..."
+                          style={{
+                            backgroundColor: "transparent",
+                            color: "white",
+                          }}
+                        />
+                      </form>
+                    </div>
+                  </div>
+                  <div
+                    className="tab-pane fade"
+                    id="not-asnwered"
+                    role="tabpanel"
+                    aria-labelledby="not-asnwered-tab"
+                  >
+                    Hello123
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          className="openbtn"
+          onClick={(e) => {
+            setSidepannel(!sidepannel);
+          }}
+        >
+          ☰{" "}
+        </button>
+        <a href="#!" className="closebtn" onclick="closeNav()">
+          ×
+        </a>
+        <h2>Collapsed Sidepanel</h2>
+        <p>Click on the hamburger menu/bar icon to open the sidepanel.</p>
+      </div>
     </div>
   );
 };

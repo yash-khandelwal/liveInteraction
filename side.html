@@ -13,9 +13,9 @@
       crossorigin="anonymous"
     ></script>
     <style>
-      body {
+      /* body {
         font-family: "Lato", sans-serif;
-      }
+      } */
 
       .sidepanel {
         width: 0;
@@ -50,13 +50,6 @@
       .nav-link.active {
         background-color: #1c1c1c !important ;
       }
-      /* .sidepanel .closebtn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 36px;
-} */
-
       .openbtn {
         font-size: 20px;
         cursor: pointer;
@@ -86,6 +79,23 @@
       }
       input[type="text"]:focus {
         border: 1px solid #ffffff;
+      }
+      .public-chat {
+        border-bottom: 1px solid white;
+      }
+      .chatform {
+        position: absolute;
+        bottom: 10px;
+        width: 29rem;
+      }
+      .chat-display {
+        overflow-y: auto;
+        max-height: 34rem;
+      }
+
+      .votenumber {
+        position: absolute;
+        right: 0.5rem;
       }
     </style>
   </head>
@@ -184,20 +194,35 @@
               role="tabpanel"
               aria-labelledby="pills-public-tab"
             >
-              <div class="chat-container px-2 mb-2">
-                <div class="justify-content-between py-2">
-                  <span>Ujjwal</span>
-                  <span style="float: right">11:00</span>
+              <div class="chat-display">
+                <div class="public-chat px-2 mb-2">
+                  <div class="justify-content-between py-2">
+                    <span>Ujjwal</span>
+                    <span style="float: right">11:00</span>
+                  </div>
+                  <p>Hello. How are you today?</p>
                 </div>
-                <p>Hello. How are you today?</p>
+
+                <div class="public-chat px-2 mb-2">
+                  <div class="justify-content-between py-2">
+                    <span>Ujjwal</span>
+                    <span style="float: right">11:00</span>
+                  </div>
+                  <p>Hello. How are you today?</p>
+                </div>
               </div>
 
-              <div class="chat-container px-2 mb-2">
-                <div class="justify-content-between py-2">
-                  <span>Ujjwal</span>
-                  <span style="float: right">11:00</span>
-                </div>
-                <p>Hello. How are you today?</p>
+              <div class="chatform">
+                <form action="">
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-sm"
+                    placeholder="Type the answer here ..."
+                    style="background-color: transparent; color: white"
+                  />
+                </form>
               </div>
             </div>
             <div
@@ -224,38 +249,50 @@
               <span>Why is cryptocurrency expensive today ?</span>
             </div>
             <br />
+
             <div class="pl-3">
-              <div class="bg-transparent py-2">
-                <input type="radio" /> Yes
-                <span class="mr-4" style="float: right"> 240 votes</span>
-              </div>
-              <div class="py-2">
-                <input type="radio" /> don't wannna answer
-                <span class="mr-4" style="float: right; margin-right: 0.05rem">
-                  240 votes</span
-                >
-              </div>
-              <div class="py-2">
+              <div class="form-check py-2">
                 <input
+                  class="form-check-input"
                   type="radio"
-                  aria-label="Radio button for following text input"
+                  name="exampleRadios"
+                  id="exampleRadios1"
+                  value="option1"
+                  checked
                 />
-                No
-                <span class="mr-4" style="float: right; margin-right: 0.05rem">
-                  240 votes</span
-                >
+                <label class="form-check-label" for="exampleRadios1">
+                  Default radio
+                  <span class="mr-4 votenumber"> 240 votes</span>
+                </label>
               </div>
-              <div class="py-2">
+              <div class="form-check py-2">
                 <input
+                  class="form-check-input"
                   type="radio"
-                  aria-label="Radio button for following text input"
+                  name="exampleRadios"
+                  id="exampleRadios2"
+                  value="option2"
                 />
-                1 don't think so
-                <span class="mr-4" style="float: right; margin-right: 0.05rem">
-                  240 votes</span
-                >
+                <label class="form-check-label" for="exampleRadios2">
+                  Second default radio
+                  <span class="mr-4 votenumber"> 240 votes</span>
+                </label>
+              </div>
+              <div class="form-check py-2">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios3"
+                  value="option3"
+                />
+                <label class="form-check-label" for="exampleRadios3">
+                  Disabled radio
+                  <span class="mr-4 votenumber"> 240 votes</span>
+                </label>
               </div>
             </div>
+
             <br />
             <div class="justify-content-center">
               <p class="text-center">Show result</p>
@@ -267,38 +304,50 @@
               <span>Why is cryptocurrency expensive today ?</span>
             </div>
             <br />
+
             <div class="pl-3">
-              <div class="bg-transparent py-2">
-                <input type="radio" /> Yes
-                <span class="mr-4" style="float: right"> 240 votes</span>
-              </div>
-              <div class="py-2">
-                <input type="radio" /> don't wannna answer
-                <span class="mr-4" style="float: right; margin-right: 0.05rem">
-                  240 votes</span
-                >
-              </div>
-              <div class="py-2">
+              <div class="form-check py-2">
                 <input
+                  class="form-check-input"
                   type="radio"
-                  aria-label="Radio button for following text input"
+                  name="radio1"
+                  id="exampleRadios1"
+                  value="option1"
+                  checked
                 />
-                No
-                <span class="mr-4" style="float: right; margin-right: 0.05rem">
-                  240 votes</span
-                >
+                <label class="form-check-label" for="exampleRadios1">
+                  Default radio
+                  <span class="mr-4 votenumber"> 240 votes</span>
+                </label>
               </div>
-              <div class="py-2">
+              <div class="form-check py-2">
                 <input
+                  class="form-check-input"
                   type="radio"
-                  aria-label="Radio button for following text input"
+                  name="radio1"
+                  id="exampleRadios2"
+                  value="option2"
                 />
-                1 don't think so
-                <span class="mr-4" style="float: right; margin-right: 0.05rem">
-                  240 votes</span
-                >
+                <label class="form-check-label" for="exampleRadios2">
+                  Second default radio
+                  <span class="mr-4 votenumber"> 240 votes</span>
+                </label>
+              </div>
+              <div class="form-check py-2">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="radio1"
+                  id="exampleRadios3"
+                  value="option3"
+                />
+                <label class="form-check-label" for="exampleRadios3">
+                  Disabled radio
+                  <span class="mr-4 votenumber"> 240 votes</span>
+                </label>
               </div>
             </div>
+
             <br />
             <div class="justify-content-center">
               <p class="text-center">Show result</p>
@@ -385,10 +434,10 @@
                 <div class="justify-content-between py-2">
                   <span>25 Answers</span>
                   <span style="float: right">
-                    <i
+                    <em
                       class="fas fa-thumbs-up"
                       style="font-size: small; width: 1rem"
-                    ></i
+                    ></em
                     >25</span
                   >
                 </div>

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-import "./ChatPrivate.css";
-
 const ChatPrivate = ({
   users,
   sendMessage,

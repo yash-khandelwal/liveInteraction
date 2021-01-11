@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./ChatAll.css";
 const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
   return (
     <div className="channel-chat">

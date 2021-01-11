@@ -1,75 +1,36 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .sidepanel {
   width: 0;
   position: fixed;
   z-index: 1;
-  height: 250px;
-  top: 0;
-  left: 0;
+  height: 50rem;
+  top: 5rem;
+  right: 0;
   background-color: #111;
   overflow-x: hidden;
   transition: 0.5s;
-  padding-top: 60px;
+  padding-top: 0.5rem;
+  border-radius: 1%;
 }
 
 .sidepanel a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
+  font-size: 1.5rem;
   color: #818181;
   display: block;
   transition: 0.3s;
+  width: 9rem;
+}
+.sidepanel i {
+  font-size: 2rem;
+  width: 5rem;
 }
 
 .sidepanel a:hover {
   color: #f1f1f1;
 }
 
-.sidepanel .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
+.nav-link.active {
+  background-color: #1c1c1c !important ;
 }
-
 .openbtn {
   font-size: 20px;
   cursor: pointer;
@@ -81,4 +42,39 @@
 
 .openbtn:hover {
   background-color: #444;
+}
+
+/* Chat containers */
+.chat-container {
+  border: 0.05rem solid #dedede;
+  background-color: #1c1c1c;
+  border-radius: 0.5rem;
+  /* padding: 10px; */
+  /* margin: 10px 0; */
+}
+
+.time-right {
+  float: right;
+  top: 0;
+  color: #aaa;
+}
+input[type="text"]:focus {
+  border: 1px solid #ffffff;
+}
+.public-chat {
+  border-bottom: 1px solid white;
+}
+.chatform {
+  position: absolute;
+  bottom: 10px;
+  width: 29rem;
+}
+.chat-display {
+  overflow-y: auto;
+  max-height: 34rem;
+}
+
+.votenumber {
+  position: absolute;
+  right: 0.5rem;
 }
