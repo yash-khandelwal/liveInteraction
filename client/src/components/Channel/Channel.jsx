@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import ChatApp from "./ChatApp/ChatApp.jsx";
 import ChatAll from "./ChatAll";
-import PollsApp from "./PollsApp/PollsApp.jsx";
+import PollsApp from "./PollsApp.jsx";
 import QnAApp from "./QnAApp.jsx";
 import StatSection from "./StatSection.jsx";
 
@@ -362,23 +362,7 @@ const Channel = ({ location }) => {
           setPrivateMessages={setPrivateMessages}
         />
       )}
-      {interaction === "Polls" && (
-        <PollsApp
-          socket={socket}
-          role={true}
-          polls={polls}
-          publishPoll={sendPoll}
-          createPoll={createPoll}
-          setCreatePoll={setCreatePoll}
-          pollQuestion={pollQuestion}
-          setPollQuestion={setPollQuestion}
-          optionList={optionList}
-          setOptionList={setOptionList}
-          pollIds={pollIds}
-          sendVote={sendVote}
-          sendVoteUpdate={sendVoteUpdate}
-        />
-      )}
+      {interaction === "Polls" && <p> Check Side</p>}
       {interaction === "QnA" && <p>Check sidepannel</p>}
 
       <div>
@@ -460,7 +444,7 @@ const Channel = ({ location }) => {
                       aria-selected="true"
                       style={{ width: "13rem" }}
                     >
-                      Home
+                      Public
                     </a>
                   </li>
                   <li className="nav-item" role="presentation">
@@ -474,7 +458,7 @@ const Channel = ({ location }) => {
                       aria-selected="false"
                       style={{ width: "13rem" }}
                     >
-                      Profile
+                      Attendee
                     </a>
                   </li>
                 </ul>

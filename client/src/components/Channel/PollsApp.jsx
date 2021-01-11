@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "./PollsApp.css";
 
 const PollsApp = ({
   socket,
