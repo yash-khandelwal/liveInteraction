@@ -68,7 +68,7 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                         />
                         25
                       </span>
-                      {ques.answer.length > 0 ? (
+                      {ques.answer.length > 0 &&
                         ques.answer.map((ans) => {
                           return (
                             <div>
@@ -77,10 +77,7 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                               </p>
                             </div>
                           );
-                        })
-                      ) : (
-                        <p>No Answeres yet</p>
-                      )}
+                        })}
                     </div>
                     <br />
                     <form

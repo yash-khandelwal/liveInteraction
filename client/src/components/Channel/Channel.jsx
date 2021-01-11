@@ -4,10 +4,10 @@ import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 
 import ChatApp from "./ChatApp/ChatApp.jsx";
-import ChatAll from "./ChatApp/ChatAll/ChatAll";
+import ChatAll from "./ChatAll";
 import PollsApp from "./PollsApp/PollsApp.jsx";
-import QnAApp from "./QnAApp/QnAApp.jsx";
-import StatSection from "./StatSection/StatSection.jsx";
+import QnAApp from "./QnAApp.jsx";
+import StatSection from "./StatSection.jsx";
 
 let socket;
 let mp = new Map();
@@ -510,128 +510,22 @@ const Channel = ({ location }) => {
               >
                 <br />
                 <br />
-                <div className="chat-container px-2 mb-2">
-                  <div className="justify-content-between py-2 mt-2">
-                    <span>Why is cryptocurrency expensive today ?</span>
-                  </div>
-                  <br />
-                  <div className="pl-3">
-                    <div className="form-check py-2">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios1"
-                        defaultValue="option1"
-                        defaultChecked
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                      >
-                        Default radio
-                        <span className="mr-4 votenumber"> 240 votes</span>
-                      </label>
-                    </div>
-                    <div className="form-check py-2">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios2"
-                        defaultValue="option2"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios2"
-                      >
-                        Second default radio
-                        <span className="mr-4 votenumber"> 240 votes</span>
-                      </label>
-                    </div>
-                    <div className="form-check py-2">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="exampleRadios"
-                        id="exampleRadios3"
-                        defaultValue="option3"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios3"
-                      >
-                        Disabled radio
-                        <span className="mr-4 votenumber"> 240 votes</span>
-                      </label>
-                    </div>
-                  </div>
-                  <br />
-                  <div className="justify-content-center">
-                    <p className="text-center">Show result</p>
-                  </div>
-                </div>
-                <div className="chat-container px-2 mb-2">
-                  <div className="justify-content-between py-2 mt-2">
-                    <span>Why is cryptocurrency expensive today ?</span>
-                  </div>
-                  <br />
-                  <div className="pl-3">
-                    <div className="form-check py-2">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="radio1"
-                        id="exampleRadios1"
-                        defaultValue="option1"
-                        defaultChecked
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios1"
-                      >
-                        Default radio
-                        <span className="mr-4 votenumber"> 240 votes</span>
-                      </label>
-                    </div>
-                    <div className="form-check py-2">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="radio1"
-                        id="exampleRadios2"
-                        defaultValue="option2"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios2"
-                      >
-                        Second default radio
-                        <span className="mr-4 votenumber"> 240 votes</span>
-                      </label>
-                    </div>
-                    <div className="form-check py-2">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="radio1"
-                        id="exampleRadios3"
-                        defaultValue="option3"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="exampleRadios3"
-                      >
-                        Disabled radio
-                        <span className="mr-4 votenumber"> 240 votes</span>
-                      </label>
-                    </div>
-                  </div>
-                  <br />
-                  <div className="justify-content-center">
-                    <p className="text-center">Show result</p>
-                  </div>
-                </div>
+
+                <PollsApp
+                  socket={socket}
+                  role={true}
+                  polls={polls}
+                  publishPoll={sendPoll}
+                  createPoll={createPoll}
+                  setCreatePoll={setCreatePoll}
+                  pollQuestion={pollQuestion}
+                  setPollQuestion={setPollQuestion}
+                  optionList={optionList}
+                  setOptionList={setOptionList}
+                  pollIds={pollIds}
+                  sendVote={sendVote}
+                  sendVoteUpdate={sendVoteUpdate}
+                />
               </div>
               <div
                 className="tab-pane fade px-2"

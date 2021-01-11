@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ChatAll from "./ChatAll/ChatAll.jsx";
 import ChatPrivate from "./ChatPrivate/ChatPrivate.jsx";
 
 const ChatApp = ({

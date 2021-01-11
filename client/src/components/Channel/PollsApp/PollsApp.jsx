@@ -34,9 +34,11 @@ const PollsApp = ({
     );
   };
   useEffect(() => {
-    socket.on("testAck", (res) => {
-      console.log("got Response ", res);
-    });
+    if (socket) {
+      socket.on("testAck", (res) => {
+        console.log("got Response ", res);
+      });
+    }
   }, [socket]);
   const sendTestMessage = () => {
     socket.emit("test", "message from polls app!");
@@ -44,45 +46,43 @@ const PollsApp = ({
 
   return (
     <div>
-      <h1>PollsApp</h1>
-      <button
-        onClick={() => {
-          sendTestMessage();
-        }}
-      >
-        hello
-      </button>
       {pollIds.map((id) => {
         return (
-          <div key={id}>
-            <p>Question: {polls.get(id).question}</p>
-            {polls.get(id).options.map((option, index) => {
-              if (polls.get(id).voted === index) {
+          <div className="chat-container px-2 mb-2" key={id}>
+            <div className="justify-content-between py-2 mt-2">
+              <span>{polls.get(id).question} ?</span>
+            </div>
+            <br />
+            <div className="pl-3">
+              {polls.get(id).options.map((option, index) => {
                 return (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      if (!polls.get(id).voted) sendVote(id, index);
-                      else sendVoteUpdate(id, polls.get(id).voted, index);
-                    }}
-                    className="selected"
-                  >
-                    {option.option}
-                  </li>
+                  <div className="form-check py-2" key={index}>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="exampleRadios"
+                      id="exampleRadios1"
+                      defaultChecked={polls.get(id).voted === index}
+                      onClick={() => {
+                        if (!polls.get(id).voted) sendVote(id, index);
+                        else sendVoteUpdate(id, polls.get(id).voted, index);
+                      }}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="exampleRadios1"
+                    >
+                      {option.option}
+                      <span className="mr-4 votenumber"> 240 votes</span>
+                    </label>
+                  </div>
                 );
-              }
-              return (
-                <li
-                  key={index}
-                  onClick={() => {
-                    if (!polls.get(id).voted) sendVote(id, index);
-                    else sendVoteUpdate(id, polls.get(id).voted, index);
-                  }}
-                >
-                  {option.option}
-                </li>
-              );
-            })}
+              })}
+            </div>
+            <br />
+            <div className="justify-content-center">
+              <p className="text-center">Show result</p>
+            </div>
           </div>
         );
       })}
