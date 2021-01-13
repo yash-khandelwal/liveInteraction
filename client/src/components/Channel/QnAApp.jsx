@@ -80,7 +80,9 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                         })}
                     </div>
                     <br />
-                    <form
+                    {
+                      role && 
+                      <form
                       className="input-group mb-3"
                       onSubmit={(event) => {
                         event.preventDefault();
@@ -105,6 +107,8 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                         }}
                       />
                     </form>
+                    }
+                    
                   </div>
                   <hr />
                 </div>

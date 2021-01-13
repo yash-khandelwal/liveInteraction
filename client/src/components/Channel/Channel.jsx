@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
-import { v4 as uuidv4 } from "uuid";
 import axios from 'axios'
 
 import ChatApp from "./ChatApp/ChatApp.jsx";
