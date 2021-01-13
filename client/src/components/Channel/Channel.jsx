@@ -47,7 +47,7 @@ const Channel = ({ location }) => {
   };
 
   useEffect(() => {
-    const { username, displayname, channel, presenter , token } = queryString.parse(
+    const { username, displayname, channel, presenter , token , userId } = queryString.parse(
       location.search
     );
     console.log(token)
@@ -59,6 +59,7 @@ const Channel = ({ location }) => {
 
     console.log(username, displayname, channel, presenter);
     setuserData({
+      userId,
       userName: username,
       displayName: displayname,
       channelId: channel,
@@ -347,11 +348,43 @@ const Channel = ({ location }) => {
       console.log(error.message)
     }
   };
-  const likeQuestion = (index, answer) => {
+  const likeQuestion =async (index) => {
     const data = { index, id: userData.userName };
-    console.log(index, answer);
-    socket.emit("sendlikeQuestion", data, () => {});
+    try {
+      const res = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/qna/${index}/like`, data, axiosConfig)
+      console.log(res.data)
+      setQuestion((prevQues) => {
+        let ques = prevQues.get(data.index);
+        ques.likes.push({likedBy:res.data.message});
+        prevQues.set(data.index, ques);
+        return new Map(prevQues);
+      });
+
+      // socket.emit("sendLiketochannel", {...res.data , to:userData.channelId}, () => {});
+    } catch (error) {
+      console.log(error.message)
+    }
+    // socket.emit("sendlikeQuestion", data, () => {});
   };
+
+  const unlikeQuestion =async (index) => {
+    const data = { index, id: userData.userName };
+    try {
+      const res = await axios.delete(`http://localhost:5000/api/channelInteraction/${userData.channelId}/qna/${index}/like`, data, axiosConfig)
+      console.log(res.data)
+      // socket.emit("sendLiketochannel", {...res.data , to:userData.channelId}, () => {});
+      setQuestion((prevQues) => {
+        let ques = prevQues.get(data.index);
+        ques.likes.filter((like) => like.likedBy !== res.data.message );
+        prevQues.set(data.index, ques);
+        return new Map(prevQues);
+      });
+    } catch (error) {
+      console.log(error.message)
+    }
+    // socket.emit("sendlikeQuestion", data, () => {});
+  };
+
 
   return (
     <div>
@@ -557,9 +590,12 @@ const Channel = ({ location }) => {
               >
                 <QnAApp
                   role={userData.role}
+                  userId={userData.userId}
                   question={question}
                   sendQuestionToChannel={sendQuestionToChannel}
                   sendAnswer={sendAnswer}
+                  likeQuestion={likeQuestion}
+                  unlikeQuestion={unlikeQuestion}
                 />
               </div>
             </div>
