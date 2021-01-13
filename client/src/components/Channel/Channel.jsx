@@ -46,7 +46,7 @@ const Channel = ({ location }) => {
     },
   };
 
-  useEffect(() => {
+  useEffect(async() => {
     const { username, displayname, channel, presenter , token } = queryString.parse(
       location.search
     );
@@ -73,6 +73,15 @@ const Channel = ({ location }) => {
       }
     });
     console.log(socket);
+    const res =  await axios.get(`http://localhost:5000/api/channelInteraction/${channel}/qna/`)
+    const questionMap = new Map();
+    console.log(res.data);
+    res.data.map(ques => {
+        questionMap.set(ques.qna._id , ques.qna)
+    })
+    setQuestion(questionMap)
+
+
     socket.emit(
       "join",
       {
@@ -207,7 +216,7 @@ const Channel = ({ location }) => {
     socket.on("channelAnswer", (data) => {
       setQuestion((prevQues) => {
         let ques = prevQues.get(data.index);
-        ques.answers.push({answeredBy: data.answeredBy , answerText: data.answerText});
+        ques.answers.push({answer:{answeredBy: data.answeredBy , answerText: data.answerText}});
         prevQues.set(data.index, ques);
         return new Map(prevQues);
       });

@@ -73,7 +73,7 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                           return (
                             <div>
                               <p>
-                                {ans.answeredBy}: {ans.answerText}
+                                {ans.answer.answeredBy}: {ans.answer.answerText}
                               </p>
                             </div>
                           );
