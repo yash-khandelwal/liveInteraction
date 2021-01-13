@@ -62,7 +62,7 @@ const PollsApp = ({
                       name="exampleRadios"
                       id="exampleRadios1"
                       defaultChecked={polls.get(id).voted === index}
-                      onClick={() => {
+                      onChange={() => {
                         if (!polls.get(id).voted) sendVote(id, index);
                         else sendVoteUpdate(id, polls.get(id).voted, index);
                       }}

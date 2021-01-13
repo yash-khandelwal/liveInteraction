@@ -514,7 +514,6 @@ const Channel = ({ location }) => {
               >
                 <br />
                 <br />
-
                 <PollsApp
                   socket={socket}
                   role={true}
