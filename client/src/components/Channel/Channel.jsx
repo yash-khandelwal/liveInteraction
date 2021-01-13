@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
+import axios from 'axios'
 
 import ChatApp from "./ChatApp/ChatApp.jsx";
 import ChatAll from "./ChatAll";
@@ -39,10 +40,23 @@ const Channel = ({ location }) => {
   const [pollQuestion, setPollQuestion] = useState("");
   const [optionList, setOptionList] = useState([]);
 
+  const axiosConfig = {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  };
+
   useEffect(() => {
-    const { username, displayname, channel, presenter } = queryString.parse(
+    const { username, displayname, channel, presenter , token } = queryString.parse(
       location.search
     );
+    console.log(token)
+    if (token) {
+      axios.defaults.headers.common['x-auth'] = token;
+    } else {
+      delete axios.defaults.headers.common['x-auth'];
+    }
+
     console.log(username, displayname, channel, presenter);
     setuserData({
       userName: username,
@@ -185,7 +199,7 @@ const Channel = ({ location }) => {
     socket.on("channelQuestion", (data) => {
       // console.log(question)
       setQuestion((prevChatMessages) => {
-        prevChatMessages.set(data.id, data);
+        prevChatMessages.set(data._id, data);
         return new Map(prevChatMessages);
       });
     });
@@ -193,7 +207,7 @@ const Channel = ({ location }) => {
     socket.on("channelAnswer", (data) => {
       setQuestion((prevQues) => {
         let ques = prevQues.get(data.index);
-        ques.answer.push(data.answer);
+        ques.answers.push({answeredBy: data.answeredBy , answerText: data.answerText});
         prevQues.set(data.index, ques);
         return new Map(prevQues);
       });
@@ -293,27 +307,33 @@ const Channel = ({ location }) => {
     });
   };
 
-  const sendQuestionToChannel = (formData) => {
+  const sendQuestionToChannel = async (formData) => {
     const data = {
-      id: uuidv4(),
-      from: userData.userName,
-      fromDisplayName: userData.displayName,
-      to: userData.channelId,
-      question: formData,
-      answer: [],
-      likes: [],
+      publishedByUserId: userData.userName,
+      questionText: formData,
     };
-    socket.emit("sendQuestionToChannel", data, () => {});
+    
+    try {
+      const res = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/qna`, data, axiosConfig)
+      console.log(res.data)
+      socket.emit("sendQuestionToChannel", {...res.data , to:userData.channelId}, () => {});
+    } catch (error) {
+      console.log(error.message)
+    }
   };
-  const sendAnswer = (index, answer) => {
-    const ansobj = {
-      answer,
-      from: userData.userName,
-      display: userData.displayName,
+  const sendAnswer = async (index, answer) => {
+    const data = {
+      answerText:answer,
+      answeredBy: userData.userName,
     };
-    const data = { index, answer: ansobj, to: userData.channelId };
-    console.log(index, answer);
-    socket.emit("sendAnswerToChannel", data, () => {});
+
+    try {
+      const res = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/qna/${index}/answer`, data, axiosConfig)
+      socket.emit("sendAnswerToChannel", {...res.data , to:userData.channelId , index}, () => {});
+
+    } catch (error) {
+      console.log(error.message)
+    }
   };
   const likeQuestion = (index, answer) => {
     const data = { index, id: userData.userName };

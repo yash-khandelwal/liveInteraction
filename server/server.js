@@ -96,12 +96,12 @@ io.on("connect", (socket) => {
 
   // when user send question to the channel
   socket.on("sendQuestionToChannel", (data, callback) => {
-    const ques = questions.addQuestion(data);
-    io.to(data.to).emit("channelQuestion", ques);
+    // const ques = questions.addQuestion(data);
+    io.to(data.to).emit("channelQuestion", data);
     callback();
   });
   socket.on("sendAnswerToChannel", (data, callback) => {
-    questions.answerQuestion(data.index, data.answer);
+    // questions.answerQuestion(data.index, data.answer);
     io.to(data.to).emit("channelAnswer", data);
     console.log("fired");
     callback();
