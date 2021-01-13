@@ -8,6 +8,7 @@ import ChatAll from "./ChatAll";
 import PollsApp from "./PollsApp.jsx";
 import QnAApp from "./QnAApp.jsx";
 import StatSection from "./StatSection.jsx";
+import ChatPrivate from './PrivateChat'
 
 let socket;
 let mp = new Map();
@@ -45,7 +46,7 @@ const Channel = ({ location }) => {
     },
   };
 
-  useEffect(async() => {
+  useEffect(() => {
     const { username, displayname, channel, presenter , token } = queryString.parse(
       location.search
     );
@@ -71,15 +72,18 @@ const Channel = ({ location }) => {
         console.log("connected to backend");
       }
     });
-    console.log(socket);
-    const res =  await axios.get(`http://localhost:5000/api/channelInteraction/${channel}/qna/`)
-    const questionMap = new Map();
-    console.log(res.data);
-    res.data.map(ques => {
-        questionMap.set(ques.qna._id , ques.qna)
-    })
-    setQuestion(questionMap)
 
+    console.log(socket);
+    async function fetchData(){
+      const res =  await axios.get(`http://localhost:5000/api/channelInteraction/${channel}/qna/`)
+      const questionMap = new Map();
+      console.log(res.data);
+      res.data.map(ques => {
+          questionMap.set(ques.qna._id , ques.qna)
+      })
+      setQuestion(questionMap);
+    }
+    fetchData()
 
     socket.emit(
       "join",
@@ -510,7 +514,14 @@ const Channel = ({ location }) => {
                     role="tabpanel"
                     aria-labelledby="pills-private-tab"
                   >
-                    Hello123
+                              <ChatPrivate
+                              users={users}
+                              sendMessage={sendChatMessageToUser}
+                              privateMessages={privateMessages}
+                              userData={userData}
+                              setPrivateMessages={setPrivateMessages}
+                            />
+
                   </div>
                 </div>
               </div>
