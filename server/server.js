@@ -62,46 +62,40 @@ io.on("connect", (socket) => {
   });
   // when presenter publishes a poll to the channel
   socket.on("sendPoll", (data, callback) => {
-    const { user, question, options } = data;
-    const id = new Date().getTime().toString();
-    let newPoll = polls.addPoll({
-      id,
-      pollQuestion: {
-        id,
-        user,
-        question,
-        options: options.map((option) => {
-          return {
-            option: option,
-            votes: 0,
-          };
-        }),
-      },
-    });
+    const { _id, user, question, options, timestamp } = data;
+    let newPoll = {
+      _id,
+      user,
+      question,
+      timestamp,
+      options
+    }
     console.log(newPoll);
     io.to(user.channelId).emit("newPoll", newPoll);
   });
-  socket.on("vote", ({ id, optionNum }, callback) => {
-    console.log(id, optionNum);
-    polls.addVote({ id, optionNum });
-    console.log(polls.getPollResults({ id }));
+  socket.on("vote", ({ pollId, optionId, optionNum }, callback) => {
+    console.log("vote triggered!!");
+    console.log(pollId, optionId, optionNum);
+    // polls.addVote({ id, optionNum });
+    // console.log(polls.getPollResults({ id }));
     callback();
   });
   socket.on("voteUpdate", ({ id, prevOptionNum, newOptionNum }, callback) => {
+    console.log("voteupdate triggered!!");
     console.log(id, prevOptionNum, newOptionNum);
-    polls.updateVote({ id, prevOptionNum, newOptionNum });
-    console.log(polls.getPollResults({ id }));
+    // polls.updateVote({ id, prevOptionNum, newOptionNum });
+    // console.log(polls.getPollResults({ id }));
     callback();
   });
 
   // when user send question to the channel
   socket.on("sendQuestionToChannel", (data, callback) => {
-    const ques = questions.addQuestion(data);
-    io.to(data.to).emit("channelQuestion", ques);
+    // const ques = questions.addQuestion(data);
+    io.to(data.to).emit("channelQuestion", data);
     callback();
   });
   socket.on("sendAnswerToChannel", (data, callback) => {
-    questions.answerQuestion(data.index, data.answer);
+    // questions.answerQuestion(data.index, data.answer);
     io.to(data.to).emit("channelAnswer", data);
     console.log("fired");
     callback();

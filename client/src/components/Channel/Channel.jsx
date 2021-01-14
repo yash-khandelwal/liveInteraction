@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
-import { v4 as uuidv4 } from "uuid";
+import axios from 'axios'
 
 import ChatApp from "./ChatApp/ChatApp.jsx";
 import ChatAll from "./ChatAll";
@@ -32,6 +32,7 @@ const Channel = ({ location }) => {
 
   //question states
   const [question, setQuestion] = useState(new Map());
+
   // poll states
   const [polls, setPolls] = useState(new Map());
   const [pollIds, setPollIds] = useState([]);
@@ -39,10 +40,23 @@ const Channel = ({ location }) => {
   const [pollQuestion, setPollQuestion] = useState("");
   const [optionList, setOptionList] = useState([]);
 
+  const axiosConfig = {
+    headers: {
+      'Content-type': 'application/json',
+    },
+  };
+
   useEffect(() => {
-    const { username, displayname, channel, presenter } = queryString.parse(
+    const { username, displayname, channel, presenter , token } = queryString.parse(
       location.search
     );
+    console.log(token)
+    if (token) {
+      axios.defaults.headers.common['x-auth'] = token;
+    } else {
+      delete axios.defaults.headers.common['x-auth'];
+    }
+
     console.log(username, displayname, channel, presenter);
     setuserData({
       userName: username,
@@ -65,7 +79,7 @@ const Channel = ({ location }) => {
         userName: username,
         displayName: displayname,
         channel: channel,
-        role: presenter === "host",
+        role: presenter,
       },
       (err) => {
         if (err) {
@@ -176,16 +190,16 @@ const Channel = ({ location }) => {
     socket.on("newPoll", (data) => {
       console.log("poll aya aya aya aya");
       setPolls((prevPolls) => {
-        prevPolls.set(data.id, { ...data, voted: false });
-        console.log(prevPolls.get(data.id));
+        prevPolls.set(data._id, { ...data, voted: false });
+        console.log(prevPolls.get(data._id));
         return new Map(prevPolls);
       });
-      setPollIds((prev) => [...prev, data.id]);
+      setPollIds((prev) => [...prev, data._id]);
     });
     socket.on("channelQuestion", (data) => {
       // console.log(question)
       setQuestion((prevChatMessages) => {
-        prevChatMessages.set(data.id, data);
+        prevChatMessages.set(data._id, data);
         return new Map(prevChatMessages);
       });
     });
@@ -193,7 +207,7 @@ const Channel = ({ location }) => {
     socket.on("channelAnswer", (data) => {
       setQuestion((prevQues) => {
         let ques = prevQues.get(data.index);
-        ques.answer.push(data.answer);
+        ques.answers.push({answeredBy: data.answeredBy , answerText: data.answerText});
         prevQues.set(data.index, ques);
         return new Map(prevQues);
       });
@@ -258,62 +272,136 @@ const Channel = ({ location }) => {
     });
   };
 
-  const sendPoll = (pollData) => {
+  const sendPoll = async (pollData) => {
     // console.log(pollData);
-    socket.emit(
-      "sendPoll",
-      {
-        user: userData,
-        question: pollData.pollQuestion,
-        options: pollData.optionList,
-      },
-      () => {
-        console.log("poll publish success");
+    let data = {
+      questionText: pollData.pollQuestion
+    };
+    try{
+      const pollQuestionRes = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/poll`, data, axiosConfig);
+      console.log(pollQuestionRes.data);
+      const options = [];
+      for(let i = 0; i < pollData.optionList.length; i++){
+        data = {
+          num: i,
+          text: pollData.optionList[i]
+        };
+        const pollOptionRes = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/poll/${pollQuestionRes.data._id}/option`, data, axiosConfig);
+        console.log(pollOptionRes.data);
+        options.push({
+          num: pollOptionRes.data.num, 
+          text: pollOptionRes.data.text,
+          votes: pollOptionRes.data.votes.length,
+          _id: pollOptionRes.data._id
+        });
       }
-    );
+      console.log(options);
+      socket.emit(
+        "sendPoll",
+        {
+          _id: pollQuestionRes.data._id,
+          user: userData,
+          question: pollQuestionRes.data.questionText,
+          timestamp: pollQuestionRes.data.timestamp,
+          options: options,
+        },
+        () => {
+          console.log("poll publish success");
+        }
+      );
+    }catch(err){
+      console.log(err);
+    }
   };
-  const sendVote = (id, optionNum) => {
-    socket.emit("vote", { id, optionNum }, () => {
-      setPolls((prev) => {
-        prev.get(id).voted = optionNum;
-        console.log(prev.get(id));
-        return new Map(prev);
-      });
-    });
+  const sendVote = async (pollId, optionId, optionNum) => {
+    try{
+      const pollOptionVoteRes = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/poll/${pollId}/option/${optionId}`, {}, axiosConfig);
+      console.log(pollOptionVoteRes);
+      if(pollOptionVoteRes.data.message === 'successful'){
+        // vote successfull
+        socket.emit("vote", { pollId, optionId,optionNum }, () => {
+          setPolls((prev) => {
+            prev.get(pollId).voted = optionNum;
+            console.log(prev.get(pollId));
+            return new Map(prev);
+          });
+        });
+      } else if(pollOptionVoteRes.data.message === 'already voted'){
+        // voted already
+        console.log("already voted dude what do you want??? you intentions are suspicious... XD");
+      }
+    }catch(err){
+      console.log(err.message);
+    }
   };
 
-  const sendVoteUpdate = (id, prevOptionNum, newOptionNum) => {
-    console.log("sendVoteUpdate triggered");
-    socket.emit("voteUpdate", { id, prevOptionNum, newOptionNum }, () => {
-      setPolls((prev) => {
-        prev.get(id).voted = newOptionNum;
-        console.log(prev.get(id));
-        return new Map(prev);
+  // const sendVoteUpdate = (id, prevOptionNum, newOptionNum) => {
+  //   console.log("sendVoteUpdate triggered");
+  //   socket.emit("voteUpdate", { id, prevOptionNum, newOptionNum }, () => {
+  //     setPolls((prev) => {
+  //       prev.get(id).voted = newOptionNum;
+  //       console.log(prev.get(id));
+  //       return new Map(prev);
+  //     });
+  //   });
+  // };
+
+  const sendVoteUpdate = async ({pollId, prevOptionId, prevOptionNum, newOptionId, newOptionNum}) => {
+    try{
+      console.log({pollId, prevOptionId, prevOptionNum, newOptionId, newOptionNum});
+      const pollOptionUnvoteRes = await axios.delete(`http://localhost:5000/api/channelInteraction/${userData.channelId}/poll/${pollId}/option/${prevOptionId}`, {}, axiosConfig);
+      console.log(pollOptionUnvoteRes);
+      const pollOptionVoteRes = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/poll/${pollId}/option/${newOptionId}`, {}, axiosConfig);
+      console.log(pollOptionVoteRes);
+      if(pollOptionVoteRes.data.message === 'successful'){
+        // vote successfull
+        socket.emit("voteUpdate", { id: pollId, prevOptionNum, newOptionNum }, () => {
+          setPolls((prev) => {
+            prev.get(pollId).voted = newOptionNum;
+            console.log(prev.get(pollId));
+            return new Map(prev);
+          });
       });
-    });
+      } else if(pollOptionVoteRes.data.message === 'not voted'){
+        // voted already
+        console.log("already voted dude what do you want??? you intentions are suspicious... XD");
+      } else{
+        console.log(pollOptionUnvoteRes.data);
+        console.log(pollOptionVoteRes.data);
+        console.log('other cases!');
+      }
+    }catch(err){
+      console.log(err.message);
+    }
   };
 
-  const sendQuestionToChannel = (formData) => {
+  const sendQuestionToChannel = async (formData) => {
     const data = {
-      id: uuidv4(),
-      from: userData.userName,
-      fromDisplayName: userData.displayName,
-      to: userData.channelId,
-      question: formData,
-      answer: [],
-      likes: [],
+      publishedByUserId: userData.userName,
+      questionText: formData,
     };
-    socket.emit("sendQuestionToChannel", data, () => {});
+    
+    try {
+      const res = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/qna`, data, axiosConfig)
+      console.log(res.data)
+      socket.emit("sendQuestionToChannel", {...res.data , to:userData.channelId}, () => {});
+    } catch (error) {
+      console.log(error.message)
+    }
   };
-  const sendAnswer = (index, answer) => {
-    const ansobj = {
-      answer,
-      from: userData.userName,
-      display: userData.displayName,
+  const sendAnswer = async (index, answer) => {
+    const data = {
+      answerText:answer,
+      answeredBy: userData.userName,
     };
-    const data = { index, answer: ansobj, to: userData.channelId };
-    console.log(index, answer);
-    socket.emit("sendAnswerToChannel", data, () => {});
+
+    try {
+      const res = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/qna/${index}/answer`, data, axiosConfig)
+      socket.emit("sendAnswerToChannel", {...res.data , to:userData.channelId , index}, () => {});
+
+    } catch (error) {
+      console.log(error.message)
+    }
   };
   const likeQuestion = (index, answer) => {
     const data = { index, id: userData.userName };
@@ -496,7 +584,7 @@ const Channel = ({ location }) => {
                 <br />
                 <PollsApp
                   socket={socket}
-                  role={true}
+                  role={userData.role}
                   polls={polls}
                   publishPoll={sendPoll}
                   createPoll={createPoll}
@@ -534,9 +622,9 @@ const Channel = ({ location }) => {
         >
           ☰{" "}
         </button>
-        <a href="#!" className="closebtn" onclick="closeNav()">
+        {/* <a href="#!" className="closebtn" onClick="closeNav()">
           ×
-        </a>
+        </a> */}
         <h2>Collapsed Sidepanel</h2>
         <p>Click on the hamburger menu/bar icon to open the sidepanel.</p>
       </div>

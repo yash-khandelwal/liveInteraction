@@ -7,6 +7,8 @@ const JoinForm = () => {
   const [userName, setUserName] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [channel, setChannel] = useState("");
+  const [presenter, setPresenter] = useState("");
+  const [token, setToken] = useState("");
   return (
     <div>
       <h1>Join Credentials</h1>
@@ -37,6 +39,24 @@ const JoinForm = () => {
         }}
         placeholder="channel"
       />
+      <input
+        type="text"
+        name="presenter"
+        id="presenter"
+        onChange={(e) => {
+          setPresenter(e.target.value);
+        }}
+        placeholder="role"
+      />
+      <input
+        type="text"
+        name="token"
+        id="token"
+        onChange={(e) => {
+          setToken(e.target.value);
+        }}
+        placeholder="token"
+      />
       {/* <input type="radio" id="presenter" name="role" value="presenter"/>
             <label for="presenter">presenter</label>
             <input type="radio" id="audience" name="role" value="audience"/>
@@ -53,7 +73,11 @@ const JoinForm = () => {
           "&displayname=" +
           displayName +
           "&channel=" +
-          channel
+          channel +
+          "&presenter=" + 
+          presenter + 
+          "&token=" + 
+          token
         }
       >
         <button type="submit">Join Channel</button>

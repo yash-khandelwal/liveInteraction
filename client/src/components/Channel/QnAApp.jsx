@@ -54,13 +54,13 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                 <div key={key}>
                   <div className="chat-container px-2 mb-2">
                     <div className="justify-content-between pt-2 mt-2">
-                      <span>{ques.question} ?</span>
+                      <span>{ques.questionText} ?</span>
                       <p className="text-muted pl-1">
-                        By {ques.from} at 2:00PM
+                        By {ques.publishedByUserId} at 2:00PM
                       </p>
                     </div>
                     <div className="justify-content-between py-2">
-                      <span>{ques.answer.length} Answers</span>
+                      <span>{ques.answers.length} Answers</span>
                       <span style={{ float: "right" }}>
                         <em
                           className="fas fa-thumbs-up"
@@ -68,12 +68,12 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                         />
                         25
                       </span>
-                      {ques.answer.length > 0 &&
-                        ques.answer.map((ans) => {
+                      {ques.answers.length > 0 &&
+                        ques.answers.map((ans) => {
                           return (
                             <div>
                               <p>
-                                {ans.from}: {ans.answer}
+                                {ans.answeredBy}: {ans.answerText}
                               </p>
                             </div>
                           );
