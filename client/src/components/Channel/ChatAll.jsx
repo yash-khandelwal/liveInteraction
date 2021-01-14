@@ -26,10 +26,10 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
         <div ref={messagesEndRef} />
       </div>
       <div className="chatform">
-        <form>
+        <form className="row">
           <input
             type="text"
-            className="form-control "
+            className="form-control col-sm-10 ml-4"
             aria-label="Sizing example input"
             aria-describedby="inputGroup-sizing-sm"
             placeholder="Type the answer here ..."
@@ -44,13 +44,19 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
           />
           <button
             type="submit"
+            className="btn text-white "
+
             onClick={(event) => {
               event.preventDefault();
               if (message) {
                 sendMessage();
               }
             }}
-          ></button>
+          ><i class="fa fa-paper-plane" aria-hidden="true"             style={{
+            fontSize: '1.5rem',
+            width:" 1.5rem ",
+            color: "white",
+          }}></i></button>
         </form>
       </div>
     </div>
