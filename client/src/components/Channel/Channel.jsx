@@ -82,6 +82,7 @@ const Channel = ({ location }) => {
       console.log(res.data);
       res.data.map(ques => {
           questionMap.set(ques.qna._id , ques.qna)
+          return null;
       })
       setQuestion(questionMap);
     }
@@ -106,7 +107,6 @@ const Channel = ({ location }) => {
   useEffect(() => {
     socket.on("newConnect", (data) => {
       mp.set(data.user.id, data.user.userName);
-      setUsers((prevUsers) => [...prevUsers, data.user]);
       setPrivateMessages(
         (prev) =>
           new Map([
@@ -114,6 +114,7 @@ const Channel = ({ location }) => {
             [data.user.userName, { active: true, messages: [], unread: 0 }],
           ])
       );
+      setUsers((prevUsers) => [...prevUsers, data.user]);
       // console.log(mp);
     });
     socket.on("userDisconnect", (userId) => {
