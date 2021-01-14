@@ -86,7 +86,7 @@ const Channel = ({ location }) => {
       })
       setQuestion(questionMap);
     }
-    // fetchData()
+    fetchData()
     async function fetchPolls(){
       const allPollsRes = await axios.get(`http://localhost:5000/api/channelInteraction/${channel}/poll/`);
       console.log(allPollsRes.data);
