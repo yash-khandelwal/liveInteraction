@@ -20,6 +20,22 @@ const ChatPrivate = ({
       <div className="channel-chat">
       {/* <p>ChatAll</p> */}
 
+          <div className="chat-container px-2 mb-2">
+            <div className="justify-content-center">
+              <h5 className="text-center">
+                 <i className="far fa-times-circle" 
+                 style={{width: '1rem', fontSize: '1rem' , cursor:'pointer'}} 
+                 onClick={(e)=>{
+                  setChating(null)
+                }
+                 }
+                 /> 
+                 {chating.userName}</h5>
+              <p className="text-center text-muted">A web Developer and Devops Engineer</p>
+            </div>
+          </div>
+
+
       <div className=" chat-display ">
         {privateMessages.get(chating.userName).messages &&
             privateMessages
