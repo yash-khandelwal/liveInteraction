@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect, useRef} from "react";
 
 const ChatPrivate = ({
   users,
@@ -9,6 +9,20 @@ const ChatPrivate = ({
 }) => {
   const [message, setMessage] = useState("");
   const [chating, setChating] = useState(null);
+
+  const messagesEndReference = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndReference.current.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(()=>{
+    if(chating)
+    {
+      scrollToBottom()
+    }
+  }, [privateMessages]);
+
+
+
   return (
     <div className="private-chat">
 
@@ -51,6 +65,8 @@ const ChatPrivate = ({
             </div>
           );
         })}
+        <div ref={messagesEndReference} />
+
       </div>
       <div className="chatform">
         <form>

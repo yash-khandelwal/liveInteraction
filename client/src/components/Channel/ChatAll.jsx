@@ -1,6 +1,12 @@
-import React from "react";
+import React ,{ useEffect, useRef} from "react";
 
 const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(scrollToBottom, [messages]);
+
   return (
     <div className="channel-chat">
       {/* <p>ChatAll</p> */}
@@ -17,6 +23,7 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
             </div>
           );
         })}
+        <div ref={messagesEndRef} />
       </div>
       <div className="chatform">
         <form>
