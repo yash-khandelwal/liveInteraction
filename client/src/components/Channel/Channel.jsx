@@ -86,7 +86,7 @@ const Channel = ({ location }) => {
       })
       setQuestion(questionMap);
     }
-    // fetchData()
+    fetchData()
 
     socket.emit(
       "join",
