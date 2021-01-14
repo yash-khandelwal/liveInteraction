@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect, useRef} from "react";
 
 const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer , unlikeQuestion , likeQuestion , userId  }) => {
   const [formData, setformData] = useState("");
   const [answer, setAnswer] = useState("");
+
+  const messagesEndReference = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndReference.current.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(()=>{
+
+      scrollToBottom()
+    
+  }, [question]);
 
   return (
     <div>
@@ -122,10 +132,13 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer , unlikeQues
                 </div>
               );
             })}
+              <div ref={messagesEndReference} />
+
           </div>
 
           <div className="chatform">
             <form
+            className="row"
               onSubmit={(event) => {
                 event.preventDefault();
                 if (formData) {
@@ -136,7 +149,7 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer , unlikeQues
             >
               <input
                 type="text"
-                className="form-control"
+                className="form-control col-sm-11 ml-2"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
                 placeholder="Type the answer here ..."
