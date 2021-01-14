@@ -54,11 +54,9 @@ const PollsApp = ({
             <br />
             <div className="pl-3">
               {polls.get(_id).options.map((option, index) => {
-                if(polls.get(_id).voted === index){
-                return (
-                  <div 
-                      key={option._id}
-                      >
+                if (polls.get(_id).voted === index) {
+                  return (
+                    <div key={option._id}>
                       <p
                         style={{
                           border: "1px solid black",
@@ -66,34 +64,39 @@ const PollsApp = ({
                           paddingLeft: "10px",
                           padding: "10px",
                           cursor: "pointer",
-                          color:"black",
+                          color: "black",
                           backgroundColor: "#818181",
                         }}
                         onClick={() => {
-                          if (polls.get(_id).voted !== index) sendVote(_id, option._id, index);
+                          if (polls.get(_id).voted !== index)
+                            sendVote(_id, option._id, index);
                           // else sendVoteUpdate({
-                          //   pollId: _id, 
-                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id, 
-                          //   prevOptionNum: polls.get(_id).voted, 
-                          //   newOptionId: option._id, 
+                          //   pollId: _id,
+                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id,
+                          //   prevOptionNum: polls.get(_id).voted,
+                          //   newOptionId: option._id,
                           //   newOptionNum: index
                           //   });
                         }}
-                      ><span style={{
-                        borderRight: "1px solid black",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                        marginRight: "10px",
-                      }}>{index+1} </span>{option.text}
+                      >
+                        <span
+                          style={{
+                            borderRight: "1px solid black",
+                            paddingLeft: "5px",
+                            paddingRight: "5px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          {index + 1}{" "}
+                        </span>
+                        {option.text}
                         <span className="mr-4 votenumber"> 240 votes</span>
                       </p>
                     </div>
-                );
+                  );
                 } else {
                   return (
-                  <div 
-                      key={option._id}
-                      >
+                    <div key={option._id}>
                       <p
                         style={{
                           border: "1px solid #818181",
@@ -103,25 +106,32 @@ const PollsApp = ({
                           cursor: "pointer",
                         }}
                         onClick={() => {
-                        if (polls.get(_id).voted !== index) sendVote(_id, option._id, index);
-                        // else sendVoteUpdate({
-                        //   pollId: _id, 
-                        //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id, 
-                        //   prevOptionNum: polls.get(_id).voted, 
-                        //   newOptionId: option._id, 
-                        //   newOptionNum: index
-                        //   });
-                      }}
-                      ><span style={{
-                        borderRight: "1px solid #818181",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                        marginRight: "10px",
-                      }}>{index+1} </span>{option.text}
+                          if (polls.get(_id).voted !== index)
+                            sendVote(_id, option._id, index);
+                          // else sendVoteUpdate({
+                          //   pollId: _id,
+                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id,
+                          //   prevOptionNum: polls.get(_id).voted,
+                          //   newOptionId: option._id,
+                          //   newOptionNum: index
+                          //   });
+                        }}
+                      >
+                        <span
+                          style={{
+                            borderRight: "1px solid #818181",
+                            paddingLeft: "5px",
+                            paddingRight: "5px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          {index + 1}{" "}
+                        </span>
+                        {option.text}
                         <span className="mr-4 votenumber"> 240 votes</span>
                       </p>
                     </div>
-                );
+                  );
                 }
               })}
             </div>

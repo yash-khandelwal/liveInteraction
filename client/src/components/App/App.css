@@ -123,15 +123,15 @@ input[type="text"]:focus {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #000; 
+  background: #000;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #818181; 
+  background: #818181;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #eee; 
+  background: #eee;
 }

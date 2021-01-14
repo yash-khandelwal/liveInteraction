@@ -1,4 +1,4 @@
-import React ,{ useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 
 const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
   const messagesEndRef = useRef(null);
@@ -45,18 +45,23 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
           <button
             type="submit"
             className="btn text-white "
-
             onClick={(event) => {
               event.preventDefault();
               if (message) {
                 sendMessage();
               }
             }}
-          ><i class="fa fa-paper-plane" aria-hidden="true"             style={{
-            fontSize: '1.5rem',
-            width:" 1.5rem ",
-            color: "white",
-          }}></i></button>
+          >
+            <i
+              class="fa fa-paper-plane"
+              aria-hidden="true"
+              style={{
+                fontSize: "1.5rem",
+                width: " 1.5rem ",
+                color: "white",
+              }}
+            ></i>
+          </button>
         </form>
       </div>
     </div>

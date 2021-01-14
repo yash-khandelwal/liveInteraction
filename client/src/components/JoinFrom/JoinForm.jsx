@@ -74,9 +74,9 @@ const JoinForm = () => {
           displayName +
           "&channel=" +
           channel +
-          "&presenter=" + 
-          presenter + 
-          "&token=" + 
+          "&presenter=" +
+          presenter +
+          "&token=" +
           token
         }
       >

@@ -1,6 +1,14 @@
-import React, { useState ,useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer , unlikeQuestion , likeQuestion , userId  }) => {
+const QnAApp = ({
+  role,
+  question,
+  sendQuestionToChannel,
+  sendAnswer,
+  unlikeQuestion,
+  likeQuestion,
+  userId,
+}) => {
   const [formData, setformData] = useState("");
   const [answer, setAnswer] = useState("");
 
@@ -8,10 +16,8 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer , unlikeQues
   const scrollToBottom = () => {
     messagesEndReference.current.scrollIntoView({ behavior: "smooth" });
   };
-  useEffect(()=>{
-
-      scrollToBottom()
-    
+  useEffect(() => {
+    scrollToBottom();
   }, [question]);
 
   return (
@@ -71,14 +77,14 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer , unlikeQues
                     </div>
                     <div className="justify-content-between py-2">
                       <span>{ques.answers.length} Answers</span>
-                      <span style={{ float: "right" , cursor:"pointer" }}
-                      
-                      onClick={
-                        (e)=>{
-                          ques.likes.find(like => like.likedBy === userId ) !== -1 ? (likeQuestion(key)) : (unlikeQuestion(key)); 
-                        }
-                      }
-                      
+                      <span
+                        style={{ float: "right", cursor: "pointer" }}
+                        onClick={(e) => {
+                          ques.likes.find((like) => like.likedBy === userId) !==
+                          -1
+                            ? likeQuestion(key)
+                            : unlikeQuestion(key);
+                        }}
                       >
                         <em
                           className="fas fa-thumbs-up"
@@ -98,47 +104,44 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer , unlikeQues
                         })}
                     </div>
                     <br />
-                    {
-                      role && 
+                    {role && (
                       <form
-                      className="input-group mb-3"
-                      onSubmit={(event) => {
-                        event.preventDefault();
-                        if (answer) {
-                          sendAnswer(key, answer);
-                          setAnswer("");
-                        }
-                      }}
-                    >
-                      <input
-                        type="text"
-                        className="form-control"
-                        aria-label="Sizing example input"
-                        placeholder="Type the answer here ..."
-                        aria-describedby="inputGroup-sizing-sm"
-                        style={{
-                          backgroundColor: "transparent",
-                          color: "white",
+                        className="input-group mb-3"
+                        onSubmit={(event) => {
+                          event.preventDefault();
+                          if (answer) {
+                            sendAnswer(key, answer);
+                            setAnswer("");
+                          }
                         }}
-                        onChange={(e) => {
-                          setAnswer(e.target.value);
-                        }}
-                      />
-                    </form>
-                    }
-                    
+                      >
+                        <input
+                          type="text"
+                          className="form-control"
+                          aria-label="Sizing example input"
+                          placeholder="Type the answer here ..."
+                          aria-describedby="inputGroup-sizing-sm"
+                          style={{
+                            backgroundColor: "transparent",
+                            color: "white",
+                          }}
+                          onChange={(e) => {
+                            setAnswer(e.target.value);
+                          }}
+                        />
+                      </form>
+                    )}
                   </div>
                   <hr />
                 </div>
               );
             })}
-              <div ref={messagesEndReference} />
-
+            <div ref={messagesEndReference} />
           </div>
 
           <div className="chatform">
             <form
-            className="row"
+              className="row"
               onSubmit={(event) => {
                 event.preventDefault();
                 if (formData) {
