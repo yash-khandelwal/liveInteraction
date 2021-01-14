@@ -8,6 +8,7 @@ import ChatAll from "./ChatAll";
 import PollsApp from "./PollsApp.jsx";
 import QnAApp from "./QnAApp.jsx";
 import StatSection from "./StatSection.jsx";
+import ChatPrivate from './PrivateChat'
 
 let socket;
 let mp = new Map();
@@ -47,7 +48,7 @@ const Channel = ({ location }) => {
   };
 
   useEffect(() => {
-    const { username, displayname, channel, presenter , token } = queryString.parse(
+    const { username, displayname, channel, presenter , token , userId } = queryString.parse(
       location.search
     );
     console.log(token)
@@ -59,6 +60,7 @@ const Channel = ({ location }) => {
 
     console.log(username, displayname, channel, presenter);
     setuserData({
+      userId,
       userName: username,
       displayName: displayname,
       channelId: channel,
@@ -72,7 +74,19 @@ const Channel = ({ location }) => {
         console.log("connected to backend");
       }
     });
+
     console.log(socket);
+    async function fetchData(){
+      const res =  await axios.get(`http://localhost:5000/api/channelInteraction/${channel}/qna/`)
+      const questionMap = new Map();
+      console.log(res.data);
+      res.data.map(ques => {
+          questionMap.set(ques.qna._id , ques.qna)
+      })
+      setQuestion(questionMap);
+    }
+    fetchData()
+
     socket.emit(
       "join",
       {
@@ -207,7 +221,7 @@ const Channel = ({ location }) => {
     socket.on("channelAnswer", (data) => {
       setQuestion((prevQues) => {
         let ques = prevQues.get(data.index);
-        ques.answers.push({answeredBy: data.answeredBy , answerText: data.answerText});
+        ques.answers.push({answer:{answeredBy: data.answeredBy , answerText: data.answerText}});
         prevQues.set(data.index, ques);
         return new Map(prevQues);
       });
@@ -403,11 +417,43 @@ const Channel = ({ location }) => {
       console.log(error.message)
     }
   };
-  const likeQuestion = (index, answer) => {
+  const likeQuestion =async (index) => {
     const data = { index, id: userData.userName };
-    console.log(index, answer);
-    socket.emit("sendlikeQuestion", data, () => {});
+    try {
+      const res = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/qna/${index}/like`, data, axiosConfig)
+      console.log(res.data)
+      setQuestion((prevQues) => {
+        let ques = prevQues.get(data.index);
+        ques.likes.push({likedBy:res.data.message});
+        prevQues.set(data.index, ques);
+        return new Map(prevQues);
+      });
+
+      // socket.emit("sendLiketochannel", {...res.data , to:userData.channelId}, () => {});
+    } catch (error) {
+      console.log(error.message)
+    }
+    // socket.emit("sendlikeQuestion", data, () => {});
   };
+
+  const unlikeQuestion =async (index) => {
+    const data = { index, id: userData.userName };
+    try {
+      const res = await axios.delete(`http://localhost:5000/api/channelInteraction/${userData.channelId}/qna/${index}/like`, data, axiosConfig)
+      console.log(res.data)
+      // socket.emit("sendLiketochannel", {...res.data , to:userData.channelId}, () => {});
+      setQuestion((prevQues) => {
+        let ques = prevQues.get(data.index);
+        ques.likes.filter((like) => like.likedBy !== res.data.message );
+        prevQues.set(data.index, ques);
+        return new Map(prevQues);
+      });
+    } catch (error) {
+      console.log(error.message)
+    }
+    // socket.emit("sendlikeQuestion", data, () => {});
+  };
+
 
   return (
     <div>
@@ -570,7 +616,14 @@ const Channel = ({ location }) => {
                     role="tabpanel"
                     aria-labelledby="pills-private-tab"
                   >
-                    Hello123
+                              <ChatPrivate
+                              users={users}
+                              sendMessage={sendChatMessageToUser}
+                              privateMessages={privateMessages}
+                              userData={userData}
+                              setPrivateMessages={setPrivateMessages}
+                            />
+
                   </div>
                 </div>
               </div>
@@ -606,9 +659,12 @@ const Channel = ({ location }) => {
               >
                 <QnAApp
                   role={userData.role}
+                  userId={userData.userId}
                   question={question}
                   sendQuestionToChannel={sendQuestionToChannel}
                   sendAnswer={sendAnswer}
+                  likeQuestion={likeQuestion}
+                  unlikeQuestion={unlikeQuestion}
                 />
               </div>
             </div>

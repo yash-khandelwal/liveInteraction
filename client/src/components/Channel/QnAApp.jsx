@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
+const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer , unlikeQuestion , likeQuestion , userId  }) => {
   const [formData, setformData] = useState("");
   const [answer, setAnswer] = useState("");
 
@@ -61,7 +61,15 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                     </div>
                     <div className="justify-content-between py-2">
                       <span>{ques.answers.length} Answers</span>
-                      <span style={{ float: "right" }}>
+                      <span style={{ float: "right" , cursor:"pointer" }}
+                      
+                      onClick={
+                        (e)=>{
+                          ques.likes.find(like => like.likedBy === userId ) !== -1 ? (likeQuestion(key)) : (unlikeQuestion(key)); 
+                        }
+                      }
+                      
+                      >
                         <em
                           className="fas fa-thumbs-up"
                           style={{ fontSize: "small", width: "1rem" }}
@@ -73,14 +81,16 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                           return (
                             <div>
                               <p>
-                                {ans.answeredBy}: {ans.answerText}
+                                {ans.answer.answeredBy}: {ans.answer.answerText}
                               </p>
                             </div>
                           );
                         })}
                     </div>
                     <br />
-                    <form
+                    {
+                      role && 
+                      <form
                       className="input-group mb-3"
                       onSubmit={(event) => {
                         event.preventDefault();
@@ -105,6 +115,8 @@ const QnAApp = ({ role, question, sendQuestionToChannel, sendAnswer }) => {
                         }}
                       />
                     </form>
+                    }
+                    
                   </div>
                   <hr />
                 </div>
