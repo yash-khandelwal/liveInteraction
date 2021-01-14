@@ -62,6 +62,7 @@ io.on("connect", (socket) => {
   });
   // when presenter publishes a poll to the channel
   socket.on("sendPoll", (data, callback) => {
+
     const { _id, user, question, options, timestamp } = data;
     let newPoll = {
       _id,
@@ -72,6 +73,7 @@ io.on("connect", (socket) => {
     }
     console.log(newPoll);
     io.to(user.channelId).emit("newPoll", newPoll);
+    callback();
   });
   socket.on("vote", ({ pollId, optionId, optionNum }, callback) => {
     console.log("vote triggered!!");
