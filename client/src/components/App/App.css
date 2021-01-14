@@ -75,7 +75,7 @@ input[type="text"]:focus {
 }
 .chat-display {
   overflow-y: auto;
-  max-height: 34rem;
+  max-height: 24rem;
 }
 
 .votenumber {
@@ -115,4 +115,23 @@ input[type="text"]:focus {
 .list-item-content p {
   margin-top: 5px;
   color: #aaa;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #000; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #818181; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #eee; 
 }
