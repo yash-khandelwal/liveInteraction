@@ -45,7 +45,7 @@ const PollsApp = ({
 
   return (
     <div>
-      {pollIds.map((_id) => {
+      {[...polls.keys()].map((_id) => {
         return (
           <div className="chat-container px-2 mb-2" key={_id}>
             <div className="justify-content-between py-2 mt-2">

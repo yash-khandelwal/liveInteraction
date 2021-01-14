@@ -87,6 +87,57 @@ const Channel = ({ location }) => {
       setQuestion(questionMap);
     }
     fetchData()
+    async function fetchPolls(){
+      const allPollsRes = await axios.get(`http://localhost:5000/api/channelInteraction/${channel}/poll/`);
+      console.log(allPollsRes.data);
+      const pollsMap = new Map();
+      await allPollsRes.data.map((poll) => {
+        if(poll.poll){
+          pollsMap.set(poll.poll._id, {
+            _id: poll.poll._id,
+            user: {
+              _id: poll.poll.createdByUserId._id,
+              userName: poll.poll.createdByUserId.userName,
+              displayName: poll.poll.createdByUserId.userDisplayName,
+              role: poll.poll.createdByUserId.role
+            },
+            question: poll.poll.questionText,
+            timestamp: poll.poll.timestamp,
+            options: poll.poll.options.map((option) =>{
+              return {
+                num: option.option.num,
+                text: option.option.text,
+                votes: 0,
+                _id: option.option._id
+              }
+            })
+          });
+          // console.log({
+          //   _id: poll.poll._id,
+          //   user: {
+          //     _id: poll.poll.createdByUserId._id,
+          //     userName: poll.poll.createdByUserId.userName,
+          //     displayName: poll.poll.createdByUserId.userDisplayName,
+          //     role: poll.poll.createdByUserId.role
+          //   },
+          //   queston: poll.poll.questionText,
+          //   timestamp: poll.poll.timestamp,
+          //   options: poll.poll.options.map((option) =>{
+          //     return {
+          //       num: option.option.num,
+          //       text: option.option.text,
+          //       votes: 0,
+          //       _id: option.option._id
+          //     }
+          //   })
+          // });
+        }
+        return null;
+      });
+      setPolls(pollsMap);
+    }
+
+    fetchPolls();
 
     socket.emit(
       "join",
@@ -315,7 +366,13 @@ const Channel = ({ location }) => {
         "sendPoll",
         {
           _id: pollQuestionRes.data._id,
-          user: userData,
+          user: {
+            _id: pollQuestionRes.data.createdByUserId,
+            userName: userData.userName,
+            displayName: userData.displayName,
+            role: userData.role,
+            channelId: userData.channelId
+          },
           question: pollQuestionRes.data.questionText,
           timestamp: pollQuestionRes.data.timestamp,
           options: options,
