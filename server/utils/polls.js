@@ -7,30 +7,6 @@ class Polls {
     this.polls.set(id, pollQuestion);
     return this.polls.get(id);
   };
-  /*
-    pollQuestion: {
-        id:
-        user: {
-            id:
-            userName:
-            displayName:
-            channel:
-            role:
-        },
-        question:
-        options: [
-            {
-                option:
-                votes:
-            },
-            {
-                option:
-                votes:
-            }
-            ...
-        ]
-    }
-    */
   addVote = ({ id, optionNum }) => {
     this.polls.get(id).options[optionNum].votes += 1;
     this.totalVotes += 1;

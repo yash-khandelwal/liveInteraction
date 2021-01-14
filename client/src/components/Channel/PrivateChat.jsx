@@ -37,7 +37,7 @@ const ChatPrivate = ({
         })}
       </div>
       <div className="chatform">
-        <form action>
+        <form>
           <input
             type="text"
             className="form-control "
@@ -98,7 +98,7 @@ const ChatPrivate = ({
                         }}
                             >
                             <div>
-                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/488320/profile/profile-80.jpg" className="list-item-image" />
+                            <img alt="alt text" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/488320/profile/profile-80.jpg" className="list-item-image" />
                             </div>
                             <div className="list-item-content">
                             <h4>{user.displayName}{" "}
@@ -110,9 +110,7 @@ const ChatPrivate = ({
                             </li>
                     );
                 }
-                else {
                 return "";
-                }
             })}
             </ul>
           </div>

@@ -19,7 +19,7 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
         })}
       </div>
       <div className="chatform">
-        <form action>
+        <form>
           <input
             type="text"
             className="form-control "
