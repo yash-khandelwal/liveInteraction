@@ -70,14 +70,14 @@ const PollsApp = ({
                           backgroundColor: "#818181",
                         }}
                         onClick={() => {
-                          if (!polls.get(_id).voted) sendVote(_id, option._id, index);
-                          else sendVoteUpdate({
-                            pollId: _id, 
-                            prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id, 
-                            prevOptionNum: polls.get(_id).voted, 
-                            newOptionId: option._id, 
-                            newOptionNum: index
-                            });
+                          if (polls.get(_id).voted !== index) sendVote(_id, option._id, index);
+                          // else sendVoteUpdate({
+                          //   pollId: _id, 
+                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id, 
+                          //   prevOptionNum: polls.get(_id).voted, 
+                          //   newOptionId: option._id, 
+                          //   newOptionNum: index
+                          //   });
                         }}
                       ><span style={{
                         borderRight: "1px solid black",
@@ -103,14 +103,14 @@ const PollsApp = ({
                           cursor: "pointer",
                         }}
                         onClick={() => {
-                        if (!polls.get(_id).voted) sendVote(_id, option._id, index);
-                        else sendVoteUpdate({
-                          pollId: _id, 
-                          prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id, 
-                          prevOptionNum: polls.get(_id).voted, 
-                          newOptionId: option._id, 
-                          newOptionNum: index
-                          });
+                        if (polls.get(_id).voted !== index) sendVote(_id, option._id, index);
+                        // else sendVoteUpdate({
+                        //   pollId: _id, 
+                        //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id, 
+                        //   prevOptionNum: polls.get(_id).voted, 
+                        //   newOptionId: option._id, 
+                        //   newOptionNum: index
+                        //   });
                       }}
                       ><span style={{
                         borderRight: "1px solid #818181",

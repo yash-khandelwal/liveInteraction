@@ -86,7 +86,7 @@ const Channel = ({ location }) => {
       })
       setQuestion(questionMap);
     }
-    fetchData()
+    // fetchData()
 
     socket.emit(
       "join",
@@ -288,7 +288,7 @@ const Channel = ({ location }) => {
   };
 
   const sendPoll = async (pollData) => {
-    // console.log(pollData);
+    console.log(pollData);
     let data = {
       questionText: pollData.pollQuestion
     };
@@ -306,7 +306,7 @@ const Channel = ({ location }) => {
         options.push({
           num: pollOptionRes.data.num, 
           text: pollOptionRes.data.text,
-          votes: pollOptionRes.data.votes.length,
+          votes: 0,
           _id: pollOptionRes.data._id
         });
       }
@@ -330,7 +330,7 @@ const Channel = ({ location }) => {
   };
   const sendVote = async (pollId, optionId, optionNum) => {
     try{
-      const pollOptionVoteRes = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/poll/${pollId}/option/${optionId}`, {}, axiosConfig);
+      const pollOptionVoteRes = await axios.post(`http://localhost:5000/api/channelInteraction/${userData.channelId}/poll/${pollId}/vote/${optionNum}`, {}, axiosConfig);
       console.log(pollOptionVoteRes);
       if(pollOptionVoteRes.data.message === 'successful'){
         // vote successfull
