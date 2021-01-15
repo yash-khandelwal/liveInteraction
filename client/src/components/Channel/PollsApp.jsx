@@ -11,9 +11,7 @@ const PollsApp = ({
   setPollQuestion,
   optionList,
   setOptionList,
-  pollIds,
   sendVote,
-  sendVoteUpdate,
 }) => {
   const handleChange = (event, index) => {
     console.log("handle change triggered!");
