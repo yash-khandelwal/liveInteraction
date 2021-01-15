@@ -47,7 +47,7 @@ const PollsApp = ({
   };
   useEffect(() => {
     scrollToBottom();
-  }, [question]);
+  }, [pollQuestion]);
 
   return (
     <div className="chat-display">
