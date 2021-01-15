@@ -83,6 +83,11 @@ input[type="text"]:focus {
   max-height: 32rem;
 }
 
+.private-chat-display {
+  overflow-y: auto;
+  max-height: 20rem;
+}
+
 
 .votenumber {
   position: absolute;

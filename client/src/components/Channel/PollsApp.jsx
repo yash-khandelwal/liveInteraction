@@ -142,9 +142,9 @@ const PollsApp = ({
               })}
             </div>
             <br />
-            <div className="justify-content-center">
+            {/* <div className="justify-content-center">
               <p className="text-center">Show result</p>
-            </div>
+            </div> */}
           </div>
         );
       })}

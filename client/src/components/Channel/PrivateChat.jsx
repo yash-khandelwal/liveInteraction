@@ -44,7 +44,7 @@ const ChatPrivate = ({
             </div>
           </div>
 
-          <div className=" chat-display ">
+          <div className=" private-chat-display ">
             {privateMessages.get(chating.userName).messages &&
               privateMessages
                 .get(chating.userName)
