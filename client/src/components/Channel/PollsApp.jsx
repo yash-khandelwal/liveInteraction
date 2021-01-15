@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 const PollsApp = ({
   socket,
@@ -43,8 +43,16 @@ const PollsApp = ({
   //   socket.emit("test", "message from polls app!");
   // };
 
+  const messagesEndReference = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndReference.current.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [question]);
+
   return (
-    <div>
+    <div className="chat-display">
       {[...polls.keys()].map((_id) => {
         return (
           <div className="chat-container px-2 mb-2" key={_id}>
