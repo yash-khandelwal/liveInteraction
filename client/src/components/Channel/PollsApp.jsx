@@ -44,7 +44,13 @@ const PollsApp = ({
   // };
 
   return (
-    <div>
+    <div
+      className="tab-pane fade show active px-2"
+      id="pills-answered"
+      role="tabpanel"
+      aria-labelledby="pills-answered-tab"
+    >
+    
       {[...polls.keys()].map((_id) => {
         return (
           <div className="chat-container px-2 mb-2" key={_id}>
@@ -71,13 +77,6 @@ const PollsApp = ({
                         }}
                         onClick={() => {
                           if (polls.get(_id).voted !== index) sendVote(_id, option._id, index);
-                          // else sendVoteUpdate({
-                          //   pollId: _id, 
-                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id, 
-                          //   prevOptionNum: polls.get(_id).voted, 
-                          //   newOptionId: option._id, 
-                          //   newOptionNum: index
-                          //   });
                         }}
                       ><span style={{
                         borderRight: "1px solid black",
@@ -85,7 +84,7 @@ const PollsApp = ({
                         paddingRight: "5px",
                         marginRight: "10px",
                       }}>{index+1} </span>{option.text}
-                        <span className="mr-4 votenumber"> 240 votes</span>
+                        <span className="mr-4 votenumber">{option.votes} votes</span>
                       </p>
                     </div>
                 );
@@ -104,13 +103,6 @@ const PollsApp = ({
                         }}
                         onClick={() => {
                         if (polls.get(_id).voted !== index) sendVote(_id, option._id, index);
-                        // else sendVoteUpdate({
-                        //   pollId: _id, 
-                        //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id, 
-                        //   prevOptionNum: polls.get(_id).voted, 
-                        //   newOptionId: option._id, 
-                        //   newOptionNum: index
-                        //   });
                       }}
                       ><span style={{
                         borderRight: "1px solid #818181",
@@ -118,7 +110,7 @@ const PollsApp = ({
                         paddingRight: "5px",
                         marginRight: "10px",
                       }}>{index+1} </span>{option.text}
-                        <span className="mr-4 votenumber"> 240 votes</span>
+                        <span className="mr-4 votenumber">{option.votes} votes</span>
                       </p>
                     </div>
                 );
