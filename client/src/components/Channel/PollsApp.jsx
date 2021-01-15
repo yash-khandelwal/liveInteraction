@@ -60,11 +60,9 @@ const PollsApp = ({
             <br />
             <div className="pl-3">
               {polls.get(_id).options.map((option, index) => {
-                if(polls.get(_id).voted === index){
-                return (
-                  <div 
-                      key={option._id}
-                      >
+                if (polls.get(_id).voted === index) {
+                  return (
+                    <div key={option._id}>
                       <p
                         style={{
                           border: "1px solid black",
@@ -72,7 +70,7 @@ const PollsApp = ({
                           paddingLeft: "10px",
                           padding: "10px",
                           cursor: "pointer",
-                          color:"black",
+                          color: "black",
                           backgroundColor: "#818181",
                         }}
                         onClick={() => {
@@ -87,12 +85,10 @@ const PollsApp = ({
                         <span className="mr-4 votenumber">{option.votes} votes</span>
                       </p>
                     </div>
-                );
+                  );
                 } else {
                   return (
-                  <div 
-                      key={option._id}
-                      >
+                    <div key={option._id}>
                       <p
                         style={{
                           border: "1px solid #818181",
@@ -113,7 +109,7 @@ const PollsApp = ({
                         <span className="mr-4 votenumber">{option.votes} votes</span>
                       </p>
                     </div>
-                );
+                  );
                 }
               })}
             </div>
