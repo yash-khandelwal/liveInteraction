@@ -88,7 +88,8 @@ const Channel = ({ location }) => {
       const questionMap = new Map();
       console.log(res.data);
       res.data.map((ques) => {
-        questionMap.set(ques.qna._id, ques.qna);
+        if(ques.qna)
+          questionMap.set(ques.qna._id, ques.qna);
         return null;
       });
       setQuestion(questionMap);
