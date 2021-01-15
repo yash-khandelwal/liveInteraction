@@ -78,6 +78,12 @@ input[type="text"]:focus {
   max-height: 24rem;
 }
 
+.poll-display {
+  overflow-y: auto;
+  max-height: 32rem;
+}
+
+
 .votenumber {
   position: absolute;
   right: 0.5rem;

@@ -745,8 +745,6 @@ const Channel = ({ location }) => {
                 role="tabpanel"
                 aria-labelledby="pills-profile-tab"
               >
-                <br />
-                <br />
                 <PollsApp
                   socket={socket}
                   role={userData.role}

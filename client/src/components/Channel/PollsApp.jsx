@@ -41,16 +41,16 @@ const PollsApp = ({
   //   socket.emit("test", "message from polls app!");
   // };
 
-  const messagesEndReference = useRef(null);
-  const scrollToBottom = () => {
-    messagesEndReference.current.scrollIntoView({ behavior: "smooth" });
-  };
-  useEffect(() => {
-    scrollToBottom();
-  }, [pollQuestion]);
+  // const messagesEndReference = useRef(null);
+  // const scrollToBottom = () => {
+  //   messagesEndReference.current.scrollIntoView({ behavior: "smooth" });
+  // };
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [polls]);
 
   return (
-    <div className="chat-display">
+    <div className="poll-display">
       {[...polls.keys()].map((_id) => {
         return (
           <div className="chat-container px-2 mb-2" key={_id}>
@@ -96,7 +96,7 @@ const PollsApp = ({
                           {index + 1}{" "}
                         </span>
                         {option.text}
-                        <span className="mr-4 votenumber"> 240 votes</span>
+                        {/* <span className="mr-4 votenumber"> 240 votes</span> */}
                       </p>
                     </div>
                   );
@@ -134,7 +134,7 @@ const PollsApp = ({
                           {index + 1}{" "}
                         </span>
                         {option.text}
-                        <span className="mr-4 votenumber"> 240 votes</span>
+                        {/* <span className="mr-4 votenumber"> 240 votes</span> */}
                       </p>
                     </div>
                   );

@@ -93,9 +93,9 @@ const QnAApp = ({
                         25
                       </span>
                       {ques.answers.length > 0 &&
-                        ques.answers.map((ans) => {
+                        ques.answers.map((ans, index) => {
                           return (
-                            <div>
+                            <div key = {index}>
                               <p>
                                 {ans.answer.answeredBy}: {ans.answer.answerText}
                               </p>
