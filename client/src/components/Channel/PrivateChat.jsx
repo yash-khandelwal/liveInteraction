@@ -92,7 +92,7 @@ const ChatPrivate = ({
                 }}
               >
                 <i
-                  class="fa fa-paper-plane"
+                  className="fa fa-paper-plane"
                   aria-hidden="true"
                   style={{
                     fontSize: "1.5rem",

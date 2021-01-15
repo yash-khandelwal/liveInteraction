@@ -11,6 +11,7 @@ const QnAApp = ({
 }) => {
   const [formData, setformData] = useState("");
   const [answer, setAnswer] = useState("");
+  const [displayAnswer, setDispalyAnswer] = useState(null);
 
   const messagesEndReference = useRef(null);
   const scrollToBottom = () => {
@@ -76,7 +77,14 @@ const QnAApp = ({
                       </p>
                     </div>
                     <div className="justify-content-between py-2">
-                      <span>{ques.answers.length} Answers</span>
+                      <span
+                        onClick = {() => {
+                          setDispalyAnswer(prev => prev===key?null:key);
+                        }}
+                        style={{
+                          cursor: "pointer",
+                        }}
+                      >{ques.answers.length} Answers</span>
                       <span
                         style={{ float: "right", cursor: "pointer" }}
                         onClick={(e) => {
@@ -92,7 +100,7 @@ const QnAApp = ({
                         />
                         25
                       </span>
-                      {ques.answers.length > 0 &&
+                      {displayAnswer === key && ques.answers.length > 0 &&
                         ques.answers.map((ans, index) => {
                           return (
                             <div key = {index}>
