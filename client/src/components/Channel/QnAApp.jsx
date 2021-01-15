@@ -128,6 +128,7 @@ const QnAApp = ({
                           onChange={(e) => {
                             setAnswer(e.target.value);
                           }}
+                          value={answer}
                         />
                       </form>
                     )}
