@@ -164,7 +164,7 @@ const QnAApp = ({
                 className="form-control col-sm-11 ml-2"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
-                placeholder="Type the answer here ..."
+                placeholder="Type the Question here ..."
                 style={{
                   backgroundColor: "transparent",
                   color: "white",

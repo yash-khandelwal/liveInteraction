@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
 const PollsApp = ({
   socket,
@@ -76,13 +76,6 @@ const PollsApp = ({
                         onClick={() => {
                           if (polls.get(_id).voted !== index)
                             sendVote(_id, option._id, index);
-                          // else sendVoteUpdate({
-                          //   pollId: _id,
-                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id,
-                          //   prevOptionNum: polls.get(_id).voted,
-                          //   newOptionId: option._id,
-                          //   newOptionNum: index
-                          //   });
                         }}
                       >
                         <span
@@ -96,7 +89,6 @@ const PollsApp = ({
                           {index + 1}{" "}
                         </span>
                         {option.text}
-                        {/* <span className="mr-4 votenumber"> 240 votes</span> */}
                       </p>
                     </div>
                   );
@@ -114,13 +106,6 @@ const PollsApp = ({
                         onClick={() => {
                           if (polls.get(_id).voted !== index)
                             sendVote(_id, option._id, index);
-                          // else sendVoteUpdate({
-                          //   pollId: _id,
-                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id,
-                          //   prevOptionNum: polls.get(_id).voted,
-                          //   newOptionId: option._id,
-                          //   newOptionNum: index
-                          //   });
                         }}
                       >
                         <span
@@ -134,7 +119,6 @@ const PollsApp = ({
                           {index + 1}{" "}
                         </span>
                         {option.text}
-                        {/* <span className="mr-4 votenumber"> 240 votes</span> */}
                       </p>
                     </div>
                   );
@@ -142,26 +126,39 @@ const PollsApp = ({
               })}
             </div>
             <br />
-            {/* <div className="justify-content-center">
-              <p className="text-center">Show result</p>
-            </div> */}
           </div>
         );
       })}
       {role && (
         <div>
-          <button
-            onClick={() => {
-              setCreatePoll((prev) => !prev);
-            }}
+          <div
           >
-            create new poll
-          </button>
-          <div>
             {createPoll && (
-              <div>
+              <div
+                style={{
+                  position: "absolute",
+                  right:0,
+                  bottom:"7rem",
+                  width: "90%",
+                  backgroundColor: "#000",
+                  margin: "5%",
+                  padding: "10px",
+                  border: "1px solid #fff",
+                  height: "60%",
+                  borderRadius: "5px",
+                  overflow:"scroll",
+                }}
+              >
                 <textarea
                   value={pollQuestion}
+                  aria-label="Sizing example input"
+                  placeholder="Type the Poll Question ..."
+                  aria-describedby="inputGroup-sizing-sm"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "white",
+                    width: '100%',
+                  }}
                   onChange={(e) => {
                     setPollQuestion(e.target.value);
                   }}
@@ -171,22 +168,49 @@ const PollsApp = ({
                 {optionList.map((option, index) => {
                   return (
                     <div key={index}>
+                      <span
+                          style={{
+                            borderRight: "1px solid black",
+                            paddingLeft: "5px",
+                            paddingRight: "5px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          {index + 1}{" "}
+                        </span>
                       <input
                         type="text"
                         name="option"
+                        aria-label="Sizing example input"
+                        placeholder="option..."
+                        aria-describedby="inputGroup-sizing-sm"
+                        style={{
+                          backgroundColor: "transparent",
+                          color: "white",
+                          width: "60%",
+                          borderRadius: "5px",
+                        }}
                         value={option}
                         onChange={(event) => {
                           handleChange(event, index);
                         }}
                         autoFocus
+                        autoComplete="off"
                       />
                       <button
                         onClick={(event) => {
                           event.preventDefault();
                           removeOption(index);
                         }}
+                        style={{
+                          fontWeight: "normal",
+                          paddingLeft: "10px",
+                          paddingRight: "10px",
+                          marginLeft: "10px",
+                          borderRadius: "5px"
+                        }}
                       >
-                        remove option
+                        remove
                       </button>
                       <hr />
                     </div>
@@ -197,22 +221,59 @@ const PollsApp = ({
                     event.preventDefault();
                     addOption();
                   }}
+                  style={{
+                    fontWeight: "normal",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    marginLeft: "10px",
+                    borderRadius: "5px"
+                  }}
                 >
-                  add option
+                  new option
                 </button>
                 <hr />
                 <button
                   onClick={() => {
-                    publishPoll({ pollQuestion, optionList });
-                    setPollQuestion("");
-                    setOptionList([]);
-                    setCreatePoll(false);
+                    if(pollQuestion && optionList.length > 1){
+                      publishPoll({ pollQuestion, optionList });
+                      setPollQuestion("");
+                      setOptionList([]);
+                      setCreatePoll(false);
+                    } else {
+                      // TODO: should be a toast
+                    }
+                  }}
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    marginLeft: "auto",
+                    borderRadius: "5px",
+                    width: "100%",
+                    alignSelf: "center",
                   }}
                 >
-                  publish
+                  PUBLISH
                 </button>
               </div>
             )}
+            <button
+              onClick={() => {
+                setCreatePoll((prev) => !prev);
+              }}
+              style={{
+                position: "absolute",
+                right:0,
+                bottom:0,
+                margin: "2rem",
+                height: '4rem',
+                width: '4rem',
+                borderRadius: '2rem'
+              }}
+            >
+              <h1>{createPoll?'←':'+'}</h1>
+            </button>
           </div>
         </div>
       )}
