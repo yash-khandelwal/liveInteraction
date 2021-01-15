@@ -13,15 +13,11 @@
       crossorigin="anonymous"
     ></script>
     <style>
-      /* body {
-        font-family: "Lato", sans-serif;
-      } */
-
       .sidepanel {
         width: 0;
         position: fixed;
         z-index: 1;
-        height: 50rem;
+        height: 40rem;
         top: 5rem;
         right: 0;
         background-color: #111;
@@ -29,6 +25,10 @@
         transition: 0.5s;
         padding-top: 0.5rem;
         border-radius: 1%;
+      }
+
+      .sidepanel-open {
+        width: 30rem;
       }
 
       .sidepanel a {
@@ -90,19 +90,13 @@
       }
       .chat-display {
         overflow-y: auto;
-        max-height: 34rem;
+        max-height: 24rem;
       }
 
       .votenumber {
         position: absolute;
         right: 0.5rem;
       }
-
-      .list-wrapper {
-        /* max-width: 400px; */
-        margin: 50px auto;
-      }
-
       .list {
         /* background: #fff; */
         border-radius: 2px;
@@ -136,6 +130,25 @@
       .list-item-content p {
         margin-top: 5px;
         color: #aaa;
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #000;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #818181;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #eee;
       }
     </style>
   </head>
@@ -404,113 +417,115 @@
           <br />
           <br />
 
-          <div class="chat-container px-2 mb-2">
-            <div class="justify-content-between py-2 mt-2">
-              <span>Why is cryptocurrency expensive today ?</span>
-            </div>
-            <br />
+          <div class="chat-display">
+            <div class="chat-container px-2 mb-2">
+              <div class="justify-content-between py-2 mt-2">
+                <span>Why is cryptocurrency expensive today ?</span>
+              </div>
+              <br />
 
-            <div class="pl-3">
-              <div class="form-check py-2">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  id="exampleRadios1"
-                  value="option1"
-                  checked
-                />
-                <label class="form-check-label" for="exampleRadios1">
-                  Default radio
-                  <span class="mr-4 votenumber"> 240 votes</span>
-                </label>
+              <div class="pl-3">
+                <div class="form-check py-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios1"
+                    value="option1"
+                    checked
+                  />
+                  <label class="form-check-label" for="exampleRadios1">
+                    Default radio
+                    <span class="mr-4 votenumber"> 240 votes</span>
+                  </label>
+                </div>
+                <div class="form-check py-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios2"
+                    value="option2"
+                  />
+                  <label class="form-check-label" for="exampleRadios2">
+                    Second default radio
+                    <span class="mr-4 votenumber"> 240 votes</span>
+                  </label>
+                </div>
+                <div class="form-check py-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id="exampleRadios3"
+                    value="option3"
+                  />
+                  <label class="form-check-label" for="exampleRadios3">
+                    Disabled radio
+                    <span class="mr-4 votenumber"> 240 votes</span>
+                  </label>
+                </div>
               </div>
-              <div class="form-check py-2">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  id="exampleRadios2"
-                  value="option2"
-                />
-                <label class="form-check-label" for="exampleRadios2">
-                  Second default radio
-                  <span class="mr-4 votenumber"> 240 votes</span>
-                </label>
-              </div>
-              <div class="form-check py-2">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  id="exampleRadios3"
-                  value="option3"
-                />
-                <label class="form-check-label" for="exampleRadios3">
-                  Disabled radio
-                  <span class="mr-4 votenumber"> 240 votes</span>
-                </label>
-              </div>
-            </div>
 
-            <br />
-            <div class="justify-content-center">
-              <p class="text-center">Show result</p>
-            </div>
-          </div>
-
-          <div class="chat-container px-2 mb-2">
-            <div class="justify-content-between py-2 mt-2">
-              <span>Why is cryptocurrency expensive today ?</span>
-            </div>
-            <br />
-
-            <div class="pl-3">
-              <div class="form-check py-2">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="radio1"
-                  id="exampleRadios1"
-                  value="option1"
-                  checked
-                />
-                <label class="form-check-label" for="exampleRadios1">
-                  Default radio
-                  <span class="mr-4 votenumber"> 240 votes</span>
-                </label>
-              </div>
-              <div class="form-check py-2">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="radio1"
-                  id="exampleRadios2"
-                  value="option2"
-                />
-                <label class="form-check-label" for="exampleRadios2">
-                  Second default radio
-                  <span class="mr-4 votenumber"> 240 votes</span>
-                </label>
-              </div>
-              <div class="form-check py-2">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="radio1"
-                  id="exampleRadios3"
-                  value="option3"
-                />
-                <label class="form-check-label" for="exampleRadios3">
-                  Disabled radio
-                  <span class="mr-4 votenumber"> 240 votes</span>
-                </label>
+              <br />
+              <div class="justify-content-center">
+                <p class="text-center">Show result</p>
               </div>
             </div>
 
-            <br />
-            <div class="justify-content-center">
-              <p class="text-center">Show result</p>
+            <div class="chat-container px-2 mb-2">
+              <div class="justify-content-between py-2 mt-2">
+                <span>Why is cryptocurrency expensive today ?</span>
+              </div>
+              <br />
+
+              <div class="pl-3">
+                <div class="form-check py-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="radio1"
+                    id="exampleRadios1"
+                    value="option1"
+                    checked
+                  />
+                  <label class="form-check-label" for="exampleRadios1">
+                    Default radio
+                    <span class="mr-4 votenumber"> 240 votes</span>
+                  </label>
+                </div>
+                <div class="form-check py-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="radio1"
+                    id="exampleRadios2"
+                    value="option2"
+                  />
+                  <label class="form-check-label" for="exampleRadios2">
+                    Second default radio
+                    <span class="mr-4 votenumber"> 240 votes</span>
+                  </label>
+                </div>
+                <div class="form-check py-2">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="radio1"
+                    id="exampleRadios3"
+                    value="option3"
+                  />
+                  <label class="form-check-label" for="exampleRadios3">
+                    Disabled radio
+                    <span class="mr-4 votenumber"> 240 votes</span>
+                  </label>
+                </div>
+              </div>
+
+              <br />
+              <div class="justify-content-center">
+                <p class="text-center">Show result</p>
+              </div>
             </div>
           </div>
         </div>

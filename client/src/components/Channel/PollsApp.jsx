@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 const PollsApp = ({
   socket,
@@ -41,14 +41,16 @@ const PollsApp = ({
   //   socket.emit("test", "message from polls app!");
   // };
 
+  const messagesEndReference = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndReference.current.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [question]);
+
   return (
-    <div
-      className="tab-pane fade show active px-2"
-      id="pills-answered"
-      role="tabpanel"
-      aria-labelledby="pills-answered-tab"
-    >
-    
+    <div className="chat-display">
       {[...polls.keys()].map((_id) => {
         return (
           <div className="chat-container px-2 mb-2" key={_id}>
@@ -72,15 +74,29 @@ const PollsApp = ({
                           backgroundColor: "#818181",
                         }}
                         onClick={() => {
-                          if (polls.get(_id).voted !== index) sendVote(_id, option._id, index);
+                          if (polls.get(_id).voted !== index)
+                            sendVote(_id, option._id, index);
+                          // else sendVoteUpdate({
+                          //   pollId: _id,
+                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id,
+                          //   prevOptionNum: polls.get(_id).voted,
+                          //   newOptionId: option._id,
+                          //   newOptionNum: index
+                          //   });
                         }}
-                      ><span style={{
-                        borderRight: "1px solid black",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                        marginRight: "10px",
-                      }}>{index+1} </span>{option.text}
-                        <span className="mr-4 votenumber">{option.votes} votes</span>
+                      >
+                        <span
+                          style={{
+                            borderRight: "1px solid black",
+                            paddingLeft: "5px",
+                            paddingRight: "5px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          {index + 1}{" "}
+                        </span>
+                        {option.text}
+                        <span className="mr-4 votenumber"> 240 votes</span>
                       </p>
                     </div>
                   );
@@ -96,15 +112,29 @@ const PollsApp = ({
                           cursor: "pointer",
                         }}
                         onClick={() => {
-                        if (polls.get(_id).voted !== index) sendVote(_id, option._id, index);
-                      }}
-                      ><span style={{
-                        borderRight: "1px solid #818181",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                        marginRight: "10px",
-                      }}>{index+1} </span>{option.text}
-                        <span className="mr-4 votenumber">{option.votes} votes</span>
+                          if (polls.get(_id).voted !== index)
+                            sendVote(_id, option._id, index);
+                          // else sendVoteUpdate({
+                          //   pollId: _id,
+                          //   prevOptionId: polls.get(_id).options[polls.get(_id).voted]._id,
+                          //   prevOptionNum: polls.get(_id).voted,
+                          //   newOptionId: option._id,
+                          //   newOptionNum: index
+                          //   });
+                        }}
+                      >
+                        <span
+                          style={{
+                            borderRight: "1px solid #818181",
+                            paddingLeft: "5px",
+                            paddingRight: "5px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          {index + 1}{" "}
+                        </span>
+                        {option.text}
+                        <span className="mr-4 votenumber"> 240 votes</span>
                       </p>
                     </div>
                   );
