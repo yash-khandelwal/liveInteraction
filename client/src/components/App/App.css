@@ -1,3 +1,7 @@
+body {
+  font-family: "Poppins", sans-serif;
+}
+
 .sidepanel {
   width: 0;
   position: fixed;
@@ -26,19 +30,18 @@ body {
 }
 
 .sidepanel-open {
-  width: 30rem;
+  width: 28rem;
 }
 
 .sidepanel a {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: #818181;
   display: block;
   transition: 0.3s;
-  width: 9rem;
 }
 .sidepanel i {
   font-size: 2rem;
-  width: 5rem;
+  width: 3rem;
 }
 
 .sidepanel a:hover {

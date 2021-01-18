@@ -19,7 +19,7 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
 
       <i
         className="fas fa-angle-up pb-2 justify-content-lg-end"
-        style={{ width: "1.5rem", fontSize: "1.5rem", marginLeft: "27.3rem" }}
+        style={{ width: "1.5rem", fontSize: "1.5rem", marginLeft: "26.2rem" }}
         onClick={(e) => scrollToTop()}
       />
       <div className=" chat-display ">
@@ -43,7 +43,7 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
         style={{
           width: "1.5rem",
           fontSize: "1.5rem",
-          marginLeft: "27.3rem",
+          marginLeft: "26.2rem",
           cursor: "pointer",
         }}
         onClick={(e) => {
@@ -54,7 +54,7 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
         <form className="row">
           <input
             type="text"
-            className="form-control col-sm-10 ml-4"
+            className="form-control col-sm-9 ml-3"
             aria-label="Sizing example input"
             aria-describedby="inputGroup-sizing-sm"
             placeholder="Type the answer here ..."
@@ -81,7 +81,7 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
               className="fa fa-paper-plane"
               aria-hidden="true"
               style={{
-                fontSize: "1.5rem",
+                fontSize: "1.2rem",
                 width: " 1.5rem ",
                 color: "white",
               }}

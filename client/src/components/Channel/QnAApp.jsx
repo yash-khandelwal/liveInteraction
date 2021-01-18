@@ -72,7 +72,7 @@ const QnAApp = ({
       >
         <i
           className="fas fa-angle-up pb-2 justify-content-lg-end"
-          style={{ width: "1.5rem", fontSize: "1.5rem", marginLeft: "27.3rem" }}
+          style={{ width: "1.5rem", fontSize: "1.5rem", marginLeft: "25.5rem" }}
           onClick={(e) => scrollToTop()}
         />
 
@@ -178,7 +178,7 @@ const QnAApp = ({
           style={{
             width: "1.5rem",
             fontSize: "1.5rem",
-            marginLeft: "27.3rem",
+            marginLeft: "25.5rem",
             cursor: "pointer",
           }}
           onClick={(e) => {
@@ -199,7 +199,7 @@ const QnAApp = ({
           >
             <input
               type="text"
-              className="form-control col-sm-10 ml-3"
+              className="form-control col-sm-9 ml-2"
               aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm"
               placeholder="Type the Question here ..."
@@ -227,8 +227,8 @@ const QnAApp = ({
                 className="fa fa-paper-plane"
                 aria-hidden="true"
                 style={{
-                  fontSize: "1.5rem",
-                  width: " 1.5rem ",
+                  fontSize: "1.2rem",
+                  width: " 1.2rem ",
                   color: "white",
                 }}
               ></i>

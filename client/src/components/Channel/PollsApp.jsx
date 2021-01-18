@@ -55,7 +55,7 @@ const PollsApp = ({
     <div>
       <i
         className="fas fa-angle-up pb-2 justify-content-lg-end"
-        style={{ width: "1.5rem", fontSize: "1.5rem", marginLeft: "27.3rem" }}
+        style={{ width: "1.5rem", fontSize: "1.5rem", marginLeft: "26.2rem" }}
         onClick={(e) => scrollToTop()}
       />
       <div className="poll-display">
@@ -365,7 +365,7 @@ const PollsApp = ({
         style={{
           width: "1.5rem",
           fontSize: "1.5rem",
-          marginLeft: "27.3rem",
+          marginLeft: "26.2rem",
           cursor: "pointer",
         }}
         onClick={(e) => {
