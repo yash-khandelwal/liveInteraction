@@ -199,7 +199,7 @@ const QnAApp = ({
           >
             <input
               type="text"
-              className="form-control col-sm-11 ml-2"
+              className="form-control col-sm-10 ml-3"
               aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm"
               placeholder="Type the Question here ..."
@@ -212,6 +212,27 @@ const QnAApp = ({
               }}
               value={formData}
             />
+            <button
+              type="submit"
+              className="btn text-white "
+              onClick={(event) => {
+                event.preventDefault();
+                if (formData) {
+                  sendQuestionToChannel(formData);
+                  setformData("");
+                }
+              }}
+            >
+              <i
+                className="fa fa-paper-plane"
+                aria-hidden="true"
+                style={{
+                  fontSize: "1.5rem",
+                  width: " 1.5rem ",
+                  color: "white",
+                }}
+              ></i>
+            </button>
           </form>
         </div>
       </div>
