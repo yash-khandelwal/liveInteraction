@@ -675,7 +675,7 @@ const Channel = ({ location }) => {
               </li>
               <li className="nav-item interaction-type" role="presentation">
                 <a
-                  className="nav-link mr-1"
+                  className="nav-link mx-1"
                   id="pills-profile-tab"
                   data-toggle="pill"
                   href="#pills-profile"

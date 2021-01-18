@@ -5,13 +5,26 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const messagesStartReference = useRef(null);
+  const scrollToTop = () => {
+    messagesStartReference.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(scrollToBottom, [messages]);
 
   return (
     <div className="channel-chat">
       {/* <p>ChatAll</p> */}
 
+      <i
+        className="fas fa-angle-up pb-2 justify-content-lg-end"
+        style={{ width: "1.5rem", fontSize: "1.5rem", marginLeft: "27.3rem" }}
+        onClick={(e) => scrollToTop()}
+      />
       <div className=" chat-display ">
+        <div ref={messagesStartReference} />
+
         {messages.map((msg, index) => {
           return (
             <div className="public-chat px-2 mb-2  " key={index}>
@@ -25,6 +38,18 @@ const ChatAll = ({ messages, message, setMessage, sendMessage }) => {
         })}
         <div ref={messagesEndRef} />
       </div>
+      <i
+        className="fas fa-angle-down pb-2 justify-content-lg-end"
+        style={{
+          width: "1.5rem",
+          fontSize: "1.5rem",
+          marginLeft: "27.3rem",
+          cursor: "pointer",
+        }}
+        onClick={(e) => {
+          scrollToBottom();
+        }}
+      />
       <div className="chatform">
         <form className="row">
           <input
