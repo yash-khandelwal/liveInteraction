@@ -23,7 +23,7 @@ const QnAApp = ({
 
   return (
     <div>
-      <ul
+      {/* <ul
         className="nav nav-pills mb-3 justify-content-center"
         id="pills-tab text-center"
         role="tablist"
@@ -56,15 +56,15 @@ const QnAApp = ({
             Unanswered
           </a>
         </li>
-      </ul>
-      <div className="tab-content" id="pills-tabContent">
+      </ul> */}
+      {/* <div className="tab-content" id="pills-tabContent"> */}
         <div
           className="tab-pane fade show active px-2"
           id="pills-answered"
           role="tabpanel"
           aria-labelledby="pills-answered-tab"
         >
-          <div className=" chat-display ">
+          <div className=" qna-display ">
             {[...question.keys()].map((key, index) => {
               let ques = question.get(key);
               return (
@@ -82,17 +82,18 @@ const QnAApp = ({
                           setDispalyAnswer(prev => prev===key?null:key);
                         }}
                         style={{
-                          cursor: "pointer",
+                          cursor: ques.answers.length > 0 ? 'pointer' : 'not-allowed' ,
+                          // cursor: 'not-allowed'
                         }}
-                      >{ques.answers.length} Answers</span>
+                      >{ques.answers.length > 0 ? ques.answers.length + ' Answers' : 'No Answeres yet' }</span>
                       <span
                         style={{ float: "right", cursor: "pointer" }}
-                        onClick={(e) => {
+                        onClick={ques.answers.length > 0 ? (e) => {
                           ques.likes.find((like) => like.likedBy === userId) !==
                           -1
                             ? likeQuestion(key)
                             : unlikeQuestion(key);
-                        }}
+                        } : null}
                       >
                         <em
                           className="fas fa-thumbs-up"
@@ -177,15 +178,15 @@ const QnAApp = ({
             </form>
           </div>
         </div>
-        <div
+        {/* <div
           className="tab-pane fade"
           id="not-asnwered"
           role="tabpanel"
           aria-labelledby="not-asnwered-tab"
         >
           Hello123
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
   );
 };

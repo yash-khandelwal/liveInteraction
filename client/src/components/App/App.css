@@ -19,8 +19,8 @@
   border-right: 0.5px solid #fff !important;
 }
 
-body{
-  background-image: url('https://blog.prezi.com/wp-content/uploads/2019/03/joshua-earle-157231-unsplash-1024x683.jpg');
+body {
+  background-image: url("https://blog.prezi.com/wp-content/uploads/2019/03/joshua-earle-157231-unsplash-1024x683.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -51,10 +51,12 @@ body{
 .openbtn {
   font-size: 20px;
   cursor: pointer;
-  background-color: #111;
+  background-color: #0009;
   color: white;
   padding: 10px 15px;
   border: none;
+  margin: 10px;
+  border-radius: 10px;
 }
 
 .openbtn:hover {
@@ -88,7 +90,7 @@ input[type="text"]:focus {
 }
 .chat-display {
   overflow-y: auto;
-  max-height: 29rem;
+  max-height: 30rem;
 }
 
 .poll-display {
@@ -96,11 +98,15 @@ input[type="text"]:focus {
   max-height: 37rem;
 }
 
-.private-chat-display {
+.qna-display {
   overflow-y: auto;
-  max-height: 20rem;
+  max-height: 34rem;
 }
 
+.private-chat-display {
+  overflow-y: auto;
+  max-height: 25rem;
+}
 
 .votenumber {
   position: absolute;
@@ -164,7 +170,6 @@ input[type="text"]:focus {
   border-radius: 2px;
 }
 
-
 /*  */
 
 .icon-bar {
@@ -188,5 +193,3 @@ input[type="text"]:focus {
 .icon-bar a:hover {
   background-color: #000;
 }
-
-
