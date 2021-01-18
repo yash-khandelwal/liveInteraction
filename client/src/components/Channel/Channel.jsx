@@ -643,6 +643,23 @@ const Channel = ({ location }) => {
           }`}
         >
           <div>
+            <button
+              onClick={(e) => {
+                setSidepannel(!sidepannel);
+              }}
+              style={{
+                position: "absolute",
+                left: '-1.5rem',
+                top:'1rem',
+                height: '3rem',
+                width: '3rem',
+                zIndex: 100,
+                borderRadius: '2rem',
+                backgroundColor: '#d1d1d1'
+              }}
+            >
+              <h2>></h2>
+            </button>
             <ul
               className="nav nav-pills mb-3 text-center px-1 justify-content-around"
               id="pills-tab"

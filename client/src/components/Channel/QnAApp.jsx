@@ -68,8 +68,17 @@ const QnAApp = ({
             {[...question.keys()].map((key, index) => {
               let ques = question.get(key);
               return (
-                <div key={key}>
-                  <div className="chat-container px-2 mb-2">
+                <div key={key}
+                >
+                  <div className="chat-container px-2 mb-2"
+                    style={{
+                      // backgroundColor: '#0009',
+                      backdropFilter: 'blur(40px)',
+                      backgroundClip: 'padding-box',
+                      boxShadow: '1px 1px 1px #fff6',
+                      zIndex:1,
+                    }}
+                  >
                     <div className="justify-content-between pt-2 mt-2">
                       <span>{ques.questionText} ?</span>
                       <p className="text-muted pl-1">
