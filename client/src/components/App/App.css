@@ -2,7 +2,7 @@
   width: 0;
   position: fixed;
   z-index: 1;
-  height: 45rem;
+  height: 46.5rem;
   top: 1rem;
   right: 0;
   background-color: #0009;
@@ -100,7 +100,7 @@ input[type="text"]:focus {
 
 .qna-display {
   overflow-y: auto;
-  max-height: 34rem;
+  max-height: 32rem;
 }
 
 .private-chat-display {
