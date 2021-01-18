@@ -280,7 +280,7 @@ const PollsApp = ({
                       if(pollQuestion && optionList.length > 1){
                         publishPoll({ pollQuestion, optionList });
                         setPollQuestion("");
-                        setOptionList([]);
+                        setOptionList(['', '']);
                         setCreatePoll(false);
                       } else {
                         // TODO: should be a toast
