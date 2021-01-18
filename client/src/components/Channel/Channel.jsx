@@ -39,7 +39,7 @@ const Channel = ({ location }) => {
   const [pollIds, setPollIds] = useState([]);
   const [createPoll, setCreatePoll] = useState(false);
   const [pollQuestion, setPollQuestion] = useState("");
-  const [optionList, setOptionList] = useState(['', '']);
+  const [optionList, setOptionList] = useState(["", ""]);
 
   const axiosConfig = {
     headers: {
@@ -88,8 +88,7 @@ const Channel = ({ location }) => {
       const questionMap = new Map();
       console.log(res.data);
       res.data.map((ques) => {
-        if(ques.qna)
-          questionMap.set(ques.qna._id, ques.qna);
+        if (ques.qna) questionMap.set(ques.qna._id, ques.qna);
         return null;
       });
       setQuestion(questionMap);
@@ -614,27 +613,39 @@ const Channel = ({ location }) => {
 
       <div>
         <div className="icon-bar">
-          <a href="#!" 
-          className="openbtn"
-          onClick={(e) => {
-            e.preventDefault();
-            setInteraction("Chat");
-            setSidepannel(!sidepannel);
-          }} ><i className="far fa-comments"></i></a> 
-          <a href="#!" 
-          className="openbtn"
-          onClick={(e) => {
-            e.preventDefault();
-            setInteraction("Polls");
-            setSidepannel(!sidepannel);
-          }}><i className="fas fa-poll"></i></a> 
-          <a href="#!" 
-          className="openbtn"
-          onClick={(e) => {
-            e.preventDefault();
-            setInteraction("QnA");
-            setSidepannel(!sidepannel);
-          }}><i className="far fa-comment-alt"></i></a> 
+          <a
+            href="#!"
+            className="openbtn"
+            onClick={(e) => {
+              e.preventDefault();
+              setInteraction("Chat");
+              setSidepannel(!sidepannel);
+            }}
+          >
+            <i className="far fa-comments"></i>
+          </a>
+          <a
+            href="#!"
+            className="openbtn"
+            onClick={(e) => {
+              e.preventDefault();
+              setInteraction("Polls");
+              setSidepannel(!sidepannel);
+            }}
+          >
+            <i className="fas fa-poll"></i>
+          </a>
+          <a
+            href="#!"
+            className="openbtn"
+            onClick={(e) => {
+              e.preventDefault();
+              setInteraction("QnA");
+              setSidepannel(!sidepannel);
+            }}
+          >
+            <i className="far fa-comment-alt"></i>
+          </a>
         </div>
         <div
           id="mySidepanel"
@@ -650,13 +661,13 @@ const Channel = ({ location }) => {
             >
               <li className="nav-item interaction-type" role="presentation">
                 <a
-                  className="nav-link active"
+                  className="nav-link mx-2 active "
                   id="pills-home-tab"
                   data-toggle="pill"
                   href="#pills-home"
                   role="tab"
                   aria-controls="pills-home"
-                  aria-selected={interaction === 'Chat'}
+                  aria-selected={interaction === "Chat"}
                 >
                   <i className="far fa-comments" />
                   Chat
@@ -664,13 +675,13 @@ const Channel = ({ location }) => {
               </li>
               <li className="nav-item interaction-type" role="presentation">
                 <a
-                  className="nav-link"
+                  className="nav-link mr-1"
                   id="pills-profile-tab"
                   data-toggle="pill"
                   href="#pills-profile"
                   role="tab"
                   aria-controls="pills-profile"
-                  aria-selected={interaction === 'Polls'}
+                  aria-selected={interaction === "Polls"}
                 >
                   <i className="fas fa-poll" />
                   Polls
@@ -684,7 +695,7 @@ const Channel = ({ location }) => {
                   href="#pills-contact"
                   role="tab"
                   aria-controls="pills-contact"
-                  aria-selected={interaction === 'QnA'}
+                  aria-selected={interaction === "QnA"}
                 >
                   <i className="far fa-comment-alt" />
                   Q&amp;A
