@@ -35,7 +35,7 @@ body {
 
 .sidepanel a {
   font-size: 1rem;
-  color: #818181;
+  color: #fff;
   display: block;
   transition: 0.3s;
 }
@@ -103,7 +103,7 @@ input[type="text"]:focus {
 
 .qna-display {
   overflow-y: auto;
-  max-height: 32rem;
+  max-height: 34rem;
 }
 
 .private-chat-display {
@@ -195,4 +195,17 @@ input[type="text"]:focus {
 
 .icon-bar a:hover {
   background-color: #000;
+}
+
+.nav-background {
+  border-radius: 6px;
+  margin: 6px;
+  padding: 6px;
+  background-color: #fff5;
+}
+.nav-background2 {
+  border-radius: 6px;
+  margin: 30px;
+  padding: 2px;
+  background-color: #fff5;
 }

@@ -655,7 +655,7 @@ const Channel = ({ location }) => {
         >
           <div>
             <ul
-              className="nav nav-pills mb-3 text-center px-1 justify-content-around"
+              className="nav nav-pills mb-3 text-center px-1 justify-content-between nav-background"
               id="pills-tab"
               role="tablist"
             >
@@ -710,7 +710,7 @@ const Channel = ({ location }) => {
                 aria-labelledby="pills-home-tab"
               >
                 <ul
-                  className="nav nav-pills mb-3 justify-content-center"
+                  className="nav nav-pills mb-3 justify-content-center nav-background2"
                   id="pills-tab text-center"
                   role="tablist"
                 >
@@ -723,7 +723,7 @@ const Channel = ({ location }) => {
                       role="tab"
                       aria-controls="pills-public"
                       aria-selected="false"
-                      style={{ width: "13rem" }}
+                      style={{ width: "12rem" }}
                     >
                       Public
                     </a>
@@ -737,7 +737,7 @@ const Channel = ({ location }) => {
                       role="tab"
                       aria-controls="pills-private"
                       aria-selected="false"
-                      style={{ width: "13rem" }}
+                      style={{ width: "12rem" }}
                     >
                       Attendee
                     </a>
