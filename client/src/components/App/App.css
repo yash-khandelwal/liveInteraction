@@ -2,14 +2,27 @@
   width: 0;
   position: fixed;
   z-index: 1;
-  height: 40rem;
-  top: 5rem;
+  height: 45rem;
+  top: 1rem;
   right: 0;
-  background-color: #111;
+  background-color: #0009;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 0.5rem;
   border-radius: 1%;
+  backdrop-filter: blur(40px);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgb(46, 46, 46, 0.03);
+}
+
+.interaction-type {
+  border-right: 0.5px solid #fff !important;
+}
+
+body{
+  background-image: url('https://blog.prezi.com/wp-content/uploads/2019/03/joshua-earle-157231-unsplash-1024x683.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .sidepanel-open {
@@ -75,12 +88,12 @@ input[type="text"]:focus {
 }
 .chat-display {
   overflow-y: auto;
-  max-height: 24rem;
+  max-height: 29rem;
 }
 
 .poll-display {
   overflow-y: auto;
-  max-height: 32rem;
+  max-height: 37rem;
 }
 
 .private-chat-display {
@@ -130,19 +143,50 @@ input[type="text"]:focus {
 
 ::-webkit-scrollbar {
   width: 5px;
+  border-radius: 2px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: #000;
+  border-radius: 2px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #818181;
+  border-radius: 2px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #eee;
+  border-radius: 2px;
 }
+
+
+/*  */
+
+.icon-bar {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.icon-bar a {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 20px;
+}
+
+.icon-bar a:hover {
+  background-color: #000;
+}
+
+

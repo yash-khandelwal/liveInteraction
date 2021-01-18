@@ -37,23 +37,15 @@ const PollsApp = ({
       });
     }
   }, [socket]);
-  // const sendTestMessage = () => {
-  //   socket.emit("test", "message from polls app!");
-  // };
-
-  // const messagesEndReference = useRef(null);
-  // const scrollToBottom = () => {
-  //   messagesEndReference.current.scrollIntoView({ behavior: "smooth" });
-  // };
-  // useEffect(() => {
-  //   scrollToBottom();
-  // }, [polls]);
-
   return (
     <div className="poll-display">
       {[...polls.keys()].map((_id) => {
         return (
-          <div className="chat-container px-2 mb-2" key={_id}>
+          <div className="chat-container px-2 mb-2" key={_id}
+            style={{
+              zIndex:1,
+            }}
+          >
             <div className="justify-content-between py-2 mt-2">
               <span>{polls.get(_id).question} ?</span>
             </div>
@@ -62,16 +54,23 @@ const PollsApp = ({
               {polls.get(_id).options.map((option, index) => {
                 if (polls.get(_id).voted === index) {
                   return (
-                    <div key={option._id}>
+                    <div key={option._id}
+                      style={{
+                        padding: '0 10px',
+                      }}
+                    >
                       <p
                         style={{
                           border: "1px solid black",
                           borderRadius: "5px",
-                          paddingLeft: "10px",
-                          padding: "10px",
+                          padding: "0 10px",
                           cursor: "pointer",
                           color: "black",
-                          backgroundColor: "#818181",
+                          backgroundColor: "#ddd",
+                          backdropFilter: 'blur(40px)',
+                          backgroundClip: 'padding-box',
+                          boxShadow: '1px 1px 1px #fff6',
+                          zIndex:1,
                         }}
                         onClick={() => {
                           if (polls.get(_id).voted !== index)
@@ -94,14 +93,22 @@ const PollsApp = ({
                   );
                 } else {
                   return (
-                    <div key={option._id}>
+                    <div key={option._id}
+                      style={{
+                        padding: '0 10px',
+                      }}
+                    >
                       <p
                         style={{
                           border: "1px solid #818181",
                           borderRadius: "5px",
-                          paddingLeft: "10px",
-                          padding: "10px",
+                          padding: "0 10px",
                           cursor: "pointer",
+                          backgroundColor: '#0009',
+                          backdropFilter: 'blur(40px)',
+                          backgroundClip: 'padding-box',
+                          boxShadow: '1px 1px 1px #fff6',
+                          zIndex:1,
                         }}
                         onClick={() => {
                           if (polls.get(_id).voted !== index)
@@ -140,12 +147,16 @@ const PollsApp = ({
                   right:0,
                   bottom:"7rem",
                   width: "90%",
-                  backgroundColor: "#000",
+                  backgroundColor: '#0009',
+                  backdropFilter: 'blur(40px)',
+                  backgroundClip: 'padding-box',
+                  boxShadow: '2px 2px 2px #fff6',
+                  zIndex:1,
                   margin: "5%",
-                  padding: "10px",
-                  border: "1px solid #fff",
+                  // padding: "10px",
+                  border: "2px solid #fff9",
                   height: "60%",
-                  borderRadius: "5px",
+                  borderRadius: "10px",
                   overflow:"scroll",
                 }}
               >
@@ -157,7 +168,9 @@ const PollsApp = ({
                   style={{
                     backgroundColor: "transparent",
                     color: "white",
-                    width: '100%',
+                    width: '90%',
+                    borderRadius: '10px',
+                    margin: '5% 5%',
                   }}
                   onChange={(e) => {
                     setPollQuestion(e.target.value);
@@ -167,7 +180,11 @@ const PollsApp = ({
                 <hr />
                 {optionList.map((option, index) => {
                   return (
-                    <div key={index}>
+                    <div key={index}
+                      style={{
+                        margin: '-5% 5%',
+                      }}
+                    >
                       <span
                           style={{
                             borderRight: "1px solid black",
@@ -207,7 +224,7 @@ const PollsApp = ({
                           paddingLeft: "10px",
                           paddingRight: "10px",
                           marginLeft: "10px",
-                          borderRadius: "5px"
+                          borderRadius: "5px",
                         }}
                       >
                         remove
@@ -216,7 +233,7 @@ const PollsApp = ({
                     </div>
                   );
                 })}
-                <button
+                {/* <button
                   onClick={(event) => {
                     event.preventDefault();
                     addOption();
@@ -225,37 +242,74 @@ const PollsApp = ({
                     fontWeight: "normal",
                     paddingLeft: "10px",
                     paddingRight: "10px",
-                    marginLeft: "10px",
-                    borderRadius: "5px"
+                    marginLeft: "12%",
+                    borderRadius: "5px",
+                  }}
+                >
+                  new option
+                </button> */}
+                <hr />
+                <div
+                  style={{
+                    width: "100%",
+                    position: 'sticky',
+                    bottom: '0',
+                    background: '#000',
+                    paddingLeft: '10%',
+                  }}
+                >
+                  <button
+                  onClick={(event) => {
+                    event.preventDefault();
+                    addOption();
+                  }}
+                  style={{
+                    fontWeight: "normal",
+                    fontSize: '1.1rem',
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    marginLeft: "2%",
+                    borderRadius: "5px",
+                    width: '40%',
                   }}
                 >
                   new option
                 </button>
-                <hr />
-                <button
-                  onClick={() => {
-                    if(pollQuestion && optionList.length > 1){
-                      publishPoll({ pollQuestion, optionList });
-                      setPollQuestion("");
-                      setOptionList([]);
-                      setCreatePoll(false);
-                    } else {
-                      // TODO: should be a toast
-                    }
-                  }}
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "1rem",
-                    paddingLeft: "10px",
-                    paddingRight: "10px",
-                    marginLeft: "auto",
-                    borderRadius: "5px",
-                    width: "100%",
-                    alignSelf: "center",
-                  }}
-                >
-                  PUBLISH
-                </button>
+                  <button
+                    onClick={() => {
+                      if(pollQuestion && optionList.length > 1){
+                        publishPoll({ pollQuestion, optionList });
+                        setPollQuestion("");
+                        setOptionList([]);
+                        setCreatePoll(false);
+                      } else {
+                        // TODO: should be a toast
+                      }
+                    }}
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "1.1rem",
+                      paddingLeft: "10px",
+                      paddingRight: "10px",
+                      margin: "0 2%",
+                      borderRadius: "5px",
+                      alignSelf: "center",
+                      width: '42%',
+                    }}
+                  >
+                    PUBLISH
+                    <i
+                      className="fa fa-paper-plane"
+                      aria-hidden="true"
+                      style={{
+                        fontSize: "1.5rem",
+                        width: " 1.5rem ",
+                        color: "black",
+                        marginLeft: '5px',
+                      }}
+                    ></i>
+                  </button>
+                </div>
               </div>
             )}
             <button

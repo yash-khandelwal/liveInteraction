@@ -39,7 +39,7 @@ const Channel = ({ location }) => {
   const [pollIds, setPollIds] = useState([]);
   const [createPoll, setCreatePoll] = useState(false);
   const [pollQuestion, setPollQuestion] = useState("");
-  const [optionList, setOptionList] = useState([]);
+  const [optionList, setOptionList] = useState(['', '']);
 
   const axiosConfig = {
     headers: {
@@ -613,6 +613,29 @@ const Channel = ({ location }) => {
       {interaction === "QnA" && <p>Check sidepannel</p>}
 
       <div>
+        <div className="icon-bar">
+          <a href="#!" 
+          className="openbtn"
+          onClick={(e) => {
+            e.preventDefault();
+            setInteraction("Chat");
+            setSidepannel(!sidepannel);
+          }} ><i className="far fa-comments"></i></a> 
+          <a href="#!" 
+          className="openbtn"
+          onClick={(e) => {
+            e.preventDefault();
+            setInteraction("Polls");
+            setSidepannel(!sidepannel);
+          }}><i className="fas fa-poll"></i></a> 
+          <a href="#!" 
+          className="openbtn"
+          onClick={(e) => {
+            e.preventDefault();
+            setInteraction("QnA");
+            setSidepannel(!sidepannel);
+          }}><i className="far fa-comment-alt"></i></a> 
+        </div>
         <div
           id="mySidepanel"
           className={`sidepanel ${
@@ -625,7 +648,7 @@ const Channel = ({ location }) => {
               id="pills-tab"
               role="tablist"
             >
-              <li className="nav-item" role="presentation">
+              <li className="nav-item interaction-type" role="presentation">
                 <a
                   className="nav-link active"
                   id="pills-home-tab"
@@ -633,13 +656,13 @@ const Channel = ({ location }) => {
                   href="#pills-home"
                   role="tab"
                   aria-controls="pills-home"
-                  aria-selected="true"
+                  aria-selected={interaction === 'Chat'}
                 >
                   <i className="far fa-comments" />
                   Chat
                 </a>
               </li>
-              <li className="nav-item" role="presentation">
+              <li className="nav-item interaction-type" role="presentation">
                 <a
                   className="nav-link"
                   id="pills-profile-tab"
@@ -647,7 +670,7 @@ const Channel = ({ location }) => {
                   href="#pills-profile"
                   role="tab"
                   aria-controls="pills-profile"
-                  aria-selected="false"
+                  aria-selected={interaction === 'Polls'}
                 >
                   <i className="fas fa-poll" />
                   Polls
@@ -661,7 +684,7 @@ const Channel = ({ location }) => {
                   href="#pills-contact"
                   role="tab"
                   aria-controls="pills-contact"
-                  aria-selected="false"
+                  aria-selected={interaction === 'QnA'}
                 >
                   <i className="far fa-comment-alt" />
                   Q&amp;A
@@ -688,7 +711,7 @@ const Channel = ({ location }) => {
                       href="#pills-public"
                       role="tab"
                       aria-controls="pills-public"
-                      aria-selected="true"
+                      aria-selected="false"
                       style={{ width: "13rem" }}
                     >
                       Public
@@ -711,7 +734,7 @@ const Channel = ({ location }) => {
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
                   <div
-                    className="tab-pane fade show active px-2"
+                    className="tab-pane fade show active px-2 interaction-type"
                     id="pills-public"
                     role="tabpanel"
                     aria-labelledby="pills-public-tab"
@@ -743,7 +766,7 @@ const Channel = ({ location }) => {
                 className="tab-pane fade px-2"
                 id="pills-profile"
                 role="tabpanel"
-                aria-labelledby="pills-profile-tab"
+                aria-labelledby="pills-profile-tab interaction-type"
               >
                 <PollsApp
                   socket={socket}
@@ -765,7 +788,7 @@ const Channel = ({ location }) => {
                 className="tab-pane fade px-2"
                 id="pills-contact"
                 role="tabpanel"
-                aria-labelledby="pills-contact-tab"
+                aria-labelledby="pills-contact-tab interaction-type"
               >
                 <QnAApp
                   role={userData.role}
