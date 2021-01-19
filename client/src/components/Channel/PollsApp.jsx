@@ -92,11 +92,12 @@ const PollsApp = ({
                             padding: "0 10px",
                             cursor: "pointer",
                             color: "black",
-                            backgroundColor: "#eee",
+                            backgroundColor: "#fffa",
                             backdropFilter: "blur(40px)",
                             backgroundClip: "padding-box",
                             boxShadow: "1px 1px 1px #fff6",
                             zIndex: 1,
+                            overflow: 'hidden',
                           }}
                           onClick={() => {
                             if (polls.get(_id).voted !== index)
@@ -135,6 +136,7 @@ const PollsApp = ({
                             backgroundClip: "padding-box",
                             boxShadow: "1px 1px 1px #fff6",
                             zIndex: 1,
+                            overflow: 'hidden',
                           }}
                           onClick={() => {
                             if (polls.get(_id).voted !== index)
