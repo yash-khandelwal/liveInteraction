@@ -131,7 +131,6 @@ const PollsApp = ({
                             borderRadius: "5px",
                             padding: "0 10px",
                             cursor: "pointer",
-                            backgroundColor: "#0009",
                             backdropFilter: "blur(40px)",
                             backgroundClip: "padding-box",
                             boxShadow: "1px 1px 1px #fff6",

@@ -62,16 +62,26 @@ const ChatPrivate = ({
             <div ref={messagesEndReference} />
           </div>
           <div className="chatform">
-            <form className="row">
+            <form className="row"
+              style={{
+                backgroundColor: "#fff4",
+                borderRadius: '1rem',
+                width: '90%',
+                marginLeft: '3%',
+                paddingRight: '-5%',
+              }}
+            >
               <input
                 type="text "
-                className="form-control col-sm-10 ml-4"
+                className="form-control col-sm-9 ml-4 pl-2 no-select"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
                 placeholder="Type the answer here ..."
                 style={{
-                  backgroundColor: "transparent",
+                  backgroundColor: 'transparent',
                   color: "white",
+                  borderRadius: '1rem',
+                  border: '0px',
                 }}
                 value={message}
                 onChange={(e) => {

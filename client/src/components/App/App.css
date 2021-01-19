@@ -116,6 +116,11 @@ input[type="text"]:focus {
   position: absolute;
   right: 0.5rem;
 }
+
+.no-select:focus {
+  outline: none;
+}
+
 .list {
   /* background: #fff; */
   border-radius: 2px;
