@@ -12,6 +12,7 @@ const PollsApp = ({
   optionList,
   setOptionList,
   sendVote,
+  newPoll
 }) => {
   const messagesEndReference = useRef(null);
   const scrollToBottom = () => {
@@ -25,7 +26,7 @@ const PollsApp = ({
 
   useEffect(() => {
     scrollToBottom();
-  }, [polls]);
+  }, [newPoll]);
 
   const handleChange = (event, index) => {
     console.log("handle change triggered!");
@@ -310,6 +311,7 @@ const PollsApp = ({
                           setPollQuestion("");
                           setOptionList([]);
                           setCreatePoll(false);
+                          scrollToBottom();
                         } else {
                           // TODO: should be a toast
                         }

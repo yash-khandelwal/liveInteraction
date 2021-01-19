@@ -40,6 +40,7 @@ const Channel = ({ location }) => {
   const [createPoll, setCreatePoll] = useState(false);
   const [pollQuestion, setPollQuestion] = useState("");
   const [optionList, setOptionList] = useState(["", ""]);
+  const [newPoll, setNewPoll] = useState(null);
 
   const axiosConfig = {
     headers: {
@@ -124,6 +125,7 @@ const Channel = ({ location }) => {
         }
         return null;
       });
+      setNewPoll(pollsMap.keys().length);
       setPolls(pollsMap);
     }
 
@@ -251,6 +253,7 @@ const Channel = ({ location }) => {
         return new Map(prevPolls);
       });
       setPollIds((prev) => [...prev, data._id]);
+      setNewPoll(prev=>prev+1);
     });
     socket.on("channelQuestion", (data) => {
       // console.log(question)
@@ -570,32 +573,7 @@ const Channel = ({ location }) => {
   return (
     <div>
       <StatSection users={users} />
-      <h3>Channel: {userData.channelId}</h3>
-      <h3>userName: {userData.userName}</h3>
-      <div>
-        <button
-          onClick={(e) => {
-            setInteraction("Chat");
-          }}
-        >
-          Chat
-        </button>
-        <button
-          onClick={(e) => {
-            setInteraction("Polls");
-          }}
-        >
-          Polls
-        </button>
-        <button
-          onClick={(e) => {
-            setInteraction("QnA");
-          }}
-        >
-          QnA
-        </button>
-      </div>
-      {interaction === "Chat" && (
+      {/* {interaction === "Chat" && (
         <ChatApp
           messages={channelChatMessages}
           message={channelChatMessage}
@@ -609,7 +587,7 @@ const Channel = ({ location }) => {
         />
       )}
       {interaction === "Polls" && <p> Check Side</p>}
-      {interaction === "QnA" && <p>Check sidepannel</p>}
+      {interaction === "QnA" && <p>Check sidepannel</p>} */}
 
       <div>
         <div className="icon-bar">
@@ -696,7 +674,7 @@ const Channel = ({ location }) => {
               </li>
               <li className="nav-item interaction-type" role="presentation">
                 <a
-                  className="nav-link mx-1"
+                  className="nav-link mr-3"
                   id="pills-profile-tab"
                   data-toggle="pill"
                   href="#pills-profile"
@@ -710,7 +688,7 @@ const Channel = ({ location }) => {
               </li>
               <li className="nav-item" role="presentation">
                 <a
-                  className="nav-link"
+                  className="nav-link mr-3"
                   id="pills-contact-tab"
                   data-toggle="pill"
                   href="#pills-contact"
@@ -814,6 +792,7 @@ const Channel = ({ location }) => {
                   pollIds={pollIds}
                   sendVote={sendVote}
                   sendVoteUpdate={sendVoteUpdate}
+                  newPoll={newPoll}
                 />
               </div>
               <div
@@ -835,7 +814,7 @@ const Channel = ({ location }) => {
             </div>
           </div>
         </div>
-        <button
+        {/* <button
           className="openbtn"
           onClick={(e) => {
             setSidepannel(!sidepannel);
@@ -846,8 +825,8 @@ const Channel = ({ location }) => {
         {/* <a href="#!" className="closebtn" onClick="closeNav()">
           ×
         </a> */}
-        <h2>Collapsed Sidepanel</h2>
-        <p>Click on the hamburger menu/bar icon to open the sidepanel.</p>
+        {/* <h2>Collapsed Sidepanel</h2>
+        <p>Click on the hamburger menu/bar icon to open the sidepanel.</p> */}
       </div>
     </div>
   );
