@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
 import axios from "axios";
-
-import ChatApp from "./ChatApp/ChatApp.jsx";
 import ChatAll from "./ChatAll";
 import PollsApp from "./PollsApp.jsx";
 import QnAApp from "./QnAApp.jsx";
@@ -648,7 +646,7 @@ const Channel = ({ location }) => {
               }}
             >
               <i
-                class="fa fa-angle-right"
+                className="fa fa-angle-right"
                 aria-hidden="true"
                 style={{ fontSize: "1rem" }}
               ></i>
