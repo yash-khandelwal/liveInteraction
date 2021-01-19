@@ -196,6 +196,13 @@ const QnAApp = ({
                 setformData("");
               }
             }}
+            style={{
+                backgroundColor: "#fff4",
+                borderRadius: '1rem',
+                width: '90%',
+                marginLeft: '3%',
+                paddingRight: '-5%',
+              }}
           >
             <input
               type="text"
@@ -203,10 +210,12 @@ const QnAApp = ({
               aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm"
               placeholder="Type the Question here ..."
-              style={{
-                backgroundColor: "transparent",
-                color: "white",
-              }}
+style={{
+                  backgroundColor: 'transparent',
+                  color: "white",
+                  borderRadius: '1rem',
+                  border: '0px',
+                }}
               onChange={(e) => {
                 setformData(e.target.value);
               }}
