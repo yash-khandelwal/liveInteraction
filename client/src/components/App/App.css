@@ -1,8 +1,12 @@
+body {
+  font-family: "Poppins", sans-serif;
+}
+
 .sidepanel {
   width: 0;
   position: fixed;
   z-index: 1;
-  height: 45rem;
+  height: 46.5rem;
   top: 1rem;
   right: 0;
   background-color: #0009;
@@ -26,19 +30,18 @@ body {
 }
 
 .sidepanel-open {
-  width: 30rem;
+  width: 28rem;
 }
 
 .sidepanel a {
-  font-size: 1.5rem;
-  color: #818181;
+  font-size: 1rem;
+  color: #fff;
   display: block;
   transition: 0.3s;
-  width: 9rem;
 }
 .sidepanel i {
   font-size: 2rem;
-  width: 5rem;
+  width: 3rem;
 }
 
 .sidepanel a:hover {
@@ -90,7 +93,7 @@ input[type="text"]:focus {
 }
 .chat-display {
   overflow-y: auto;
-  max-height: 30rem;
+  max-height: 27rem;
 }
 
 .poll-display {
@@ -192,4 +195,17 @@ input[type="text"]:focus {
 
 .icon-bar a:hover {
   background-color: #000;
+}
+
+.nav-background {
+  border-radius: 6px;
+  margin: 6px;
+  padding: 6px;
+  background-color: #fff5;
+}
+.nav-background2 {
+  border-radius: 6px;
+  margin: 30px;
+  padding: 2px;
+  background-color: #fff5;
 }

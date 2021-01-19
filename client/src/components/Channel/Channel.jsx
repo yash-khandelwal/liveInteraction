@@ -39,7 +39,7 @@ const Channel = ({ location }) => {
   const [pollIds, setPollIds] = useState([]);
   const [createPoll, setCreatePoll] = useState(false);
   const [pollQuestion, setPollQuestion] = useState("");
-  const [optionList, setOptionList] = useState(['', '']);
+  const [optionList, setOptionList] = useState(["", ""]);
 
   const axiosConfig = {
     headers: {
@@ -88,8 +88,7 @@ const Channel = ({ location }) => {
       const questionMap = new Map();
       console.log(res.data);
       res.data.map((ques) => {
-        if(ques.qna)
-          questionMap.set(ques.qna._id, ques.qna);
+        if (ques.qna) questionMap.set(ques.qna._id, ques.qna);
         return null;
       });
       setQuestion(questionMap);
@@ -614,27 +613,39 @@ const Channel = ({ location }) => {
 
       <div>
         <div className="icon-bar">
-          <a href="#!" 
-          className="openbtn"
-          onClick={(e) => {
-            e.preventDefault();
-            setInteraction("Chat");
-            setSidepannel(!sidepannel);
-          }} ><i className="far fa-comments"></i></a> 
-          <a href="#!" 
-          className="openbtn"
-          onClick={(e) => {
-            e.preventDefault();
-            setInteraction("Polls");
-            setSidepannel(!sidepannel);
-          }}><i className="fas fa-poll"></i></a> 
-          <a href="#!" 
-          className="openbtn"
-          onClick={(e) => {
-            e.preventDefault();
-            setInteraction("QnA");
-            setSidepannel(!sidepannel);
-          }}><i className="far fa-comment-alt"></i></a> 
+          <a
+            href="#!"
+            className="openbtn"
+            onClick={(e) => {
+              e.preventDefault();
+              setInteraction("Chat");
+              setSidepannel(!sidepannel);
+            }}
+          >
+            <i className="far fa-comments"></i>
+          </a>
+          <a
+            href="#!"
+            className="openbtn"
+            onClick={(e) => {
+              e.preventDefault();
+              setInteraction("Polls");
+              setSidepannel(!sidepannel);
+            }}
+          >
+            <i className="fas fa-poll"></i>
+          </a>
+          <a
+            href="#!"
+            className="openbtn"
+            onClick={(e) => {
+              e.preventDefault();
+              setInteraction("QnA");
+              setSidepannel(!sidepannel);
+            }}
+          >
+            <i className="far fa-comment-alt"></i>
+          </a>
         </div>
         <div
           id="mySidepanel"
@@ -649,31 +660,35 @@ const Channel = ({ location }) => {
               }}
               style={{
                 position: "absolute",
-                left: '-1.5rem',
-                top:'1rem',
-                height: '3rem',
-                width: '3rem',
+                left: "-1.5rem",
+                top: "1rem",
+                height: "3rem",
+                width: "3rem",
                 zIndex: 100,
-                borderRadius: '2rem',
-                backgroundColor: '#d1d1d1'
+                borderRadius: "2rem",
+                backgroundColor: "#d1d1d1",
               }}
             >
-              <h2>></h2>
+              <i
+                class="fa fa-angle-right"
+                aria-hidden="true"
+                style={{ fontSize: "1rem" }}
+              ></i>
             </button>
             <ul
-              className="nav nav-pills mb-3 text-center px-1 justify-content-around"
+              className="nav nav-pills mb-3 text-center px-1 justify-content-between nav-background"
               id="pills-tab"
               role="tablist"
             >
               <li className="nav-item interaction-type" role="presentation">
                 <a
-                  className="nav-link active"
+                  className="nav-link mx-2 active "
                   id="pills-home-tab"
                   data-toggle="pill"
                   href="#pills-home"
                   role="tab"
                   aria-controls="pills-home"
-                  aria-selected={interaction === 'Chat'}
+                  aria-selected={interaction === "Chat"}
                 >
                   <i className="far fa-comments" />
                   Chat
@@ -681,13 +696,13 @@ const Channel = ({ location }) => {
               </li>
               <li className="nav-item interaction-type" role="presentation">
                 <a
-                  className="nav-link"
+                  className="nav-link mx-1"
                   id="pills-profile-tab"
                   data-toggle="pill"
                   href="#pills-profile"
                   role="tab"
                   aria-controls="pills-profile"
-                  aria-selected={interaction === 'Polls'}
+                  aria-selected={interaction === "Polls"}
                 >
                   <i className="fas fa-poll" />
                   Polls
@@ -701,7 +716,7 @@ const Channel = ({ location }) => {
                   href="#pills-contact"
                   role="tab"
                   aria-controls="pills-contact"
-                  aria-selected={interaction === 'QnA'}
+                  aria-selected={interaction === "QnA"}
                 >
                   <i className="far fa-comment-alt" />
                   Q&amp;A
@@ -716,7 +731,7 @@ const Channel = ({ location }) => {
                 aria-labelledby="pills-home-tab"
               >
                 <ul
-                  className="nav nav-pills mb-3 justify-content-center"
+                  className="nav nav-pills mb-3 justify-content-center nav-background2"
                   id="pills-tab text-center"
                   role="tablist"
                 >
@@ -729,7 +744,7 @@ const Channel = ({ location }) => {
                       role="tab"
                       aria-controls="pills-public"
                       aria-selected="false"
-                      style={{ width: "13rem" }}
+                      style={{ width: "12rem" }}
                     >
                       Public
                     </a>
@@ -743,7 +758,7 @@ const Channel = ({ location }) => {
                       role="tab"
                       aria-controls="pills-private"
                       aria-selected="false"
-                      style={{ width: "13rem" }}
+                      style={{ width: "12rem" }}
                     >
                       Attendee
                     </a>
