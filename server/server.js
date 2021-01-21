@@ -99,7 +99,7 @@ io.on("connect", (socket) => {
   socket.on("sendAnswerToChannel", (data, callback) => {
     // questions.answerQuestion(data.index, data.answer);
     io.to(data.to).emit("channelAnswer", data);
-    console.log("fired");
+    console.log(data);
     callback();
   });
 
