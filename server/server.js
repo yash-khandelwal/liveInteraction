@@ -31,6 +31,7 @@ io.on("connect", (socket) => {
       userId,
       displayName: displayName,
       channel: channel,
+      userId: userId,
     });
 
     if (errors) {

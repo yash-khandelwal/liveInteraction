@@ -132,6 +132,7 @@ const Channel = ({ location }) => {
     socket.emit(
       "join",
       {
+        userId: userId || username,
         userName: username,
         displayName: displayname,
         channel: channel,
