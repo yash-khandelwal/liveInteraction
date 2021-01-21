@@ -12,6 +12,7 @@ const PollsApp = ({
   optionList,
   setOptionList,
   sendVote,
+  newPoll
 }) => {
   const messagesEndReference = useRef(null);
   const scrollToBottom = () => {
@@ -25,7 +26,7 @@ const PollsApp = ({
 
   useEffect(() => {
     scrollToBottom();
-  }, [polls]);
+  }, [newPoll]);
 
   const handleChange = (event, index) => {
     console.log("handle change triggered!");
@@ -91,11 +92,12 @@ const PollsApp = ({
                             padding: "0 10px",
                             cursor: "pointer",
                             color: "black",
-                            backgroundColor: "#ddd",
+                            backgroundColor: "#fffa",
                             backdropFilter: "blur(40px)",
                             backgroundClip: "padding-box",
                             boxShadow: "1px 1px 1px #fff6",
                             zIndex: 1,
+                            overflow: 'hidden',
                           }}
                           onClick={() => {
                             if (polls.get(_id).voted !== index)
@@ -130,11 +132,11 @@ const PollsApp = ({
                             borderRadius: "5px",
                             padding: "0 10px",
                             cursor: "pointer",
-                            backgroundColor: "#0009",
-                            backdropFilter: "blur(40px)",
+                            // backdropFilter: "blur(40px)",
                             backgroundClip: "padding-box",
                             boxShadow: "1px 1px 1px #fff6",
                             zIndex: 1,
+                            overflow: 'hidden',
                           }}
                           onClick={() => {
                             if (polls.get(_id).voted !== index)
@@ -310,6 +312,7 @@ const PollsApp = ({
                           setPollQuestion("");
                           setOptionList([]);
                           setCreatePoll(false);
+                          scrollToBottom();
                         } else {
                           // TODO: should be a toast
                         }
