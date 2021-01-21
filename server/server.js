@@ -24,12 +24,14 @@ app.use(router);
 io.on("connect", (socket) => {
   console.log("connected");
   // when new user enters in to the channel
-  socket.on("join", ({ userName, displayName, channel }, callback) => {
+  socket.on("join", ({ userId, userName, displayName, channel }, callback) => {
     const { errors, user } = users.addUser({
       id: socket.id,
       userName: userName,
+      userId,
       displayName: displayName,
       channel: channel,
+      userId: userId,
     });
 
     if (errors) {
